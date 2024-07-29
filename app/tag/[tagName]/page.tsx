@@ -53,9 +53,13 @@ export default function TagPage({ params }: { params: { tagName: string } }) {
                         {' | '}
                         <span>{link.rank <= 1 ? '++' : link.rank <= 2 ? '+' : '...'}</span>
                         {' | '}
-                        <NextLink href={`/user/${encodeURIComponent(link.user.name)}`} className="text-blue-600 hover:underline">
-                            {link.user.name}
-                        </NextLink>
+                        {link.user ? (
+                            <NextLink href={`/user/${encodeURIComponent(link.user.name)}`} className="text-blue-600 hover:underline">
+                                {link.user.name}
+                            </NextLink>
+                        ) : (
+                            <span>Unknown User</span>
+                        )}
                         {' | '}
                         <span className="font-bold">{link.title}</span>
                         {' | '}
