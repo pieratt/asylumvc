@@ -1,20 +1,65 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+model User {
+  id          Int          @id @default(autoincrement())
+  user_id     String       @unique
+  name        String       @unique // Add this line to make name unique
+  comment     String?
+  color1      String
+  color2      String
+  color3      String
+  color4      String
+  color5      String
+  color6      String
+  avatar      String
+  header      String
+  createdAt   DateTime     @default(now())
+  collections Collection[]
+  links       Link[]
 }
 
-model users {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  image     String
-  createdAt DateTime @default(now())
+model Collection {
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  title       String
+  comment     String?
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [user_id], references: [id])
+  links       Link[]
+}
+
+model Link {
+  id           Int        @id @default(autoincrement())
+  user_id      Int
+  url          String
+  title        String
+  comment      String?
+  rank         Int        @default(1)
+  collectionId Int?
+  createdAt    DateTime   @default(now())
+  user         User       @relation(fields: [user_id], references: [id])
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  categories   Category[] @relation("LinkCategories")
+  tags         Tag[]      @relation("LinkTags")
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  icon  String
+  links Link[] @relation("LinkCategories")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  links Link[] @relation("LinkTags")
 }

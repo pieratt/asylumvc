@@ -1,97 +1,222 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { Suspense } from 'react'
-import Table from '@/components/table'
-import TablePlaceholder from '@/components/table-placeholder'
-import ExpandingArrow from '@/components/expanding-arrow'
+// File: app/page.tsx
 
-export const dynamic = 'force-dynamic'
+'use client';
 
-export default function Home() {
+import React, { useState, useEffect, useCallback } from 'react';
+import NextLink from 'next/link';
+import { User, Collection, Category, Tag, Link, categories, qualityOptions } from './types';
+
+const MainPage: React.FC = () => {
+  const [links, setLinks] = useState<Link[]>([]);
+  const [filteredLinks, setFilteredLinks] = useState<Link[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedQualities, setSelectedQualities] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [selectedCollection, setSelectedCollection] = useState<number | null>(null);
+  const [message, setMessage] = useState({ text: '', type: '' });
+
+  useEffect(() => {
+    fetchLinks();
+    fetchCollections();
+  }, []);
+
+  const fetchLinks = async () => {
+    try {
+      const response = await fetch('/api/links');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setLinks(data);
+      setFilteredLinks(data);
+    } catch (error) {
+      console.error('Error fetching links:', error);
+      setMessage({ text: 'Failed to load links. Please try again.', type: 'error' });
+    }
+  };
+
+  const fetchCollections = async () => {
+    try {
+      const response = await fetch('/api/collections');
+      if (!response.ok) throw new Error('Failed to fetch collections');
+      const data = await response.json();
+      setCollections(data);
+    } catch (error) {
+      console.error('Error fetching collections:', error);
+      setMessage({ text: 'Failed to load collections. Please try again.', type: 'error' });
+    }
+  };
+
+  const filterLinks = useCallback(() => {
+    let updatedLinks = links;
+
+    if (selectedCollection) {
+      updatedLinks = updatedLinks.filter(link => link.collectionId === selectedCollection);
+    }
+
+    if (selectedCategories.length > 0) {
+      updatedLinks = updatedLinks.filter(link =>
+        link.categories.some(cat => selectedCategories.includes(cat.name))
+      );
+    }
+
+    if (selectedQualities.length > 0) {
+      updatedLinks = updatedLinks.filter(link =>
+        selectedQualities.includes(getQualityFromRank(link.rank))
+      );
+    }
+
+    if (selectedTags.length > 0) {
+      updatedLinks = updatedLinks.filter(link =>
+        link.tags.some(tag => selectedTags.includes(tag.name))
+      );
+    }
+
+    setFilteredLinks(updatedLinks);
+  }, [links, selectedCollection, selectedCategories, selectedQualities, selectedTags]);
+
+  useEffect(() => {
+    filterLinks();
+  }, [filterLinks, selectedCollection, selectedCategories, selectedQualities, selectedTags]);
+
+  const getQualityFromRank = (rank: number): string => {
+    if (rank <= 1) return 'on deck';
+    if (rank <= 2) return 'great';
+    return 'canon';
+  };
+
+  const toggleFilter = (
+    item: string,
+    filterState: string[],
+    setFilterState: React.Dispatch<React.SetStateAction<string[]>>
+  ) => {
+    setFilterState(prev =>
+      prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
+    );
+  };
+
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center">
-      <Link
-        href="https://vercel.com/templates/next.js/postgres-prisma"
-        className="group mt-20 sm:mt-0 rounded-full flex space-x-1 bg-white/30 shadow-sm ring-1 ring-gray-900/5 text-gray-600 text-sm font-medium px-10 py-2 hover:shadow-lg active:shadow-sm transition-all"
-      >
-        <p>Deploy your own to Vercel</p>
-        <ExpandingArrow />
-      </Link>
-      <h1 className="pt-4 pb-8 bg-gradient-to-br from-black via-[#171717] to-[#575757] bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
-        Postgres on Vercel
-      </h1>
-      <Suspense fallback={<TablePlaceholder />}>
-        <Table />
-      </Suspense>
-      <p className="font-light text-gray-600 w-full max-w-lg text-center mt-6">
-        <Link
-          href="https://vercel.com/postgres"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
-        >
-          Vercel Postgres
-        </Link>{' '}
-        demo with{' '}
-        <Link
-          href="https://prisma.io"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
-        >
-          Prisma
-        </Link>{' '}
-        as the ORM. <br /> Built with{' '}
-        <Link
-          href="https://nextjs.org/docs"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
-        >
-          Next.js App Router
-        </Link>
-        .
-      </p>
+    <div className="flex justify-center items-start min-h-screen bg-gray-100 p-4">
+      <div className="flex w-full max-w-6xl bg-white shadow-lg rounded-lg overflow-hidden">
+        {/* Left Sidebar */}
+        <nav className="w-80 p-4 border-r border-gray-200 flex flex-col">
+          {/* Description */}
+          <div className="mb-4 w-full">
+            <h1 className="text-2xl font-bold mb-2">LinkLore</h1>
+            <p>Discover and organize your favorite web content.</p>
+          </div>
 
-      <div className="flex justify-center space-x-5 pt-10 mt-10 border-t border-gray-300 w-full max-w-xl text-gray-600">
-        <Link
-          href="https://postgres-starter.vercel.app/"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
-        >
-          Starter
-        </Link>
-        <Link
-          href="https://postgres-kysely.vercel.app/"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
-        >
-          Kysely
-        </Link>
-        <Link
-          href="https://postgres-drizzle.vercel.app/"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
-        >
-          Drizzle
-        </Link>
-      </div>
+          {/* Two-column layout for Collections/Tags and Categories/Quality */}
+          <div className="flex flex-row">
+            {/* Left column: Collections and Tags */}
+            <div className="flex-grow mr-2">
+              {/* Collections */}
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold mb-2">Collections</h2>
+                <ul className="list-none p-0">
+                  {collections.map(collection => (
+                    <li key={collection.id}>
+                      <button
+                        onClick={() => setSelectedCollection(selectedCollection === collection.id ? null : collection.id)}
+                        className={`block mb-1 ${selectedCollection === collection.id ? 'font-bold' : 'font-normal'} bg-transparent border-none cursor-pointer text-left p-0`}
+                      >
+                        {collection.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-      <div className="sm:absolute sm:bottom-0 w-full px-20 py-10 flex justify-between">
-        <Link href="https://vercel.com">
-          <Image
-            src="/vercel.svg"
-            alt="Vercel Logo"
-            width={100}
-            height={24}
-            priority
-          />
-        </Link>
-        <Link
-          href="https://github.com/vercel/examples/tree/main/storage/postgres-prisma"
-          className="flex items-center space-x-2"
-        >
-          <Image
-            src="/github.svg"
-            alt="GitHub Logo"
-            width={24}
-            height={24}
-            priority
-          />
-          <p className="font-light">Source</p>
-        </Link>
+              {/* Tags */}
+              <div>
+                <h2 className="text-lg font-semibold mb-2">Tags</h2>
+                {Array.from(new Set(links.flatMap(link => link.tags.map(tag => tag.name)))).map(tag => (
+                  <NextLink
+                    key={tag}
+                    href={`/tag/${encodeURIComponent(tag)}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFilter(tag, selectedTags, setSelectedTags);
+                    }}
+                    className={`block mb-1 ${selectedTags.includes(tag) ? 'font-bold' : 'font-normal'} bg-transparent border-none cursor-pointer text-left p-0`}
+                  >
+                    #{tag}
+                  </NextLink>
+                ))}
+              </div>
+            </div>
+
+            {/* Right column: Categories and Quality */}
+            <div className="w-1/3 ml-2">
+              {/* Categories */}
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold mb-2">Categories</h2>
+                {categories.map((category) => (
+                  <label key={category.name} className="flex items-center mb-1">
+                    <input
+                      type="checkbox"
+                      checked={selectedCategories.includes(category.name)}
+                      onChange={() => toggleFilter(category.name, selectedCategories, setSelectedCategories)}
+                      className="mr-2"
+                    />
+                    <span>{category.icon} {category.name}</span>
+                  </label>
+                ))}
+              </div>
+
+              {/* Quality */}
+              <div>
+                <h2 className="text-lg font-semibold mb-2">Quality</h2>
+                {qualityOptions.map(({ name, icon }) => (
+                  <label key={name} className="flex items-center mb-1">
+                    <input
+                      type="checkbox"
+                      checked={selectedQualities.includes(name)}
+                      onChange={() => toggleFilter(name, selectedQualities, setSelectedQualities)}
+                      className="mr-2"
+                    />
+                    <span>{icon} {name}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto p-4">
+          <div className="space-y-4">
+            {filteredLinks.map(link => (
+              <div key={link.id} className="bg-white p-4 rounded shadow-md border border-gray-200">
+                <span>{link.categories.map(cat => cat.icon).join(' ')}</span>
+                {' | '}
+                <span>{qualityOptions.find(q => q.name === getQualityFromRank(link.rank))?.icon}</span>
+                {' | '}
+                {link.user && (
+                  <NextLink href={`/user/${encodeURIComponent(link.user.name)}`} className="text-blue-600 hover:underline">
+                    {link.user.name}
+                  </NextLink>
+                )}
+                {!link.user && <span>Unknown User</span>}
+                {' | '}
+                <span className="font-bold">{link.title}</span>
+                {' | '}
+                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{link.url}</a>
+                {' | '}
+                <span>{link.comment}</span>
+                {' | '}
+                <span>{link.collection?.title}</span>
+                {' | '}
+                <span>{link.tags.map(tag => `#${tag.name}`).join(' ')}</span>
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
-    </main>
-  )
-}
+    </div>
+  );
+};
+
+
+export default MainPage;
