@@ -25,7 +25,7 @@ model MediaObject {
   year        Int?
   url         String
   image       String?
-  duration    Float?
+  size        String?  // New field: 's', 'm', or 'l'
   comment     String?
   userId      String
   user        User     @relation(fields: [userId], references: [id])

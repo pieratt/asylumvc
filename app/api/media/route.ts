@@ -5,6 +5,8 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const behavior = searchParams.get('behavior') as 'read' | 'look' | 'listen' | null;
     const size = searchParams.get('size') as 's' | 'm' | 'l' | null;
+    const username = searchParams.get('username');
+    const type = searchParams.get('type');
 
     const whereClause: any = {};
 
@@ -12,14 +14,20 @@ export async function GET(request: Request) {
         whereClause.type = {
             in: behavior === 'read' ? ['Book', 'Post', 'Quote', 'Tweet'] :
                 behavior === 'look' ? ['Art', 'Film', 'Tiktok', 'Youtube'] :
-                    ['Music', 'Podcast']
+                    behavior === 'listen' ? ['Music', 'Podcast'] : []
         };
     }
 
     if (size) {
-        whereClause.duration = size === 's' ? { lt: 10 } :
-            size === 'm' ? { gte: 10, lt: 30 } :
-                { gte: 30 };
+        whereClause.size = size;
+    }
+
+    if (username) {
+        whereClause.user = { name: username };
+    }
+
+    if (type) {
+        whereClause.type = type;
     }
 
     try {
