@@ -1,53 +1,73 @@
-import { NextResponse } from 'next/server'
-import prisma from '../../../lib/prisma'
+import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
 export async function GET(request: Request) {
-    const { searchParams } = new URL(request.url)
-    const username = searchParams.get('username')
-    const behavior = searchParams.get('behavior')
-    const size = searchParams.get('size')
+    const { searchParams } = new URL(request.url);
+    const behavior = searchParams.get('behavior') as 'read' | 'look' | 'listen' | null;
+    const size = searchParams.get('size') as 's' | 'm' | 'l' | null;
 
-    let query: any = {}
-
-    if (username) {
-        query.user = { name: username }
-    }
+    const whereClause: any = {};
 
     if (behavior) {
-        query.type = {
+        whereClause.type = {
             in: behavior === 'read' ? ['Book', 'Post', 'Quote', 'Tweet'] :
                 behavior === 'look' ? ['Art', 'Film', 'Tiktok', 'Youtube'] :
-                    behavior === 'listen' ? ['Music', 'Podcast'] : []
-        }
+                    ['Music', 'Podcast']
+        };
     }
 
     if (size) {
-        let durationQuery
-        switch (size) {
-            case 's':
-                durationQuery = { lt: 10 }
-                break
-            case 'm':
-                durationQuery = { gte: 10, lt: 30 }
-                break
-            case 'l':
-                durationQuery = { gte: 30 }
-                break
-        }
-        if (durationQuery) {
-            query.duration = durationQuery
-        }
+        whereClause.duration = size === 's' ? { lt: 10 } :
+            size === 'm' ? { gte: 10, lt: 30 } :
+                { gte: 30 };
     }
 
     try {
         const mediaObjects = await prisma.mediaObject.findMany({
-            where: query,
+            where: whereClause,
             include: { user: true },
-        })
+            orderBy: { createdAt: 'desc' },
+        });
 
-        return NextResponse.json(mediaObjects)
+        return NextResponse.json(mediaObjects);
     } catch (error) {
-        console.error('Request error', error)
-        return NextResponse.json({ error: 'Error fetching media objects' }, { status: 500 })
+        console.error('Failed to fetch media objects:', error);
+        return NextResponse.json({ error: 'Failed to fetch media objects' }, { status: 500 });
+    }
+}
+
+export async function POST(request: Request) {
+    try {
+        const body = await request.json();
+        const {
+            userId,
+            type,
+            title,
+            creator,
+            year,
+            url,
+            image,
+            duration,
+            comment
+        } = body;
+
+        const newMediaObject = await prisma.mediaObject.create({
+            data: {
+                type,
+                title,
+                creator,
+                year: year ? parseInt(year) : null,
+                url,
+                image,
+                duration: duration ? parseFloat(duration) : null,
+                comment,
+                userId
+            }
+        });
+
+        return NextResponse.json(newMediaObject, { status: 201 });
+    } catch (error) {
+        console.error('Failed to create media object:', error);
+        return NextResponse.json({ error: 'Failed to create media object' }, { status: 500 });
     }
 }
