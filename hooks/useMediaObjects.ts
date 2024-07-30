@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { MediaObject } from '@prisma/client';
 
@@ -8,11 +8,7 @@ export function useMediaObjects() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    useEffect(() => {
-        fetchMediaObjects();
-    }, [pathname, searchParams]);
-
-    const fetchMediaObjects = async () => {
+    const fetchMediaObjects = useCallback(async () => {
         setIsLoading(true);
         try {
             const params = new URLSearchParams(searchParams);
@@ -50,7 +46,11 @@ export function useMediaObjects() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [pathname, searchParams]);
+
+    useEffect(() => {
+        fetchMediaObjects();
+    }, [fetchMediaObjects]);
 
     return { mediaObjects, isLoading };
 }
