@@ -1,44 +1,46 @@
-import { GetServerSideProps } from 'next'
 import Link from 'next/link'
+import prisma from '../../lib/prisma'
 
-type BehaviorType = 'read' | 'look' | 'listen';
-type MediaObject = {
-    id: string;
-    title: string;
-    type: string;
-    duration: number;
-};
+export default async function BehaviorOrUserPage({ params }: { params: { behaviorOrUsername: string } }) {
+    const behaviorOrUsername = params.behaviorOrUsername;
+    const isBehavior = ['read', 'look', 'listen'].includes(behaviorOrUsername);
 
-interface PageProps {
-    behavior?: BehaviorType;
-    username?: string;
-    mediaObjects: MediaObject[];
-}
+    let mediaObjects;
+    if (isBehavior) {
+        mediaObjects = await prisma.mediaObject.findMany({
+            where: {
+                type: {
+                    in: behaviorOrUsername === 'read' ? ['Book', 'Post', 'Quote', 'Tweet'] :
+                        behaviorOrUsername === 'look' ? ['Art', 'Film', 'Tiktok', 'Youtube'] :
+                            ['Music', 'Podcast']
+                }
+            },
+            include: { user: true },
+        });
+    } else {
+        mediaObjects = await prisma.mediaObject.findMany({
+            where: { user: { name: behaviorOrUsername } },
+            include: { user: true },
+        });
+    }
 
-const behaviorEmoji: Record<BehaviorType, string> = {
-    read: '📖',
-    look: '👀',
-    listen: '🎧'
-};
-
-export default function BehaviorOrUserPage({ behavior, username, mediaObjects }: PageProps) {
-    const title = behavior ? `${behaviorEmoji[behavior]} ${behavior}` : `${username}'s page`;
+    const title = isBehavior ? `${behaviorOrUsername}` : `${behaviorOrUsername}'s page`;
 
     return (
         <div>
             <h1 className="text-2xl font-bold mb-4 capitalize">{title}</h1>
-            {behavior && (
+            {isBehavior && (
                 <div className="mb-4">
-                    <Link href={`/${behavior}/s`}><a className="mr-4">Small</a></Link>
-                    <Link href={`/${behavior}/m`}><a className="mr-4">Medium</a></Link>
-                    <Link href={`/${behavior}/l`}><a>Large</a></Link>
+                    <Link href={`/${behaviorOrUsername}/s`}><span className="mr-4">Small</span></Link>
+                    <Link href={`/${behaviorOrUsername}/m`}><span className="mr-4">Medium</span></Link>
+                    <Link href={`/${behaviorOrUsername}/l`}><span>Large</span></Link>
                 </div>
             )}
-            {username && (
+            {!isBehavior && (
                 <div className="mb-4">
-                    <Link href={`/${username}/read`}><a className="mr-4">📖 Read</a></Link>
-                    <Link href={`/${username}/look`}><a className="mr-4">👀 Look</a></Link>
-                    <Link href={`/${username}/listen`}><a>🎧 Listen</a></Link>
+                    <Link href={`/${behaviorOrUsername}/read`}><span className="mr-4">📖 Read</span></Link>
+                    <Link href={`/${behaviorOrUsername}/look`}><span className="mr-4">👀 Look</span></Link>
+                    <Link href={`/${behaviorOrUsername}/listen`}><span>🎧 Listen</span></Link>
                 </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -52,27 +54,4 @@ export default function BehaviorOrUserPage({ behavior, username, mediaObjects }:
             </div>
         </div>
     )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const behaviorOrUsername = context.params?.behaviorOrUsername as string;
-    const isBehavior = ['read', 'look', 'listen'].includes(behaviorOrUsername);
-
-    let url = `${process.env.NEXT_PUBLIC_API_URL}/api/media?`;
-    if (isBehavior) {
-        url += `behavior=${behaviorOrUsername}`;
-    } else {
-        url += `username=${behaviorOrUsername}`;
-    }
-
-    const res = await fetch(url);
-    const mediaObjects = await res.json();
-
-    return {
-        props: {
-            behavior: isBehavior ? behaviorOrUsername : undefined,
-            username: isBehavior ? undefined : behaviorOrUsername,
-            mediaObjects,
-        },
-    }
 }
