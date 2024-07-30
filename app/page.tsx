@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MediaObject, User } from '@prisma/client';
+import { MediaObject } from '@prisma/client';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import MediaGrid from '../components/MediaGrid';
 
 type BehaviorType = 'read' | 'look' | 'listen';
@@ -32,22 +31,17 @@ export default function Home() {
   const fetchMediaObjects = async () => {
     setIsLoading(true);
     const queryParams = new URLSearchParams(filter as Record<string, string>).toString();
-    const response = await fetch(`/api/media?${queryParams}`);
+    const response = await fetch(`/api/media${queryParams ? `?${queryParams}` : ''}`);
     const data = await response.json();
     setMediaObjects(data);
     setIsLoading(false);
   };
 
   const handleFilter = (key: 'behavior' | 'size', value: string | undefined) => {
-    const newFilter = { ...filter, [key]: value };
+    const newFilter = { ...filter, [key]: value === filter[key] ? undefined : value };
     setFilter(newFilter);
     const queryParams = new URLSearchParams(newFilter as Record<string, string>).toString();
     router.push(`/?${queryParams}`, { scroll: false });
-  };
-
-  const resetFilters = () => {
-    setFilter({});
-    router.push('/', { scroll: false });
   };
 
   return (
@@ -60,7 +54,7 @@ export default function Home() {
           {(['read', 'look', 'listen'] as BehaviorType[]).map(behavior => (
             <button
               key={behavior}
-              onClick={() => handleFilter('behavior', filter.behavior === behavior ? undefined : behavior)}
+              onClick={() => handleFilter('behavior', behavior)}
               className={`px-4 py-2 rounded ${filter.behavior === behavior ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
             >
               {behavior.charAt(0).toUpperCase() + behavior.slice(1)}
@@ -71,19 +65,13 @@ export default function Home() {
           {(['s', 'm', 'l'] as SizeType[]).map(size => (
             <button
               key={size}
-              onClick={() => handleFilter('size', filter.size === size ? undefined : size)}
+              onClick={() => handleFilter('size', size)}
               className={`px-4 py-2 rounded ${filter.size === size ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
             >
               {size === 's' ? 'Small' : size === 'm' ? 'Medium' : 'Large'}
             </button>
           ))}
         </div>
-        <button
-          onClick={resetFilters}
-          className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-        >
-          Reset Filters
-        </button>
       </div>
 
       {isLoading ? (
