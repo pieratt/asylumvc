@@ -2,18 +2,32 @@
 
 import { useState, useEffect } from 'react';
 import { MediaObject, User } from '@prisma/client';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import MediaGrid from '../components/MediaGrid';
 
 type BehaviorType = 'read' | 'look' | 'listen';
 type SizeType = 's' | 'm' | 'l';
 
 export default function Home() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [mediaObjects, setMediaObjects] = useState<MediaObject[]>([]);
-  const [filter, setFilter] = useState<{ behavior?: BehaviorType; size?: SizeType }>({});
+  const [filter, setFilter] = useState<{ behavior?: BehaviorType; size?: SizeType }>({
+    behavior: (searchParams.get('behavior') as BehaviorType) || undefined,
+    size: (searchParams.get('size') as SizeType) || undefined,
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchMediaObjects();
   }, [filter]);
+
+  useEffect(() => {
+    const behavior = searchParams.get('behavior') as BehaviorType;
+    const size = searchParams.get('size') as SizeType;
+    setFilter({ behavior, size });
+  }, [searchParams]);
 
   const fetchMediaObjects = async () => {
     setIsLoading(true);
@@ -25,7 +39,15 @@ export default function Home() {
   };
 
   const handleFilter = (key: 'behavior' | 'size', value: string | undefined) => {
-    setFilter(prev => ({ ...prev, [key]: value }));
+    const newFilter = { ...filter, [key]: value };
+    setFilter(newFilter);
+    const queryParams = new URLSearchParams(newFilter as Record<string, string>).toString();
+    router.push(`/?${queryParams}`, { scroll: false });
+  };
+
+  const resetFilters = () => {
+    setFilter({});
+    router.push('/', { scroll: false });
   };
 
   return (
@@ -56,31 +78,18 @@ export default function Home() {
             </button>
           ))}
         </div>
+        <button
+          onClick={resetFilters}
+          className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Reset Filters
+        </button>
       </div>
 
       {isLoading ? (
         <div className="text-center">Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mediaObjects.map(media => (
-            <div key={media.id} className="bg-white shadow-md rounded-lg overflow-hidden">
-              {media.image && (
-                <img src={media.image} alt={media.title} className="w-full h-48 object-cover" />
-              )}
-              <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2">{media.title}</h3>
-                <p className="text-gray-600 mb-2">{media.type}</p>
-                <p className="text-sm text-gray-500">By {media.creator}</p>
-                {media.duration && (
-                  <p className="text-sm text-gray-500">Duration: {media.duration} min</p>
-                )}
-                <a href={media.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mt-2 inline-block">
-                  View Content
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
+        <MediaGrid mediaObjects={mediaObjects} />
       )}
     </div>
   );
