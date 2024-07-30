@@ -25,20 +25,36 @@ async function main() {
   console.log(`Start seeding ...`)
 
   for (const user of users) {
-    const createdUser = await prisma.user.create({ data: user })
-    console.log(`Created user with id: ${createdUser.id}`)
+    const existingUser = await prisma.user.findUnique({ where: { name: user.name } })
+    if (existingUser) {
+      console.log(`User with name ${user.name} already exists, skipping...`)
+    } else {
+      const createdUser = await prisma.user.create({ data: user })
+      console.log(`Created user with id: ${createdUser.id}`)
+    }
   }
 
   const allUsers = await prisma.user.findMany()
 
   for (const media of mediaObjects) {
-    const createdMedia = await prisma.mediaObject.create({
-      data: {
-        ...media,
-        userId: allUsers[Math.floor(Math.random() * allUsers.length)].id
+    const existingMedia = await prisma.mediaObject.findFirst({
+      where: {
+        title: media.title,
+        type: media.type,
+        creator: media.creator
       }
     })
-    console.log(`Created media object with id: ${createdMedia.id}`)
+    if (existingMedia) {
+      console.log(`Media object "${media.title}" already exists, skipping...`)
+    } else {
+      const createdMedia = await prisma.mediaObject.create({
+        data: {
+          ...media,
+          userId: allUsers[Math.floor(Math.random() * allUsers.length)].id
+        }
+      })
+      console.log(`Created media object with id: ${createdMedia.id}`)
+    }
   }
 
   console.log(`Seeding finished.`)
