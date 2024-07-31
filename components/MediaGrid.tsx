@@ -1,5 +1,5 @@
-import { MediaObject } from '@prisma/client';
 import Image from 'next/image';
+import { MediaObject } from '@prisma/client';
 
 interface MediaGridProps {
     mediaObjects: MediaObject[];
@@ -11,13 +11,16 @@ export default function MediaGrid({ mediaObjects }: MediaGridProps) {
             {mediaObjects.map(media => (
                 <div key={media.id} className="bg-white shadow-md rounded-lg overflow-hidden">
                     {media.image && (
-                        <Image
-                            src={media.image}
-                            alt={media.title}
-                            width={400}
-                            height={300}
-                            className="w-full h-48 object-cover"
-                        />
+                        <div className="relative h-48 w-full">
+                            <Image
+                                src={media.image}
+                                alt={media.title}
+                                layout="fill"
+                                objectFit="cover"
+                                loader={({ src }) => src} // Use the URL directly
+                                unoptimized // Bypass Next.js image optimization
+                            />
+                        </div>
                     )}
                     <div className="p-4">
                         <h3 className="text-xl font-semibold mb-2">{media.title}</h3>
