@@ -48,15 +48,15 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         const {
-            userId,
             type,
             title,
             creator,
             year,
             url,
             image,
-            duration,
-            comment
+            size,
+            comment,
+            userId
         } = body;
 
         const newMediaObject = await prisma.mediaObject.create({
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
                 year: year ? parseInt(year) : null,
                 url,
                 image,
-                duration: duration ? parseFloat(duration) : null,
+                size,
                 comment,
                 userId
             }
