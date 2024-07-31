@@ -2,12 +2,15 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { MediaObject, User } from '@prisma/client';
-import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import MediaGrid from '../components/MediaGrid';
 
 type MediaObjectWithUser = MediaObject & { user: User };
 type FilterType = 'behavior' | 'size' | 'user' | 'creator' | 'year' | 'type';
 
 export default function MediaGridPage() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [mediaObjects, setMediaObjects] = useState<MediaObjectWithUser[]>([]);
     const [filters, setFilters] = useState<Record<FilterType, string[]>>({
         behavior: [],
@@ -53,7 +56,6 @@ export default function MediaGridPage() {
     const fetchMediaObjects = useCallback(async () => {
         const response = await fetch('/api/media');
         const data: MediaObjectWithUser[] = await response.json();
-        console.log('Fetched media objects:', data); // Add this line
         setMediaObjects(data);
         updateAvailableFilters(data);
     }, [updateAvailableFilters]);
@@ -61,6 +63,25 @@ export default function MediaGridPage() {
     useEffect(() => {
         fetchMediaObjects();
     }, [fetchMediaObjects]);
+
+    useEffect(() => {
+        const newActiveFilters: Record<FilterType, string[]> = {
+            behavior: [],
+            size: [],
+            user: [],
+            creator: [],
+            year: [],
+            type: []
+        };
+
+        searchParams.forEach((value, key) => {
+            if (key in newActiveFilters) {
+                newActiveFilters[key as FilterType] = value.split(',');
+            }
+        });
+
+        setActiveFilters(newActiveFilters);
+    }, [searchParams]);
 
     const getBehavior = (type: string): string => {
         if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
@@ -77,8 +98,19 @@ export default function MediaGridPage() {
             } else {
                 newFilters[type] = [...newFilters[type], value];
             }
+            updateURL(newFilters);
             return newFilters;
         });
+    };
+
+    const updateURL = (filters: Record<FilterType, string[]>) => {
+        const params = new URLSearchParams();
+        Object.entries(filters).forEach(([key, values]) => {
+            if (values.length > 0) {
+                params.set(key, values.join(','));
+            }
+        });
+        router.push(`/?${params.toString()}`, { scroll: false });
     };
 
     const filteredMedia = mediaObjects.filter(obj =>
@@ -114,26 +146,7 @@ export default function MediaGridPage() {
             </div>
             <div className="flex-1 p-4">
                 <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
-                <div className="grid grid-cols-4 gap-1">
-                    {filteredMedia.map(media => (
-                        <div key={media.id} className="aspect-square border border-gray-700 p-2 flex flex-col">
-                            {media.image && (
-                                <div className="relative flex-grow">
-                                    <Image
-                                        src={media.image}
-                                        alt={media.title}
-                                        layout="fill"
-                                        objectFit="cover"
-                                    />
-                                </div>
-                            )}
-                            <div className="mt-2">
-                                <h3 className="text-sm font-semibold">{media.title}</h3>
-                                <p className="text-xs text-gray-400">{media.creator}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <MediaGrid mediaObjects={filteredMedia} />
             </div>
         </div>
     );
