@@ -118,6 +118,10 @@ export default function DynamicPage() {
             router.push(size === selectedSize ? `/${selectedUser}/${selectedBehavior}` : `/${selectedUser}/${selectedBehavior}/${size}`);
         } else if (selectedBehavior) {
             router.push(size === selectedSize ? `/${selectedBehavior}` : `/${selectedBehavior}/${size}`);
+        } else if (selectedUser) {
+            router.push(size === selectedSize ? `/${selectedUser}` : `/${selectedUser}/${size}`);
+        } else {
+            router.push(size === selectedSize ? '/' : `/${size}`);
         }
     };
 
