@@ -1,199 +1,138 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { User, MediaObject } from '@prisma/client';
-import { useRouter, useParams } from 'next/navigation';
-import Link from 'next/link';
-import MediaGrid from '../../components/MediaGrid';
+import { useState, useEffect } from 'react';
+import { MediaObject, User } from '@prisma/client';
+import Image from 'next/image';
 
-type BehaviorType = 'read' | 'look' | 'listen';
-type SizeType = 's' | 'm' | 'l';
+type FilterType = 'behavior' | 'size' | 'user' | 'creator' | 'year' | 'type';
 
-type MediaObjectWithUser = MediaObject & { user: User };
-
-export default function DynamicPage() {
-    const router = useRouter();
-    const params = useParams();
-    const [users, setUsers] = useState<User[]>([]);
-    const [allMediaObjects, setAllMediaObjects] = useState<MediaObjectWithUser[]>([]);
-    const [filteredMediaObjects, setFilteredMediaObjects] = useState<MediaObjectWithUser[]>([]);
-    const [selectedUser, setSelectedUser] = useState<string | null>(null);
-    const [selectedBehavior, setSelectedBehavior] = useState<BehaviorType | null>(null);
-    const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+export default function MediaGridPage() {
+    const [mediaObjects, setMediaObjects] = useState<MediaObject[]>([]);
+    const [filters, setFilters] = useState<Record<FilterType, string[]>>({
+        behavior: [],
+        size: [],
+        user: [],
+        creator: [],
+        year: [],
+        type: []
+    });
+    const [activeFilters, setActiveFilters] = useState<Record<FilterType, string[]>>({
+        behavior: [],
+        size: [],
+        user: [],
+        creator: [],
+        year: [],
+        type: []
+    });
 
     useEffect(() => {
-        fetchUsers();
-        fetchAllMediaObjects();
+        fetchMediaObjects();
     }, []);
 
-    useEffect(() => {
-        const segments = params.slug as string[] | undefined || [];
-        if (segments.length === 1) {
-            if (['read', 'look', 'listen'].includes(segments[0])) {
-                setSelectedBehavior(segments[0] as BehaviorType);
-                setSelectedUser(null);
-                setSelectedSize(null);
-            } else {
-                setSelectedUser(segments[0]);
-                setSelectedBehavior(null);
-                setSelectedSize(null);
-            }
-        } else if (segments.length === 2) {
-            if (['read', 'look', 'listen'].includes(segments[0])) {
-                setSelectedBehavior(segments[0] as BehaviorType);
-                setSelectedSize(segments[1] as SizeType);
-                setSelectedUser(null);
-            } else {
-                setSelectedUser(segments[0]);
-                setSelectedBehavior(segments[1] as BehaviorType);
-                setSelectedSize(null);
-            }
-        } else if (segments.length === 3) {
-            setSelectedUser(segments[0]);
-            setSelectedBehavior(segments[1] as BehaviorType);
-            setSelectedSize(segments[2] as SizeType);
-        } else {
-            setSelectedUser(null);
-            setSelectedBehavior(null);
-            setSelectedSize(null);
-        }
-    }, [params]);
-
-    const fetchUsers = async () => {
-        const response = await fetch('/api/users');
-        const data = await response.json();
-        setUsers(data);
-    };
-
-    const fetchAllMediaObjects = async () => {
-        setIsLoading(true);
+    const fetchMediaObjects = async () => {
         const response = await fetch('/api/media');
-        const data: MediaObjectWithUser[] = await response.json();
-        setAllMediaObjects(data);
-        setIsLoading(false);
+        const data = await response.json();
+        setMediaObjects(data);
+        updateAvailableFilters(data);
     };
 
-    const filterMediaObjects = useCallback(() => {
-        let filtered = allMediaObjects;
+    const updateAvailableFilters = (data: MediaObject[]) => {
+        const newFilters: Record<FilterType, Set<string>> = {
+            behavior: new Set(),
+            size: new Set(),
+            user: new Set(),
+            creator: new Set(),
+            year: new Set(),
+            type: new Set()
+        };
 
-        if (selectedUser) {
-            filtered = filtered.filter(obj => obj.user.name === selectedUser);
-        }
+        data.forEach(obj => {
+            newFilters.behavior.add(getBehavior(obj.type));
+            newFilters.size.add(obj.size || '');
+            newFilters.user.add(obj.user?.name || '');
+            newFilters.creator.add(obj.creator || '');
+            newFilters.year.add(obj.year?.toString() || '');
+            newFilters.type.add(obj.type);
+        });
 
-        if (selectedBehavior) {
-            const behaviorTypes = {
-                read: ['Book', 'Post', 'Quote', 'Tweet'],
-                look: ['Art', 'Film', 'Tiktok', 'Youtube'],
-                listen: ['Music', 'Podcast']
-            };
-            filtered = filtered.filter(obj => behaviorTypes[selectedBehavior].includes(obj.type));
-        }
-
-        if (selectedSize) {
-            filtered = filtered.filter(obj => obj.size === selectedSize);
-        }
-
-        setFilteredMediaObjects(filtered);
-    }, [allMediaObjects, selectedUser, selectedBehavior, selectedSize]);
-
-    useEffect(() => {
-        filterMediaObjects();
-    }, [filterMediaObjects]);
-
-    const handleUserSelect = (username: string) => {
-        router.push(username === selectedUser ? '/' : `/${username}`);
+        setFilters(Object.fromEntries(
+            Object.entries(newFilters).map(([key, value]) => [key, Array.from(value)])
+        ) as Record<FilterType, string[]>);
     };
 
-    const handleBehaviorSelect = (behavior: BehaviorType) => {
-        if (selectedUser) {
-            router.push(behavior === selectedBehavior ? `/${selectedUser}` : `/${selectedUser}/${behavior}`);
-        } else {
-            router.push(behavior === selectedBehavior ? '/' : `/${behavior}`);
-        }
+    const getBehavior = (type: string): string => {
+        if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
+        if (['Art', 'Film', 'Tiktok', 'Youtube'].includes(type)) return 'look';
+        if (['Music', 'Podcast'].includes(type)) return 'listen';
+        return '';
     };
 
-    const handleSizeSelect = (size: SizeType) => {
-        if (selectedUser && selectedBehavior) {
-            router.push(size === selectedSize ? `/${selectedUser}/${selectedBehavior}` : `/${selectedUser}/${selectedBehavior}/${size}`);
-        } else if (selectedBehavior) {
-            router.push(size === selectedSize ? `/${selectedBehavior}` : `/${selectedBehavior}/${size}`);
-        } else if (selectedUser) {
-            router.push(size === selectedSize ? `/${selectedUser}` : `/${selectedUser}/${size}`);
-        } else {
-            router.push(size === selectedSize ? '/' : `/${size}`);
-        }
+    const toggleFilter = (type: FilterType, value: string) => {
+        setActiveFilters(prev => {
+            const newFilters = { ...prev };
+            if (newFilters[type].includes(value)) {
+                newFilters[type] = newFilters[type].filter(v => v !== value);
+            } else {
+                newFilters[type] = [...newFilters[type], value];
+            }
+            return newFilters;
+        });
     };
 
-    const updateURL = (user: string | null, behavior: BehaviorType | null, size: SizeType | null) => {
-        let url = '/';
-        if (user) url += `${user}/`;
-        if (behavior) url += `${behavior}/`;
-        if (size) url += `${size}`;
-        router.push(url, { scroll: false });
-    };
-
-    const behaviorTypes: BehaviorType[] = ['read', 'look', 'listen'];
-    const sizeTypes: SizeType[] = ['s', 'm', 'l'];
+    const filteredMedia = mediaObjects.filter(obj =>
+        (activeFilters.behavior.length === 0 || activeFilters.behavior.includes(getBehavior(obj.type))) &&
+        (activeFilters.size.length === 0 || activeFilters.size.includes(obj.size || '')) &&
+        (activeFilters.user.length === 0 || activeFilters.user.includes(obj.user?.name || '')) &&
+        (activeFilters.creator.length === 0 || activeFilters.creator.includes(obj.creator || '')) &&
+        (activeFilters.year.length === 0 || activeFilters.year.includes(obj.year?.toString() || '')) &&
+        (activeFilters.type.length === 0 || activeFilters.type.includes(obj.type))
+    );
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold mb-8">AsylumVC Media Library</h1>
-
-            <div className="mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Filters</h2>
-
-                <div className="mb-4">
-                    <h3 className="text-xl font-semibold mb-2">Users</h3>
-                    <div className="flex flex-wrap gap-2">
-                        {users.map(user => (
-                            <button
-                                key={user.id}
-                                onClick={() => handleUserSelect(user.name)}
-                                className={`px-4 py-2 rounded ${selectedUser === user.name ? 'bg-purple-500 text-white' : 'bg-gray-200'}`}
-                            >
-                                {user.name}
-                            </button>
-                        ))}
+        <div className="flex bg-gray-900 text-white min-h-screen">
+            <div className="w-64 p-4 border-r border-gray-700">
+                <h2 className="text-xl font-bold mb-4">Filters</h2>
+                {Object.entries(filters).map(([filterType, values]) => (
+                    <div key={filterType} className="mb-4">
+                        <h3 className="text-lg font-semibold mb-2 capitalize">{filterType}</h3>
+                        <ul>
+                            {values.map(value => (
+                                <li key={value} className="mb-1">
+                                    <button
+                                        onClick={() => toggleFilter(filterType as FilterType, value)}
+                                        className={`text-sm ${activeFilters[filterType as FilterType].includes(value) ? 'text-blue-400' : 'text-gray-400'}`}
+                                    >
+                                        {value}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                </div>
-
-                <div className="mb-4">
-                    <h3 className="text-xl font-semibold mb-2">Behaviors</h3>
-                    <div className="flex flex-wrap gap-2">
-                        {behaviorTypes.map(behavior => (
-                            <button
-                                key={behavior}
-                                onClick={() => handleBehaviorSelect(behavior)}
-                                className={`px-4 py-2 rounded ${selectedBehavior === behavior ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-                            >
-                                {behavior.charAt(0).toUpperCase() + behavior.slice(1)}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="mb-4">
-                    <h3 className="text-xl font-semibold mb-2">Sizes</h3>
-                    <div className="flex flex-wrap gap-2">
-                        {sizeTypes.map(size => (
-                            <button
-                                key={size}
-                                onClick={() => handleSizeSelect(size)}
-                                className={`px-4 py-2 rounded ${selectedSize === size ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
-                            >
-                                {size === 's' ? 'Small' : size === 'm' ? 'Medium' : 'Large'}
-                            </button>
-                        ))}
-                    </div>
+                ))}
+            </div>
+            <div className="flex-1 p-4">
+                <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
+                <div className="grid grid-cols-4 gap-1">
+                    {filteredMedia.map(media => (
+                        <div key={media.id} className="aspect-square border border-gray-700 p-2 flex flex-col">
+                            {media.image && (
+                                <div className="relative flex-grow">
+                                    <Image
+                                        src={media.image}
+                                        alt={media.title}
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                            )}
+                            <div className="mt-2">
+                                <h3 className="text-sm font-semibold">{media.title}</h3>
+                                <p className="text-xs text-gray-400">{media.creator}</p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
-
-            {isLoading ? (
-                <div className="text-center">Loading...</div>
-            ) : (
-                <MediaGrid mediaObjects={filteredMediaObjects} />
-            )}
         </div>
     );
 }
