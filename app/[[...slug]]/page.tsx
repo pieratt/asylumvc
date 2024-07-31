@@ -2,147 +2,135 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { MediaObject, User } from '@prisma/client';
-import { useRouter, useSearchParams } from 'next/navigation';
-import MediaGrid from '../../components/MediaGrid';
+import { useRouter, useParams } from 'next/navigation';
+import MediaGrid from '../components/MediaGrid';
 
 type MediaObjectWithUser = MediaObject & { user: User };
-type FilterType = 'behavior' | 'size' | 'user' | 'creator' | 'year' | 'type';
+type BehaviorType = 'read' | 'look' | 'listen';
+type SizeType = 's' | 'm' | 'l';
 
 export default function MediaGridPage() {
     const router = useRouter();
-    const searchParams = useSearchParams();
+    const params = useParams();
     const [mediaObjects, setMediaObjects] = useState<MediaObjectWithUser[]>([]);
-    const [filters, setFilters] = useState<Record<FilterType, string[]>>({
-        behavior: [],
-        size: [],
-        user: [],
-        creator: [],
-        year: [],
-        type: []
-    });
-    const [activeFilters, setActiveFilters] = useState<Record<FilterType, string[]>>({
-        behavior: [],
-        size: [],
-        user: [],
-        creator: [],
-        year: [],
-        type: []
-    });
-
-    const updateAvailableFilters = useCallback((data: MediaObjectWithUser[]) => {
-        const newFilters: Record<FilterType, Set<string>> = {
-            behavior: new Set(),
-            size: new Set(),
-            user: new Set(),
-            creator: new Set(),
-            year: new Set(),
-            type: new Set()
-        };
-
-        data.forEach(obj => {
-            newFilters.behavior.add(getBehavior(obj.type));
-            newFilters.size.add(obj.size || '');
-            newFilters.user.add(obj.user.name);
-            newFilters.creator.add(obj.creator || '');
-            newFilters.year.add(obj.year?.toString() || '');
-            newFilters.type.add(obj.type);
-        });
-
-        setFilters(Object.fromEntries(
-            Object.entries(newFilters).map(([key, value]) => [key, Array.from(value)])
-        ) as Record<FilterType, string[]>);
-    }, []);
+    const [selectedUser, setSelectedUser] = useState<string | null>(null);
+    const [selectedBehavior, setSelectedBehavior] = useState<BehaviorType | null>(null);
+    const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
 
     const fetchMediaObjects = useCallback(async () => {
         const response = await fetch('/api/media');
         const data: MediaObjectWithUser[] = await response.json();
         setMediaObjects(data);
-        updateAvailableFilters(data);
-    }, [updateAvailableFilters]);
+    }, []);
 
     useEffect(() => {
         fetchMediaObjects();
     }, [fetchMediaObjects]);
 
     useEffect(() => {
-        const newActiveFilters: Record<FilterType, string[]> = {
-            behavior: [],
-            size: [],
-            user: [],
-            creator: [],
-            year: [],
-            type: []
-        };
-
-        searchParams.forEach((value, key) => {
-            if (key in newActiveFilters) {
-                newActiveFilters[key as FilterType] = value.split(',');
+        const segments = (params.slug as string[] | undefined) || [];
+        if (segments.length > 0) {
+            if (['read', 'look', 'listen'].includes(segments[0])) {
+                setSelectedBehavior(segments[0] as BehaviorType);
+                setSelectedSize(segments[1] as SizeType | null);
+            } else {
+                setSelectedUser(segments[0]);
+                if (segments.length > 1) {
+                    setSelectedBehavior(segments[1] as BehaviorType);
+                    setSelectedSize(segments[2] as SizeType | null);
+                }
             }
-        });
+        }
+    }, [params]);
 
-        setActiveFilters(newActiveFilters);
-    }, [searchParams]);
-
-    const getBehavior = (type: string): string => {
+    const getBehavior = (type: string): BehaviorType => {
         if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
         if (['Art', 'Film', 'Tiktok', 'Youtube'].includes(type)) return 'look';
-        if (['Music', 'Podcast'].includes(type)) return 'listen';
-        return '';
+        return 'listen';
     };
 
-    const toggleFilter = (type: FilterType, value: string) => {
-        setActiveFilters(prev => {
-            const newFilters = { ...prev };
-            if (newFilters[type].includes(value)) {
-                newFilters[type] = newFilters[type].filter(v => v !== value);
-            } else {
-                newFilters[type] = [...newFilters[type], value];
-            }
-            updateURL(newFilters);
-            return newFilters;
-        });
+    const updateURL = (user: string | null, behavior: BehaviorType | null, size: SizeType | null) => {
+        let url = '/';
+        if (user) url += `${user}/`;
+        if (behavior) {
+            url += `${behavior}/`;
+            if (size) url += `${size}`;
+        }
+        router.push(url);
     };
 
-    const updateURL = (filters: Record<FilterType, string[]>) => {
-        const params = new URLSearchParams();
-        Object.entries(filters).forEach(([key, values]) => {
-            if (values.length > 0) {
-                params.set(key, values.join(','));
-            }
-        });
-        router.push(`/?${params.toString()}`, { scroll: false });
+    const handleUserSelect = (username: string) => {
+        setSelectedUser(username === selectedUser ? null : username);
+        updateURL(username === selectedUser ? null : username, selectedBehavior, selectedSize);
+    };
+
+    const handleBehaviorSelect = (behavior: BehaviorType) => {
+        setSelectedBehavior(behavior === selectedBehavior ? null : behavior);
+        updateURL(selectedUser, behavior === selectedBehavior ? null : behavior, selectedSize);
+    };
+
+    const handleSizeSelect = (size: SizeType) => {
+        setSelectedSize(size === selectedSize ? null : size);
+        updateURL(selectedUser, selectedBehavior, size === selectedSize ? null : size);
     };
 
     const filteredMedia = mediaObjects.filter(obj =>
-        (activeFilters.behavior.length === 0 || activeFilters.behavior.includes(getBehavior(obj.type))) &&
-        (activeFilters.size.length === 0 || activeFilters.size.includes(obj.size || '')) &&
-        (activeFilters.user.length === 0 || activeFilters.user.includes(obj.user.name)) &&
-        (activeFilters.creator.length === 0 || activeFilters.creator.includes(obj.creator || '')) &&
-        (activeFilters.year.length === 0 || activeFilters.year.includes(obj.year?.toString() || '')) &&
-        (activeFilters.type.length === 0 || activeFilters.type.includes(obj.type))
+        (!selectedUser || obj.user.name === selectedUser) &&
+        (!selectedBehavior || getBehavior(obj.type) === selectedBehavior) &&
+        (!selectedSize || obj.size === selectedSize)
     );
+
+    const users = Array.from(new Set(mediaObjects.map(obj => obj.user.name)));
 
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
             <div className="w-64 p-4 border-r border-gray-700">
                 <h2 className="text-xl font-bold mb-4">Filters</h2>
-                {Object.entries(filters).map(([filterType, values]) => (
-                    <div key={filterType} className="mb-4">
-                        <h3 className="text-lg font-semibold mb-2 capitalize">{filterType}</h3>
-                        <ul>
-                            {values.map(value => (
-                                <li key={value} className="mb-1">
-                                    <button
-                                        onClick={() => toggleFilter(filterType as FilterType, value)}
-                                        className={`text-sm ${activeFilters[filterType as FilterType].includes(value) ? 'text-blue-400' : 'text-gray-400'}`}
-                                    >
-                                        {value}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
+                <div className="mb-4">
+                    <h3 className="text-lg font-semibold mb-2">Users</h3>
+                    <ul>
+                        {users.map(user => (
+                            <li key={user} className="mb-1">
+                                <button
+                                    onClick={() => handleUserSelect(user)}
+                                    className={`text-sm ${selectedUser === user ? 'text-blue-400' : 'text-gray-400'}`}
+                                >
+                                    {user}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="mb-4">
+                    <h3 className="text-lg font-semibold mb-2">Behaviors</h3>
+                    <ul>
+                        {['read', 'look', 'listen'].map(behavior => (
+                            <li key={behavior} className="mb-1">
+                                <button
+                                    onClick={() => handleBehaviorSelect(behavior as BehaviorType)}
+                                    className={`text-sm ${selectedBehavior === behavior ? 'text-blue-400' : 'text-gray-400'}`}
+                                >
+                                    {behavior.charAt(0).toUpperCase() + behavior.slice(1)}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="mb-4">
+                    <h3 className="text-lg font-semibold mb-2">Sizes</h3>
+                    <ul>
+                        {['s', 'm', 'l'].map(size => (
+                            <li key={size} className="mb-1">
+                                <button
+                                    onClick={() => handleSizeSelect(size as SizeType)}
+                                    className={`text-sm ${selectedSize === size ? 'text-blue-400' : 'text-gray-400'}`}
+                                >
+                                    {size === 's' ? 'Small' : size === 'm' ? 'Medium' : 'Large'}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
             <div className="flex-1 p-4">
                 <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
