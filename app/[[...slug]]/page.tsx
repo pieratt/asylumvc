@@ -61,29 +61,6 @@ export default function MediaGridPage() {
         fetchMediaObjects();
     }, [fetchMediaObjects]);
 
-    const updateAvailableFilters = (data: MediaObjectWithUser[]) => {
-        const newFilters: Record<FilterType, Set<string>> = {
-            behavior: new Set(),
-            size: new Set(),
-            user: new Set(),
-            creator: new Set(),
-            year: new Set(),
-            type: new Set()
-        };
-
-        data.forEach(obj => {
-            newFilters.behavior.add(getBehavior(obj.type));
-            newFilters.size.add(obj.size || '');
-            newFilters.user.add(obj.user.name);
-            newFilters.creator.add(obj.creator || '');
-            newFilters.year.add(obj.year?.toString() || '');
-            newFilters.type.add(obj.type);
-        });
-
-        setFilters(Object.fromEntries(
-            Object.entries(newFilters).map(([key, value]) => [key, Array.from(value)])
-        ) as Record<FilterType, string[]>);
-    };
 
     const getBehavior = (type: string): string => {
         if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
