@@ -53,6 +53,7 @@ export default function MediaGridPage() {
     const fetchMediaObjects = useCallback(async () => {
         const response = await fetch('/api/media');
         const data: MediaObjectWithUser[] = await response.json();
+        console.log('Fetched media objects:', data); // Add this line
         setMediaObjects(data);
         updateAvailableFilters(data);
     }, [updateAvailableFilters]);
