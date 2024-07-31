@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MediaObject, User } from '@prisma/client';
 import { useRouter, useSearchParams } from 'next/navigation';
-import MediaGrid from '../components/MediaGrid';
+import MediaGrid from '../../components/MediaGrid';
 
 type MediaObjectWithUser = MediaObject & { user: User };
 type FilterType = 'behavior' | 'size' | 'user' | 'creator' | 'year' | 'type';
