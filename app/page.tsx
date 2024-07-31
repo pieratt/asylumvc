@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { User, MediaObject } from '@prisma/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import MediaGrid from '../components/MediaGrid';
@@ -8,12 +8,16 @@ import MediaGrid from '../components/MediaGrid';
 type BehaviorType = 'read' | 'look' | 'listen';
 type SizeType = 's' | 'm' | 'l';
 
+type ExtendedMediaObject = MediaObject & {
+  user: User;
+};
+
 export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
-  const [allMediaObjects, setAllMediaObjects] = useState<MediaObject[]>([]);
-  const [filteredMediaObjects, setFilteredMediaObjects] = useState<MediaObject[]>([]);
+  const [allMediaObjects, setAllMediaObjects] = useState<ExtendedMediaObject[]>([]);
+  const [filteredMediaObjects, setFilteredMediaObjects] = useState<ExtendedMediaObject[]>([]);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [selectedBehavior, setSelectedBehavior] = useState<BehaviorType | null>(null);
   const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
@@ -33,25 +37,7 @@ export default function Home() {
     setSelectedSize(size);
   }, [searchParams]);
 
-  useEffect(() => {
-    filterMediaObjects();
-  }, [allMediaObjects, selectedUser, selectedBehavior, selectedSize]);
-
-  const fetchUsers = async () => {
-    const response = await fetch('/api/users');
-    const data = await response.json();
-    setUsers(data);
-  };
-
-  const fetchAllMediaObjects = async () => {
-    setIsLoading(true);
-    const response = await fetch('/api/media');
-    const data = await response.json();
-    setAllMediaObjects(data);
-    setIsLoading(false);
-  };
-
-  const filterMediaObjects = () => {
+  const filterMediaObjects = useCallback(() => {
     let filtered = allMediaObjects;
 
     if (selectedUser) {
@@ -72,6 +58,24 @@ export default function Home() {
     }
 
     setFilteredMediaObjects(filtered);
+  }, [allMediaObjects, selectedUser, selectedBehavior, selectedSize]);
+
+  useEffect(() => {
+    filterMediaObjects();
+  }, [filterMediaObjects]);
+
+  const fetchUsers = async () => {
+    const response = await fetch('/api/users');
+    const data = await response.json();
+    setUsers(data);
+  };
+
+  const fetchAllMediaObjects = async () => {
+    setIsLoading(true);
+    const response = await fetch('/api/media');
+    const data: ExtendedMediaObject[] = await response.json();
+    setAllMediaObjects(data);
+    setIsLoading(false);
   };
 
   const handleUserSelect = (username: string) => {
