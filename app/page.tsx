@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import MediaGrid from '../components/MediaGrid';
+import { useMediaObjects } from '../hooks/useMediaObjects';
 
 type BehaviorType = 'read' | 'look' | 'listen';
 type SizeType = 's' | 'm' | 'l';
@@ -14,6 +15,7 @@ export default function Home() {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [selectedBehavior, setSelectedBehavior] = useState<BehaviorType | null>(null);
   const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
+  const { mediaObjects, isLoading } = useMediaObjects();
 
   useEffect(() => {
     fetchUsers();
@@ -104,7 +106,11 @@ export default function Home() {
         </div>
       </div>
 
-      <MediaGrid />
+      {isLoading ? (
+        <div className="text-center">Loading...</div>
+      ) : (
+        <MediaGrid mediaObjects={mediaObjects} />
+      )}
     </div>
   );
 }
