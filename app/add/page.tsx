@@ -35,6 +35,32 @@ export default function AddPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // Ensure formData.image contains the Cloudinary URL
+      console.log('Submitting form data:', formData); // For debugging
+
+      const response = await fetch('/api/media', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Media object created:', result); // For debugging
+        alert('Media object added successfully!');
+        // Reset form or redirect
+      } else {
+        const errorData = await response.json();
+        throw new Error(`Failed to add media object: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('Error adding media object:', error);
+      alert('Failed to add media object. Please try again.');
+    }
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -56,31 +82,12 @@ export default function AddPage() {
         }
 
         const data = await response.json();
+        console.log('Cloudinary upload response:', data); // For debugging
         setFormData(prev => ({ ...prev, image: data.secure_url }));
       } catch (error) {
         console.error('Error uploading image:', error);
         alert('Failed to upload image. Please try again.');
       }
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('/api/media', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        alert('Media object added successfully!');
-        // Reset form or redirect
-      } else {
-        throw new Error('Failed to add media object');
-      }
-    } catch (error) {
-      console.error('Error adding media object:', error);
-      alert('Failed to add media object. Please try again.');
     }
   };
 

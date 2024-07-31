@@ -30,12 +30,16 @@ export async function GET(request: Request) {
         whereClause.type = type;
     }
 
+    console.log('GET request with where clause:', whereClause); // For debugging
+
     try {
         const mediaObjects = await prisma.mediaObject.findMany({
             where: whereClause,
             include: { user: true },
             orderBy: { createdAt: 'desc' },
         });
+
+        console.log(`Retrieved ${mediaObjects.length} media objects`); // For debugging
 
         return NextResponse.json(mediaObjects);
     } catch (error) {
@@ -47,6 +51,8 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
     try {
         const body = await request.json();
+        console.log('Received POST request with body:', body); // For debugging
+
         const {
             type,
             title,
@@ -73,9 +79,14 @@ export async function POST(request: Request) {
             }
         });
 
+        console.log('Created new media object:', newMediaObject); // For debugging
+
         return NextResponse.json(newMediaObject, { status: 201 });
     } catch (error) {
         console.error('Failed to create media object:', error);
+        if (error instanceof Error) {
+            return NextResponse.json({ error: 'Failed to create media object', details: error.message }, { status: 500 });
+        }
         return NextResponse.json({ error: 'Failed to create media object' }, { status: 500 });
     }
 }
