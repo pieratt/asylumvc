@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { MediaObject, User } from '@prisma/client';
 import Image from 'next/image';
 
+type MediaObjectWithUser = MediaObject & { user: User };
 type FilterType = 'behavior' | 'size' | 'user' | 'creator' | 'year' | 'type';
 
 export default function MediaGridPage() {
-    const [mediaObjects, setMediaObjects] = useState<MediaObject[]>([]);
+    const [mediaObjects, setMediaObjects] = useState<MediaObjectWithUser[]>([]);
     const [filters, setFilters] = useState<Record<FilterType, string[]>>({
         behavior: [],
         size: [],
@@ -25,18 +26,18 @@ export default function MediaGridPage() {
         type: []
     });
 
-    useEffect(() => {
-        fetchMediaObjects();
-    }, []);
-
-    const fetchMediaObjects = async () => {
+    const fetchMediaObjects = useCallback(async () => {
         const response = await fetch('/api/media');
-        const data = await response.json();
+        const data: MediaObjectWithUser[] = await response.json();
         setMediaObjects(data);
         updateAvailableFilters(data);
-    };
+    }, []);
 
-    const updateAvailableFilters = (data: MediaObject[]) => {
+    useEffect(() => {
+        fetchMediaObjects();
+    }, [fetchMediaObjects]);
+
+    const updateAvailableFilters = (data: MediaObjectWithUser[]) => {
         const newFilters: Record<FilterType, Set<string>> = {
             behavior: new Set(),
             size: new Set(),
@@ -49,7 +50,7 @@ export default function MediaGridPage() {
         data.forEach(obj => {
             newFilters.behavior.add(getBehavior(obj.type));
             newFilters.size.add(obj.size || '');
-            newFilters.user.add(obj.user?.name || '');
+            newFilters.user.add(obj.user.name);
             newFilters.creator.add(obj.creator || '');
             newFilters.year.add(obj.year?.toString() || '');
             newFilters.type.add(obj.type);
@@ -82,7 +83,7 @@ export default function MediaGridPage() {
     const filteredMedia = mediaObjects.filter(obj =>
         (activeFilters.behavior.length === 0 || activeFilters.behavior.includes(getBehavior(obj.type))) &&
         (activeFilters.size.length === 0 || activeFilters.size.includes(obj.size || '')) &&
-        (activeFilters.user.length === 0 || activeFilters.user.includes(obj.user?.name || '')) &&
+        (activeFilters.user.length === 0 || activeFilters.user.includes(obj.user.name)) &&
         (activeFilters.creator.length === 0 || activeFilters.creator.includes(obj.creator || '')) &&
         (activeFilters.year.length === 0 || activeFilters.year.includes(obj.year?.toString() || '')) &&
         (activeFilters.type.length === 0 || activeFilters.type.includes(obj.type))
