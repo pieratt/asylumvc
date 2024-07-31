@@ -39,10 +39,10 @@ export default function AddPage() {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('upload_preset', 'YOUR_CLOUDINARY_UPLOAD_PRESET');
+      formData.append('upload_preset', 'ml_default');
 
       const response = await fetch(
-        `https://api.cloudinary.com/v1_1/YOUR_CLOUDINARY_CLOUD_NAME/image/upload`,
+        `https://api.cloudinary.com/v1_1/dtccopacz/image/upload`,
         {
           method: 'POST',
           body: formData
