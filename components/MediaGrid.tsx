@@ -1,37 +1,25 @@
 import Image from 'next/image';
-import { MediaObject } from '@prisma/client';
+import { MediaObjectWithUser } from '../types'; // Adjust the import path as needed
 
-interface MediaGridProps {
-    mediaObjects: MediaObject[];
-}
-
-export default function MediaGrid({ mediaObjects }: MediaGridProps) {
+export default function MediaGrid({ mediaObjects }: { mediaObjects: MediaObjectWithUser[] }) {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-4 gap-1">
             {mediaObjects.map(media => (
-                <div key={media.id} className="bg-white shadow-md rounded-lg overflow-hidden">
+                <div key={media.id} className="aspect-square border border-gray-700 p-2 flex flex-col">
                     {media.image && (
-                        <div className="relative h-48 w-full">
+                        <div className="relative flex-grow">
                             <Image
                                 src={media.image}
                                 alt={media.title}
                                 layout="fill"
                                 objectFit="cover"
-                                loader={({ src }) => src} // Use the URL directly
-                                unoptimized // Bypass Next.js image optimization
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                         </div>
                     )}
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold mb-2">{media.title}</h3>
-                        <p className="text-gray-600 mb-2">{media.type}</p>
-                        <p className="text-sm text-gray-500">By {media.creator}</p>
-                        {media.size && (
-                            <p className="text-sm text-gray-500">Size: {media.size.toUpperCase()}</p>
-                        )}
-                        <a href={media.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mt-2 inline-block">
-                            View Content
-                        </a>
+                    <div className="mt-2">
+                        <h3 className="text-sm font-semibold">{media.title}</h3>
+                        <p className="text-xs text-gray-400">{media.creator}</p>
                     </div>
                 </div>
             ))}
