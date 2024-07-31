@@ -8,16 +8,15 @@ import MediaGrid from '../components/MediaGrid';
 type BehaviorType = 'read' | 'look' | 'listen';
 type SizeType = 's' | 'm' | 'l';
 
-type ExtendedMediaObject = MediaObject & {
-  user: User;
-};
+// This type represents what we actually get from the API
+type MediaObjectWithUser = MediaObject & { user: User };
 
 export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
-  const [allMediaObjects, setAllMediaObjects] = useState<ExtendedMediaObject[]>([]);
-  const [filteredMediaObjects, setFilteredMediaObjects] = useState<ExtendedMediaObject[]>([]);
+  const [allMediaObjects, setAllMediaObjects] = useState<MediaObjectWithUser[]>([]);
+  const [filteredMediaObjects, setFilteredMediaObjects] = useState<MediaObjectWithUser[]>([]);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [selectedBehavior, setSelectedBehavior] = useState<BehaviorType | null>(null);
   const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
@@ -73,7 +72,7 @@ export default function Home() {
   const fetchAllMediaObjects = async () => {
     setIsLoading(true);
     const response = await fetch('/api/media');
-    const data: ExtendedMediaObject[] = await response.json();
+    const data: MediaObjectWithUser[] = await response.json();
     setAllMediaObjects(data);
     setIsLoading(false);
   };
