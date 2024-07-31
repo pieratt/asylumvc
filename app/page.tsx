@@ -1,25 +1,41 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { User } from '@prisma/client';
-import { useRouter } from 'next/navigation';
+import { User, MediaObject } from '@prisma/client';
+import { useRouter, useSearchParams } from 'next/navigation';
 import MediaGrid from '../components/MediaGrid';
-import { useMediaObjects } from '../hooks/useMediaObjects';
 
 type BehaviorType = 'read' | 'look' | 'listen';
 type SizeType = 's' | 'm' | 'l';
 
 export default function Home() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
+  const [allMediaObjects, setAllMediaObjects] = useState<MediaObject[]>([]);
+  const [filteredMediaObjects, setFilteredMediaObjects] = useState<MediaObject[]>([]);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [selectedBehavior, setSelectedBehavior] = useState<BehaviorType | null>(null);
   const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
-  const { mediaObjects, isLoading } = useMediaObjects();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchUsers();
+    fetchAllMediaObjects();
   }, []);
+
+  useEffect(() => {
+    const user = searchParams.get('user');
+    const behavior = searchParams.get('behavior') as BehaviorType | null;
+    const size = searchParams.get('size') as SizeType | null;
+    setSelectedUser(user);
+    setSelectedBehavior(behavior);
+    setSelectedSize(size);
+  }, [searchParams]);
+
+  useEffect(() => {
+    filterMediaObjects();
+  }, [allMediaObjects, selectedUser, selectedBehavior, selectedSize]);
 
   const fetchUsers = async () => {
     const response = await fetch('/api/users');
@@ -27,27 +43,55 @@ export default function Home() {
     setUsers(data);
   };
 
+  const fetchAllMediaObjects = async () => {
+    setIsLoading(true);
+    const response = await fetch('/api/media');
+    const data = await response.json();
+    setAllMediaObjects(data);
+    setIsLoading(false);
+  };
+
+  const filterMediaObjects = () => {
+    let filtered = allMediaObjects;
+
+    if (selectedUser) {
+      filtered = filtered.filter(obj => obj.user.name === selectedUser);
+    }
+
+    if (selectedBehavior) {
+      const behaviorTypes = {
+        read: ['Book', 'Post', 'Quote', 'Tweet'],
+        look: ['Art', 'Film', 'Tiktok', 'Youtube'],
+        listen: ['Music', 'Podcast']
+      };
+      filtered = filtered.filter(obj => behaviorTypes[selectedBehavior].includes(obj.type));
+    }
+
+    if (selectedSize) {
+      filtered = filtered.filter(obj => obj.size === selectedSize);
+    }
+
+    setFilteredMediaObjects(filtered);
+  };
+
   const handleUserSelect = (username: string) => {
-    setSelectedUser(username);
-    updateURL(username, selectedBehavior, selectedSize);
+    updateURL(username === selectedUser ? null : username, selectedBehavior, selectedSize);
   };
 
   const handleBehaviorSelect = (behavior: BehaviorType) => {
-    setSelectedBehavior(behavior === selectedBehavior ? null : behavior);
     updateURL(selectedUser, behavior === selectedBehavior ? null : behavior, selectedSize);
   };
 
   const handleSizeSelect = (size: SizeType) => {
-    setSelectedSize(size === selectedSize ? null : size);
     updateURL(selectedUser, selectedBehavior, size === selectedSize ? null : size);
   };
 
   const updateURL = (user: string | null, behavior: BehaviorType | null, size: SizeType | null) => {
-    let url = '/';
-    if (user) url += `${user}/`;
-    if (behavior) url += `${behavior}/`;
-    if (size) url += `${size}`;
-    router.push(url);
+    const params = new URLSearchParams();
+    if (user) params.set('user', user);
+    if (behavior) params.set('behavior', behavior);
+    if (size) params.set('size', size);
+    router.push(`/?${params.toString()}`, { scroll: false });
   };
 
   const behaviorTypes: BehaviorType[] = ['read', 'look', 'listen'];
@@ -109,7 +153,7 @@ export default function Home() {
       {isLoading ? (
         <div className="text-center">Loading...</div>
       ) : (
-        <MediaGrid mediaObjects={mediaObjects} />
+        <MediaGrid mediaObjects={filteredMediaObjects} />
       )}
     </div>
   );
