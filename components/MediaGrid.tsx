@@ -11,6 +11,17 @@ export default function MediaGrid({ mediaObjects }: { mediaObjects: MediaObjectW
         setImageErrors(prev => ({ ...prev, [id]: true }));
     };
 
+    const cloudinaryLoader = ({ src, width }: { src: string; width: number }) => {
+        const cloudName = 'dtccopacz'; // Replace with your Cloudinary cloud name
+        const baseUrl = `https://res.cloudinary.com/${cloudName}/image/upload/`;
+        const params = `c_limit,w_${width},q_auto/`;
+
+        // Remove the base URL if it's already included in the src
+        const imagePath = src.replace(baseUrl, '');
+
+        return `${baseUrl}${params}${imagePath}`;
+    };
+
     return (
         <div className="grid grid-cols-4 gap-1">
             {mediaObjects.map(media => (
@@ -18,6 +29,7 @@ export default function MediaGrid({ mediaObjects }: { mediaObjects: MediaObjectW
                     {media.image && !imageErrors[media.id] ? (
                         <div className="relative flex-grow">
                             <Image
+                                loader={cloudinaryLoader}
                                 src={media.image}
                                 alt={media.title}
                                 layout="fill"

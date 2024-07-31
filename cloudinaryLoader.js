@@ -1,4 +1,10 @@
 export default function cloudinaryLoader({ src, width, quality }) {
-    const params = ['f_auto', 'c_limit', `w_${width}`, `q_${quality || 'auto'}`];
-    return `https://res.cloudinary.com/dtccopacz/image/upload/${params.join(',')}/${src}`;
+    const cloudName = 'dtccopacz'; // Replace with your Cloudinary cloud name
+    const baseUrl = `https://res.cloudinary.com/${cloudName}/image/upload/`;
+    const params = `c_limit,w_${width},q_${quality || 'auto'}/`;
+
+    // Remove the base URL if it's already included in the src
+    const imagePath = src.replace(baseUrl, '');
+
+    return `${baseUrl}${params}${imagePath}`;
 }
