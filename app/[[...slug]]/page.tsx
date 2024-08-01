@@ -8,64 +8,60 @@ import MediaGrid from '../../components/MediaGrid';
 type MediaObjectWithUser = MediaObject & { user: User };
 type FilterType = 'username' | 'behavior' | 'type' | 'year' | 'size' | 'creator';
 
-type State = {
-    mediaObjects: MediaObjectWithUser[];
-    filters: Record<FilterType, string | null>;
-    allPossibleValues: Record<FilterType, string[]>;
-};
-
-type Action =
-    | { type: 'SET_MEDIA_OBJECTS'; payload: MediaObjectWithUser[] }
-    | { type: 'SET_FILTER'; payload: { filterType: FilterType; value: string | null } }
-    | { type: 'SET_ALL_POSSIBLE_VALUES'; payload: Record<FilterType, string[]> }
-    | { type: 'SET_FILTERS'; payload: Record<FilterType, string | null> };
-
-const initialState: State = {
-    mediaObjects: [],
-    filters: {
-        username: null,
-        behavior: null,
-        type: null,
-        year: null,
-        size: null,
-        creator: null
-    },
-    allPossibleValues: {
-        username: [],
-        behavior: ['read', 'look', 'listen'],
-        type: [],
-        year: [],
-        size: ['s', 'm', 'l'],
-        creator: []
-    }
-};
-
-function reducer(state: State, action: Action): State {
-    switch (action.type) {
-        case 'SET_MEDIA_OBJECTS':
-            return { ...state, mediaObjects: action.payload };
-        case 'SET_FILTER':
-            return {
-                ...state,
-                filters: {
-                    ...state.filters,
-                    [action.payload.filterType]: action.payload.value
-                }
-            };
-        case 'SET_ALL_POSSIBLE_VALUES':
-            return { ...state, allPossibleValues: action.payload };
-        case 'SET_FILTERS':
-            return { ...state, filters: action.payload };
-        default:
-            return state;
-    }
-}
+// ... (keep the existing types, initial state, and reducer)
 
 const behaviorEmojis: Record<string, string> = {
     'read': '📖',
     'look': '👀',
     'listen': '🎧'
 };
+
+const FilterButton = React.memo(({
+    filterType,
+    value,
+    isSelected,
+    onClick
+}: {
+    filterType: FilterType;
+    value: string;
+    isSelected: boolean;
+    onClick: (filterType: FilterType, value: string) => void;
+}) => (
+    <button
+        onClick={() => onClick(filterType, value)}
+        className={`text-sm ${isSelected ? 'text-blue-400 font-bold' : 'text-gray-300'}`}
+    >
+        {filterType === 'behavior' ? behaviorEmojis[value] : value}
+    </button>
+));
+
+const FilterSection = React.memo(({
+    filterType,
+    values,
+    selectedValue,
+    onFilterChange
+}: {
+    filterType: FilterType;
+    values: string[];
+    selectedValue: string | null;
+    onFilterChange: (filterType: FilterType, value: string) => void;
+}) => (
+    <div className="mb-4">
+        <h3 className="text-lg font-semibold mb-2">{filterType.charAt(0).toUpperCase() + filterType.slice(1)}</h3>
+        <ul>
+            {values.map(value => (
+                <li key={value} className="mb-1">
+                    <FilterButton
+                        filterType={filterType}
+                        value={value}
+                        isSelected={selectedValue === value}
+                        onClick={onFilterChange}
+                    />
+                </li>
+            ))}
+        </ul>
+    </div>
+));
 
 const MediaGridPage: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -132,14 +128,20 @@ const MediaGridPage: React.FC = () => {
         updateFiltersFromURL();
     }, [updateFiltersFromURL]);
 
-    const handleFilter = useCallback((filterType: FilterType, value: string | null) => {
-        const newFilters = { ...state.filters, [filterType]: value };
+    const handleFilter = useCallback((filterType: FilterType, value: string) => {
+        const newFilters = { ...state.filters };
 
-        // Clear behavior if username is set, and vice versa
-        if (filterType === 'username' && value) {
-            newFilters.behavior = null;
-        } else if (filterType === 'behavior' && value) {
-            newFilters.username = null;
+        if (newFilters[filterType] === value) {
+            newFilters[filterType] = null;
+        } else {
+            newFilters[filterType] = value;
+
+            // Clear behavior if username is set, and vice versa
+            if (filterType === 'username') {
+                newFilters.behavior = null;
+            } else if (filterType === 'behavior') {
+                newFilters.username = null;
+            }
         }
 
         dispatch({ type: 'SET_FILTERS', payload: newFilters });
@@ -160,48 +162,27 @@ const MediaGridPage: React.FC = () => {
     }, [state.filters, router, fetchMediaObjects]);
 
     const filteredMediaObjects = useMemo(() => {
-        return state.mediaObjects.filter(obj =>
-            Object.entries(state.filters).every(([key, value]) =>
-                !value || obj[key as keyof MediaObjectWithUser] === value ||
-                (key === 'behavior' && getBehavior(obj.type) === value)
-            )
-        );
-    }, [state.mediaObjects, state.filters]);
-
-    const getBehavior = useCallback((type: string): string => {
-        if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
-        if (['Art', 'Film', 'Tiktok', 'Youtube'].includes(type)) return 'look';
-        return 'listen';
-    }, []);
+        return state.mediaObjects;
+    }, [state.mediaObjects]);
 
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
             <div className="w-64 p-4 border-r border-gray-700">
                 {(Object.keys(state.allPossibleValues) as FilterType[]).map(filterType => (
-                    <div key={filterType} className="mb-4">
-                        <h3 className="text-lg font-semibold mb-2">{filterType.charAt(0).toUpperCase() + filterType.slice(1)}</h3>
-                        <ul>
-                            {state.allPossibleValues[filterType].map(value => (
-                                <li key={value} className="mb-1">
-                                    <button
-                                        onClick={() => handleFilter(filterType, value === state.filters[filterType] ? null : value)}
-                                        className={`text-sm ${state.filters[filterType] === value ? 'text-blue-400 font-bold' : 'text-gray-300'}`}
-                                    >
-                                        {filterType === 'behavior' ? behaviorEmojis[value] : value}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <FilterSection
+                        key={filterType}
+                        filterType={filterType}
+                        values={state.allPossibleValues[filterType]}
+                        selectedValue={state.filters[filterType]}
+                        onFilterChange={handleFilter}
+                    />
                 ))}
             </div>
             <div className="flex-1 p-4">
                 <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
-                {isLoading ? (
-                    <div>Loading...</div>
-                ) : (
+                <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
                     <MediaGrid mediaObjects={filteredMediaObjects} />
-                )}
+                </div>
             </div>
         </div>
     );
