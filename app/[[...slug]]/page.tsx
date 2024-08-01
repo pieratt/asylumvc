@@ -17,7 +17,8 @@ type State = {
 type Action =
     | { type: 'SET_MEDIA_OBJECTS'; payload: MediaObjectWithUser[] }
     | { type: 'SET_FILTER'; payload: { filterType: FilterType; value: string | null } }
-    | { type: 'SET_ALL_POSSIBLE_VALUES'; payload: Record<FilterType, string[]> };
+    | { type: 'SET_ALL_POSSIBLE_VALUES'; payload: Record<FilterType, string[]> }
+    | { type: 'SET_FILTERS'; payload: Record<FilterType, string | null> };
 
 const initialState: State = {
     mediaObjects: [],
@@ -40,7 +41,6 @@ const initialState: State = {
 };
 
 function reducer(state: State, action: Action): State {
-    console.log('Reducer called with action:', action);
     switch (action.type) {
         case 'SET_MEDIA_OBJECTS':
             return { ...state, mediaObjects: action.payload };
@@ -54,44 +54,18 @@ function reducer(state: State, action: Action): State {
             };
         case 'SET_ALL_POSSIBLE_VALUES':
             return { ...state, allPossibleValues: action.payload };
+        case 'SET_FILTERS':
+            return { ...state, filters: action.payload };
         default:
             return state;
     }
 }
 
-class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
-    constructor(props: { children: React.ReactNode }) {
-        super(props);
-        this.state = { hasError: false };
-    }
-
-    static getDerivedStateFromError(_: Error) {
-        return { hasError: true };
-    }
-
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-        console.error('Error caught by ErrorBoundary:', error, errorInfo);
-    }
-
-    render() {
-        if (this.state.hasError) {
-            return <h1>Something went wrong. Please refresh the page.</h1>;
-        }
-
-        return this.props.children;
-    }
-}
-
-const FilterButton: React.FC<{ value: string; isSelected: boolean; onClick: () => void }> = React.memo(({ value, isSelected, onClick }) => (
-    <button
-        onClick={onClick}
-        className={`text-sm ${isSelected ? 'text-blue-400 font-bold' : 'text-gray-300'}`}
-    >
-        {value}
-    </button>
-));
-
-FilterButton.displayName = 'FilterButton';
+const behaviorEmojis: Record<string, string> = {
+    'read': '📖',
+    'look': '👀',
+    'listen': '🎧'
+};
 
 const MediaGridPage: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -100,11 +74,9 @@ const MediaGridPage: React.FC = () => {
     const searchParams = useSearchParams();
 
     const fetchMediaObjects = useCallback(async () => {
-        console.log('Fetching media objects');
         try {
             const response = await fetch('/api/media');
             const data: MediaObjectWithUser[] = await response.json();
-            console.log('Fetched media objects:', data);
             dispatch({ type: 'SET_MEDIA_OBJECTS', payload: data });
             updateAllPossibleValues(data);
         } catch (error) {
@@ -117,7 +89,6 @@ const MediaGridPage: React.FC = () => {
     }, [fetchMediaObjects]);
 
     const updateAllPossibleValues = useCallback((data: MediaObjectWithUser[]) => {
-        console.log('Updating all possible values');
         const newAllPossibleValues: Record<FilterType, string[]> = {
             user: Array.from(new Set(data.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
@@ -126,20 +97,54 @@ const MediaGridPage: React.FC = () => {
             size: ['s', 'm', 'l'],
             creator: Array.from(new Set(data.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
         };
-        console.log('New all possible values:', newAllPossibleValues);
         dispatch({ type: 'SET_ALL_POSSIBLE_VALUES', payload: newAllPossibleValues });
     }, []);
 
-    const handleFilter = useCallback((filterType: FilterType, value: string) => {
-        console.log('Handling filter:', filterType, value);
-        dispatch({
-            type: 'SET_FILTER',
-            payload: {
-                filterType,
-                value: state.filters[filterType] === value ? null : value
+    const updateFiltersFromURL = useCallback(() => {
+        const newFilters: Record<FilterType, string | null> = { ...initialState.filters };
+
+        if (params.slug) {
+            const [userOrBehavior, behavior] = params.slug as string[];
+            if (state.allPossibleValues.user.includes(userOrBehavior)) {
+                newFilters.user = userOrBehavior;
+                if (behavior) newFilters.behavior = behavior;
+            } else {
+                newFilters.behavior = userOrBehavior;
             }
-        });
-    }, [state.filters]);
+        }
+
+        const size = searchParams.get('size') as 's' | 'm' | 'l' | null;
+        if (size) newFilters.size = size;
+
+        dispatch({ type: 'SET_FILTERS', payload: newFilters });
+    }, [params.slug, searchParams, state.allPossibleValues.user]);
+
+    useEffect(() => {
+        updateFiltersFromURL();
+    }, [updateFiltersFromURL]);
+
+    const handleFilter = useCallback((filterType: FilterType, value: string | null) => {
+        const newFilters = { ...state.filters, [filterType]: value };
+        dispatch({ type: 'SET_FILTERS', payload: newFilters });
+
+        let path = '/';
+        if (newFilters.user) path += newFilters.user + '/';
+        if (newFilters.behavior) path += behaviorEmojis[newFilters.behavior] || newFilters.behavior;
+
+        const query = new URLSearchParams();
+        if (newFilters.size) query.set('size', newFilters.size);
+
+        router.push(path + (query.toString() ? '?' + query.toString() : ''), { scroll: false });
+    }, [state.filters, router]);
+
+    const filteredMedia = useMemo(() => {
+        return state.mediaObjects.filter(obj =>
+            Object.entries(state.filters).every(([key, value]) =>
+                !value || obj[key as keyof MediaObjectWithUser] === value ||
+                (key === 'behavior' && getBehavior(obj.type) === value)
+            )
+        );
+    }, [state.mediaObjects, state.filters]);
 
     const getBehavior = useCallback((type: string): string => {
         if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
@@ -147,50 +152,33 @@ const MediaGridPage: React.FC = () => {
         return 'listen';
     }, []);
 
-    const filteredMedia = useMemo(() => {
-        console.log('Filtering media objects');
-        return state.mediaObjects.filter(obj =>
-            Object.entries(state.filters).every(([key, value]) =>
-                !value ||
-                (key === 'behavior' ? getBehavior(obj.type) === value : obj[key as keyof MediaObjectWithUser] === value)
-            )
-        );
-    }, [state.mediaObjects, state.filters, getBehavior]);
-
-    useEffect(() => {
-        console.log('Current state:', state);
-    }, [state]);
-
     return (
-        <ErrorBoundary>
-            <div className="flex bg-gray-900 text-white min-h-screen">
-                <div className="w-64 p-4 border-r border-gray-700">
-                    {(Object.keys(state.allPossibleValues) as FilterType[]).map(filterType => (
-                        <div key={filterType} className="mb-4">
-                            <h3 className="text-lg font-semibold mb-2">{filterType.charAt(0).toUpperCase() + filterType.slice(1)}</h3>
-                            <ul>
-                                {state.allPossibleValues[filterType].map(value => (
-                                    <li key={value} className="mb-1">
-                                        <FilterButton
-                                            value={value}
-                                            isSelected={state.filters[filterType] === value}
-                                            onClick={() => handleFilter(filterType, value)}
-                                        />
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-                </div>
-                <div className="flex-1 p-4">
-                    <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
-                    <MediaGrid mediaObjects={filteredMedia} />
-                </div>
+        <div className="flex bg-gray-900 text-white min-h-screen">
+            <div className="w-64 p-4 border-r border-gray-700">
+                {(Object.keys(state.allPossibleValues) as FilterType[]).map(filterType => (
+                    <div key={filterType} className="mb-4">
+                        <h3 className="text-lg font-semibold mb-2">{filterType.charAt(0).toUpperCase() + filterType.slice(1)}</h3>
+                        <ul>
+                            {state.allPossibleValues[filterType].map(value => (
+                                <li key={value} className="mb-1">
+                                    <button
+                                        onClick={() => handleFilter(filterType, value === state.filters[filterType] ? null : value)}
+                                        className={`text-sm ${state.filters[filterType] === value ? 'text-blue-400 font-bold' : 'text-gray-300'}`}
+                                    >
+                                        {filterType === 'behavior' ? behaviorEmojis[value] : value}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
             </div>
-        </ErrorBoundary>
+            <div className="flex-1 p-4">
+                <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
+                <MediaGrid mediaObjects={filteredMedia} />
+            </div>
+        </div>
     );
 };
-
-MediaGridPage.displayName = 'MediaGridPage';
 
 export default MediaGridPage;
