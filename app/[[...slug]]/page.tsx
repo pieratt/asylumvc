@@ -70,25 +70,6 @@ export default function MediaGridPage() {
         return 'listen';
     };
 
-    const updateURL = () => {
-        const segments = [];
-        if (selectedUser) segments.push(selectedUser);
-        if (selectedBehavior) segments.push(selectedBehavior);
-        if (selectedType) segments.push(selectedType);
-        if (selectedYear) segments.push(selectedYear);
-        if (selectedSize) segments.push(selectedSize);
-
-        let url = '/' + segments.join('/');
-
-        const queryParams = new URLSearchParams();
-        if (selectedCreator) queryParams.set('creator', selectedCreator);
-
-        const queryString = queryParams.toString();
-        if (queryString) url += `?${queryString}`;
-
-        router.push(url);
-    };
-
     const handleFilter = (filterType: string, value: string | null) => {
         let newUser = selectedUser;
         let newBehavior = selectedBehavior;
