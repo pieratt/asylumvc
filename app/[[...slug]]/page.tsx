@@ -79,19 +79,6 @@ export default function MediaGridPage() {
         return 'listen';
     };
 
-    const updateURL = (user: string | null, behavior: BehaviorType | null, type: string | null, year: string | null, size: SizeType | null, creator: string | null) => {
-        const segments = [user, behavior, type, year, size].filter(Boolean);
-        let url = '/' + segments.join('/');
-
-        const queryParams = new URLSearchParams();
-        if (creator) queryParams.set('creator', creator);
-
-        const queryString = queryParams.toString();
-        if (queryString) url += `?${queryString}`;
-
-        router.push(url);
-    };
-
     const handleFilter = (filterType: string, value: string | null) => {
         let newUser = selectedUser;
         let newBehavior = selectedBehavior;
@@ -130,6 +117,18 @@ export default function MediaGridPage() {
         updateURL(newUser, newBehavior, newType, newYear, newSize, newCreator);
     };
 
+    const updateURL = (user: string | null, behavior: BehaviorType | null, type: string | null, year: string | null, size: SizeType | null, creator: string | null) => {
+        const segments = [user, behavior, type, year, size].filter(Boolean);
+        let url = '/' + segments.join('/');
+
+        const queryParams = new URLSearchParams();
+        if (creator) queryParams.set('creator', creator);
+
+        const queryString = queryParams.toString();
+        if (queryString) url += `?${queryString}`;
+
+        router.push(url);
+    };
    
 
     const filteredMedia = mediaObjects.filter(obj =>
