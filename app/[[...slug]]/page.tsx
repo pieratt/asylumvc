@@ -145,13 +145,13 @@ export default function MediaGridPage() {
     const creators = getUniqueValues('creator');
 
     const filterCategories = useMemo(() => [
-        { title: 'Users', values: users, filterType: 'user', selected: selectedUser },
+        { title: 'Users', values: getUniqueValues('user'), filterType: 'user', selected: selectedUser },
         { title: 'Behaviors', values: ['read', 'look', 'listen'], filterType: 'behavior', selected: selectedBehavior },
-        { title: 'Types', values: types, filterType: 'type', selected: selectedType },
-        { title: 'Years', values: years, filterType: 'year', selected: selectedYear },
+        { title: 'Types', values: getUniqueValues('type'), filterType: 'type', selected: selectedType },
+        { title: 'Years', values: getUniqueValues('year'), filterType: 'year', selected: selectedYear },
         { title: 'Sizes', values: ['s', 'm', 'l'], filterType: 'size', selected: selectedSize },
-        { title: 'Creators', values: creators, filterType: 'creator', selected: selectedCreator },
-    ], [users, types, years, creators, selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
+        { title: 'Creators', values: getUniqueValues('creator'), filterType: 'creator', selected: selectedCreator },
+    ], [mediaObjects, selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
 
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
@@ -176,7 +176,12 @@ export default function MediaGridPage() {
                                     <li key={value} className="mb-1">
                                         <button
                                             onClick={() => handleFilter(filterType, value)}
-                                            className={`text-sm ${selected === value ? 'text-blue-400' : isApplicable ? 'text-gray-400' : 'text-gray-600'}`}
+                                            className={`text-sm ${selected === value
+                                                    ? 'text-blue-400'
+                                                    : isApplicable
+                                                        ? 'text-gray-400'
+                                                        : 'text-gray-600 opacity-50 cursor-not-allowed'
+                                                }`}
                                             disabled={!isApplicable}
                                         >
                                             {value}
@@ -194,4 +199,3 @@ export default function MediaGridPage() {
             </div>
         </div>
     );
-}
