@@ -52,9 +52,9 @@ export default function MediaGridPage() {
             user: Array.from(new Set(mediaObjects.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
             type: Array.from(new Set(mediaObjects.map(obj => obj.type))),
-            year: Array.from(new Set(mediaObjects.map(obj => obj.year?.toString()).filter(Boolean))),
+            year: Array.from(new Set(mediaObjects.map(obj => obj.year?.toString()).filter((year): year is string => year !== undefined && year !== null))),
             size: ['s', 'm', 'l'],
-            creator: Array.from(new Set(mediaObjects.map(obj => obj.creator).filter(Boolean)))
+            creator: Array.from(new Set(mediaObjects.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
         };
         setAllPossibleValues(newAllPossibleValues);
     }, [mediaObjects]);
@@ -66,6 +66,9 @@ export default function MediaGridPage() {
     };
 
     const handleFilter = (filterType: string, value: string | null) => {
+        console.log(`Filter clicked: ${filterType}, value: ${value}`);
+        console.log('Current state:', { selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator });
+
         let newUser = selectedUser;
         let newBehavior = selectedBehavior;
         let newType = selectedType;
@@ -99,6 +102,8 @@ export default function MediaGridPage() {
                 setSelectedCreator(newCreator);
                 break;
         }
+
+        console.log('New state:', { newUser, newBehavior, newType, newYear, newSize, newCreator });
 
         updateURL(newUser, newBehavior, newType, newYear, newSize, newCreator);
     };
@@ -150,7 +155,7 @@ export default function MediaGridPage() {
         <div className="flex bg-gray-900 text-white min-h-screen">
             <div className="w-64 p-4 border-r border-gray-700">
                 {filterCategories.map(({ title, values, filterType, selected }) => (
-                    <div key={filterType} className="mb-4">
+                    <div key={`${filterType}-${values.length}`} className="mb-4">
                         <h3 className="text-lg font-semibold mb-2">{title}</h3>
                         <ul>
                             {values.map(value => {
