@@ -88,7 +88,9 @@ const FilterButton = React.memo(({ value, isSelected, onClick }: { value: string
     </button>
 ));
 
-export default function MediaGridPage() {
+FilterButton.displayName = 'FilterButton';
+
+const MediaGridPage: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const router = useRouter();
     const params = useParams();
@@ -184,4 +186,8 @@ export default function MediaGridPage() {
             </div>
         </ErrorBoundary>
     );
-}
+};
+
+MediaGridPage.displayName = 'MediaGridPage';
+
+export default MediaGridPage;

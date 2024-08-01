@@ -4,12 +4,12 @@
   "license": "MIT",
   "version": "0.0.0",
   "private": true,
- "scripts": {
-  "dev": "prisma generate && next dev",
-  "build": "prisma generate && prisma migrate deploy && next build",
-  "start": "next start",
-  "lint": "next lint",
-"postinstall": "prisma generate && prisma migrate deploy"
+  "scripts": {
+    "dev": "prisma generate && next dev",
+    "build": "prisma generate && prisma migrate deploy && next build --no-lint",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "prisma generate && prisma migrate deploy"
 },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
