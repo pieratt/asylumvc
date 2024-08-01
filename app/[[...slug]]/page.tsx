@@ -52,9 +52,9 @@ export default function MediaGridPage() {
             user: Array.from(new Set(mediaObjects.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
             type: Array.from(new Set(mediaObjects.map(obj => obj.type))),
-            year: Array.from(new Set(mediaObjects.map(obj => obj.year?.toString()).filter(Boolean))),
+            year: Array.from(new Set(mediaObjects.map(obj => obj.year?.toString()).filter((year): year is string => year !== undefined && year !== null))),
             size: ['s', 'm', 'l'],
-            creator: Array.from(new Set(mediaObjects.map(obj => obj.creator).filter(Boolean)))
+            creator: Array.from(new Set(mediaObjects.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
         };
         setAllFilterValues(newAllFilterValues);
     }, [mediaObjects]);
