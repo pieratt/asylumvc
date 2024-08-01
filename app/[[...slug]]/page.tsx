@@ -1,65 +1,11 @@
 'use client';
 
-import React, { useReducer, useEffect, useCallback, useMemo, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MediaObject, User } from '@prisma/client';
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import MediaGrid from '../../components/MediaGrid';
 
 type MediaObjectWithUser = MediaObject & { user: User };
 type FilterType = 'username' | 'behavior' | 'type' | 'year' | 'size' | 'creator';
-
-type State = {
-    mediaObjects: MediaObjectWithUser[];
-    filters: Record<FilterType, string | null>;
-    allPossibleValues: Record<FilterType, string[]>;
-};
-
-type Action =
-    | { type: 'SET_MEDIA_OBJECTS'; payload: MediaObjectWithUser[] }
-    | { type: 'SET_FILTER'; payload: { filterType: FilterType; value: string | null } }
-    | { type: 'SET_ALL_POSSIBLE_VALUES'; payload: Record<FilterType, string[]> }
-    | { type: 'SET_FILTERS'; payload: Record<FilterType, string | null> };
-
-const initialState: State = {
-    mediaObjects: [],
-    filters: {
-        username: null,
-        behavior: null,
-        type: null,
-        year: null,
-        size: null,
-        creator: null
-    },
-    allPossibleValues: {
-        username: [],
-        behavior: ['read', 'look', 'listen'],
-        type: [],
-        year: [],
-        size: ['s', 'm', 'l'],
-        creator: []
-    }
-};
-
-function reducer(state: State, action: Action): State {
-    switch (action.type) {
-        case 'SET_MEDIA_OBJECTS':
-            return { ...state, mediaObjects: action.payload };
-        case 'SET_FILTER':
-            return {
-                ...state,
-                filters: {
-                    ...state.filters,
-                    [action.payload.filterType]: action.payload.value
-                }
-            };
-        case 'SET_ALL_POSSIBLE_VALUES':
-            return { ...state, allPossibleValues: action.payload };
-        case 'SET_FILTERS':
-            return { ...state, filters: action.payload };
-        default:
-            return state;
-    }
-}
 
 const behaviorEmojis: Record<string, string> = {
     'read': '📖',
@@ -67,61 +13,27 @@ const behaviorEmojis: Record<string, string> = {
     'listen': '🎧'
 };
 
-const FilterButton = React.memo(({
-    filterType,
-    value,
-    isSelected,
-    onClick
-}: {
-    filterType: FilterType;
-    value: string;
-    isSelected: boolean;
-    onClick: (filterType: FilterType, value: string) => void;
-}) => (
-    <button
-        onClick={() => onClick(filterType, value)}
-        className={`text-sm ${isSelected ? 'text-blue-400 font-bold' : 'text-gray-300'}`}
-    >
-        {filterType === 'behavior' ? behaviorEmojis[value] : value}
-    </button>
-));
-
-const FilterSection = React.memo(({
-    filterType,
-    values,
-    selectedValue,
-    onFilterChange
-}: {
-    filterType: FilterType;
-    values: string[];
-    selectedValue: string | null;
-    onFilterChange: (filterType: FilterType, value: string) => void;
-}) => (
-    <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-2">{filterType.charAt(0).toUpperCase() + filterType.slice(1)}</h3>
-        <ul>
-            {values.map(value => (
-                <li key={value} className="mb-1">
-                    <FilterButton
-                        filterType={filterType}
-                        value={value}
-                        isSelected={selectedValue === value}
-                        onClick={onFilterChange}
-                    />
-                </li>
-            ))}
-        </ul>
-    </div>
-));
-
 const MediaGridPage: React.FC = () => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [mediaObjects, setMediaObjects] = useState<MediaObjectWithUser[]>([]);
+    const [filters, setFilters] = useState<Record<FilterType, string | null>>({
+        username: null,
+        behavior: null,
+        type: null,
+        year: null,
+        size: null,
+        creator: null
+    });
+    const [allPossibleValues, setAllPossibleValues] = useState<Record<FilterType, string[]>>({
+        username: [],
+        behavior: ['read', 'look', 'listen'],
+        type: [],
+        year: [],
+        size: ['s', 'm', 'l'],
+        creator: []
+    });
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
-    const params = useParams();
-    const searchParams = useSearchParams();
 
-    const fetchMediaObjects = useCallback(async (filters: Record<FilterType, string | null>) => {
+    const fetchMediaObjects = useCallback(async () => {
         setIsLoading(true);
         const queryParams = new URLSearchParams();
         Object.entries(filters).forEach(([key, value]) => {
@@ -131,109 +43,83 @@ const MediaGridPage: React.FC = () => {
         try {
             const response = await fetch(`/api/media?${queryParams.toString()}`);
             const data: MediaObjectWithUser[] = await response.json();
-            dispatch({ type: 'SET_MEDIA_OBJECTS', payload: data });
+            setMediaObjects(data);
             updateAllPossibleValues(data);
         } catch (error) {
             console.error('Error fetching media objects:', error);
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [filters]);
 
-    const updateAllPossibleValues = useCallback((data: MediaObjectWithUser[]) => {
-        const newAllPossibleValues: Record<FilterType, string[]> = {
+    const updateAllPossibleValues = (data: MediaObjectWithUser[]) => {
+        setAllPossibleValues({
             username: Array.from(new Set(data.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
             type: Array.from(new Set(data.map(obj => obj.type))),
-            year: Array.from(new Set(data.map(obj => obj.year?.toString()).filter((year): year is string => year !== undefined && year !== null))),
+            year: Array.from(new Set(data.map(obj => obj.year?.toString()).filter(Boolean))),
             size: ['s', 'm', 'l'],
-            creator: Array.from(new Set(data.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
-        };
-        dispatch({ type: 'SET_ALL_POSSIBLE_VALUES', payload: newAllPossibleValues });
-    }, []);
-
-    const updateFiltersFromURL = useCallback(() => {
-        const newFilters: Record<FilterType, string | null> = { ...initialState.filters };
-
-        if (params.slug) {
-            const [usernameOrBehavior, behavior] = params.slug as string[];
-            if (state.allPossibleValues.username.includes(usernameOrBehavior)) {
-                newFilters.username = usernameOrBehavior;
-                if (behavior) newFilters.behavior = behavior;
-            } else {
-                newFilters.behavior = usernameOrBehavior;
-            }
-        }
-
-        searchParams.forEach((value, key) => {
-            if (key in newFilters) {
-                newFilters[key as FilterType] = value;
-            }
+            creator: Array.from(new Set(data.map(obj => obj.creator).filter(Boolean)))
         });
-
-        dispatch({ type: 'SET_FILTERS', payload: newFilters });
-        fetchMediaObjects(newFilters);
-    }, [params.slug, searchParams, state.allPossibleValues.username, fetchMediaObjects]);
+    };
 
     useEffect(() => {
-        updateFiltersFromURL();
-    }, [updateFiltersFromURL]);
+        fetchMediaObjects();
+    }, [fetchMediaObjects]);
 
-    const handleFilter = useCallback((filterType: FilterType, value: string) => {
-        const newFilters = { ...state.filters };
-
-        if (newFilters[filterType] === value) {
-            newFilters[filterType] = null;
-        } else {
-            newFilters[filterType] = value;
-
-            // Clear behavior if username is set, and vice versa
-            if (filterType === 'username') {
-                newFilters.behavior = null;
-            } else if (filterType === 'behavior') {
-                newFilters.username = null;
+    const handleFilter = (filterType: FilterType, value: string) => {
+        setFilters(prevFilters => {
+            const newFilters = { ...prevFilters };
+            if (newFilters[filterType] === value) {
+                newFilters[filterType] = null;
+            } else {
+                newFilters[filterType] = value;
+                if (filterType === 'username') {
+                    newFilters.behavior = null;
+                } else if (filterType === 'behavior') {
+                    newFilters.username = null;
+                }
             }
-        }
-
-        dispatch({ type: 'SET_FILTERS', payload: newFilters });
-
-        let path = '/';
-        if (newFilters.username) path += newFilters.username + '/';
-        if (newFilters.behavior) path += behaviorEmojis[newFilters.behavior] || newFilters.behavior;
-
-        const query = new URLSearchParams();
-        Object.entries(newFilters).forEach(([key, value]) => {
-            if (value && key !== 'username' && key !== 'behavior') {
-                query.set(key, value);
-            }
+            return newFilters;
         });
+    };
 
-        router.push(path + (query.toString() ? '?' + query.toString() : ''), { scroll: false });
-        fetchMediaObjects(newFilters);
-    }, [state.filters, router, fetchMediaObjects]);
-
-    const filteredMediaObjects = useMemo(() => {
-        return state.mediaObjects;
-    }, [state.mediaObjects]);
+    const FilterButton: React.FC<{ filterType: FilterType; value: string; isSelected: boolean }> = ({ filterType, value, isSelected }) => (
+        <button
+            onClick={() => handleFilter(filterType, value)}
+            className={`text-sm ${isSelected ? 'text-blue-400 font-bold' : 'text-gray-300'}`}
+        >
+            {filterType === 'behavior' ? behaviorEmojis[value] : value}
+        </button>
+    );
 
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
             <div className="w-64 p-4 border-r border-gray-700">
-                {(Object.keys(state.allPossibleValues) as FilterType[]).map(filterType => (
-                    <FilterSection
-                        key={filterType}
-                        filterType={filterType}
-                        values={state.allPossibleValues[filterType]}
-                        selectedValue={state.filters[filterType]}
-                        onFilterChange={handleFilter}
-                    />
+                {(Object.keys(allPossibleValues) as FilterType[]).map(filterType => (
+                    <div key={filterType} className="mb-4">
+                        <h3 className="text-lg font-semibold mb-2">{filterType.charAt(0).toUpperCase() + filterType.slice(1)}</h3>
+                        <ul>
+                            {allPossibleValues[filterType].map(value => (
+                                <li key={value} className="mb-1">
+                                    <FilterButton
+                                        filterType={filterType}
+                                        value={value}
+                                        isSelected={filters[filterType] === value}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 ))}
             </div>
             <div className="flex-1 p-4">
                 <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
-                <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
-                    <MediaGrid mediaObjects={filteredMediaObjects} />
-                </div>
+                {isLoading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <MediaGrid mediaObjects={mediaObjects} />
+                )}
             </div>
         </div>
     );
