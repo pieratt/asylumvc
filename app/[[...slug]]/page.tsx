@@ -20,6 +20,14 @@ export default function MediaGridPage() {
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [selectedYear, setSelectedYear] = useState<string | null>(null);
     const [selectedCreator, setSelectedCreator] = useState<string | null>(null);
+    const [allFilterValues, setAllFilterValues] = useState<Record<string, string[]>>({
+        user: [],
+        behavior: ['read', 'look', 'listen'],
+        type: [],
+        year: [],
+        size: ['s', 'm', 'l'],
+        creator: []
+    });
 
     const fetchMediaObjects = useCallback(async () => {
         const queryParams = new URLSearchParams();
@@ -40,14 +48,14 @@ export default function MediaGridPage() {
     }, [fetchMediaObjects]);
 
     useEffect(() => {
-        const [allFilterValues, setAllFilterValues] = useState<Record<string, string[]>>({
-            user: [],
+        const newAllFilterValues = {
+            user: Array.from(new Set(mediaObjects.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
-            type: [],
-            year: [],
+            type: Array.from(new Set(mediaObjects.map(obj => obj.type))),
+            year: Array.from(new Set(mediaObjects.map(obj => obj.year?.toString()).filter(Boolean))),
             size: ['s', 'm', 'l'],
-            creator: []
-        });
+            creator: Array.from(new Set(mediaObjects.map(obj => obj.creator).filter(Boolean)))
+        };
         setAllFilterValues(newAllFilterValues);
     }, [mediaObjects]);
 
