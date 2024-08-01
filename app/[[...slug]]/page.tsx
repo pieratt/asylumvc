@@ -59,6 +59,20 @@ export default function MediaGridPage() {
         setAllPossibleValues(newAllPossibleValues);
     }, [mediaObjects]);
 
+    const getApplicableValues = useCallback((filterType: string) => {
+        return Array.from(new Set(filteredMedia.map(obj => {
+            switch (filterType) {
+                case 'user': return obj.user.name;
+                case 'behavior': return getBehavior(obj.type);
+                case 'type': return obj.type;
+                case 'year': return obj.year?.toString();
+                case 'size': return obj.size;
+                case 'creator': return obj.creator;
+                default: return null;
+            }
+        }).filter((value): value is string => value !== null && value !== undefined)));
+    }, [filteredMedia]);
+
     const getBehavior = (type: string): BehaviorType => {
         if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
         if (['Art', 'Film', 'Tiktok', 'Youtube'].includes(type)) return 'look';
@@ -155,21 +169,11 @@ export default function MediaGridPage() {
         <div className="flex bg-gray-900 text-white min-h-screen">
             <div className="w-64 p-4 border-r border-gray-700">
                 {filterCategories.map(({ title, values, filterType, selected }) => (
-                    <div key={`${filterType}-${values.length}`} className="mb-4">
+                    <div key={filterType} className="mb-4">
                         <h3 className="text-lg font-semibold mb-2">{title}</h3>
                         <ul>
                             {values.map(value => {
-                                const isApplicable = filteredMedia.some(obj => {
-                                    switch (filterType) {
-                                        case 'user': return obj.user.name === value;
-                                        case 'behavior': return getBehavior(obj.type) === value;
-                                        case 'type': return obj.type === value;
-                                        case 'year': return obj.year?.toString() === value;
-                                        case 'size': return obj.size === value;
-                                        case 'creator': return obj.creator === value;
-                                        default: return false;
-                                    }
-                                });
+                                const isApplicable = getApplicableValues(filterType).includes(value);
                                 return (
                                     <li key={value} className="mb-1">
                                         <button
