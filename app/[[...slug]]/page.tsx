@@ -89,30 +89,55 @@ export default function MediaGridPage() {
         router.push(url);
     };
 
-    const handleFilter = (filterType: string, value: string | null | undefined) => {
-        if (value === undefined) return;  // Do nothing if value is undefined
+    const handleFilter = (filterType: string, value: string | null) => {
+        let newUser = selectedUser;
+        let newBehavior = selectedBehavior;
+        let newType = selectedType;
+        let newYear = selectedYear;
+        let newSize = selectedSize;
+        let newCreator = selectedCreator;
 
         switch (filterType) {
             case 'user':
-                setSelectedUser(value === selectedUser ? null : value);
+                newUser = value === selectedUser ? null : value;
+                setSelectedUser(newUser);
                 break;
             case 'behavior':
-                setSelectedBehavior(value === selectedBehavior ? null : value as BehaviorType | null);
+                newBehavior = value === selectedBehavior ? null : value as BehaviorType | null;
+                setSelectedBehavior(newBehavior);
                 break;
             case 'type':
-                setSelectedType(value === selectedType ? null : value);
+                newType = value === selectedType ? null : value;
+                setSelectedType(newType);
                 break;
             case 'year':
-                setSelectedYear(value === selectedYear ? null : value);
+                newYear = value === selectedYear ? null : value;
+                setSelectedYear(newYear);
                 break;
             case 'size':
-                setSelectedSize(value === selectedSize ? null : value as SizeType | null);
+                newSize = value === selectedSize ? null : value as SizeType | null;
+                setSelectedSize(newSize);
                 break;
             case 'creator':
-                setSelectedCreator(value === selectedCreator ? null : value);
+                newCreator = value === selectedCreator ? null : value;
+                setSelectedCreator(newCreator);
                 break;
         }
-        updateURL();
+
+        updateURL(newUser, newBehavior, newType, newYear, newSize, newCreator);
+    };
+
+    const updateURL = (user: string | null, behavior: BehaviorType | null, type: string | null, year: string | null, size: SizeType | null, creator: string | null) => {
+        const segments = [user, behavior, type, year, size].filter(Boolean);
+        let url = '/' + segments.join('/');
+
+        const queryParams = new URLSearchParams();
+        if (creator) queryParams.set('creator', creator);
+
+        const queryString = queryParams.toString();
+        if (queryString) url += `?${queryString}`;
+
+        router.push(url);
     };
 
     const filteredMedia = mediaObjects.filter(obj =>
@@ -132,6 +157,15 @@ export default function MediaGridPage() {
             return obj[key]?.toString();
         }))).filter((value): value is string => value !== undefined && value !== null);
 
+    const filterCategories = [
+        { title: 'Users', values: users, filterType: 'user', selected: selectedUser },
+        { title: 'Behaviors', values: ['read', 'look', 'listen'], filterType: 'behavior', selected: selectedBehavior },
+        { title: 'Types', values: types, filterType: 'type', selected: selectedType },
+        { title: 'Years', values: years, filterType: 'year', selected: selectedYear },
+        { title: 'Sizes', values: ['s', 'm', 'l'], filterType: 'size', selected: selectedSize },
+        { title: 'Creators', values: creators, filterType: 'creator', selected: selectedCreator },
+    ];
+
     const users = getUniqueValues('user');
     const types = getUniqueValues('type');
     const years = getUniqueValues('year');
@@ -140,28 +174,34 @@ export default function MediaGridPage() {
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
             <div className="w-64 p-4 border-r border-gray-700">
-                <h2 className="text-xl font-bold mb-4">Filters</h2>
-                {[
-                    { title: 'Users', values: users, filterType: 'user', selected: selectedUser },
-                    { title: 'Behaviors', values: ['read', 'look', 'listen'], filterType: 'behavior', selected: selectedBehavior },
-                    { title: 'Types', values: types, filterType: 'type', selected: selectedType },
-                    { title: 'Years', values: years, filterType: 'year', selected: selectedYear },
-                    { title: 'Sizes', values: ['s', 'm', 'l'], filterType: 'size', selected: selectedSize },
-                    { title: 'Creators', values: creators, filterType: 'creator', selected: selectedCreator },
-                ].map(({ title, values, filterType, selected }) => (
+                {filterCategories.map(({ title, values, filterType, selected }) => (
                     <div key={filterType} className="mb-4">
                         <h3 className="text-lg font-semibold mb-2">{title}</h3>
                         <ul>
-                            {values.map(value => (
-                                <li key={value} className="mb-1">
-                                    <button
-                                        onClick={() => handleFilter(filterType, value === selected ? null : value)}
-                                        className={`text-sm ${selected === value ? 'text-blue-400' : 'text-gray-400'}`}
-                                    >
-                                        {value}
-                                    </button>
-                                </li>
-                            ))}
+                            {values.map(value => {
+                                const isApplicable = mediaObjects.some(obj => {
+                                    switch (filterType) {
+                                        case 'user': return obj.user.name === value;
+                                        case 'behavior': return getBehavior(obj.type) === value;
+                                        case 'type': return obj.type === value;
+                                        case 'year': return obj.year?.toString() === value;
+                                        case 'size': return obj.size === value;
+                                        case 'creator': return obj.creator === value;
+                                        default: return false;
+                                    }
+                                });
+                                return (
+                                    <li key={value} className="mb-1">
+                                        <button
+                                            onClick={() => handleFilter(filterType, value)}
+                                            className={`text-sm ${selected === value ? 'text-blue-400' : isApplicable ? 'text-gray-400' : 'text-gray-600'}`}
+                                            disabled={!isApplicable}
+                                        >
+                                            {value}
+                                        </button>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                 ))}
