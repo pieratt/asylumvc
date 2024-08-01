@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { MediaObject, User } from '@prisma/client';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import MediaGrid from '../../components/MediaGrid';
@@ -21,15 +21,6 @@ export default function MediaGridPage() {
     const [selectedYear, setSelectedYear] = useState<string | null>(null);
     const [selectedCreator, setSelectedCreator] = useState<string | null>(null);
 
-    const filterCategories = [
-        { title: 'Users', values: users, filterType: 'user', selected: selectedUser },
-        { title: 'Behaviors', values: ['read', 'look', 'listen'], filterType: 'behavior', selected: selectedBehavior },
-        { title: 'Types', values: types, filterType: 'type', selected: selectedType },
-        { title: 'Years', values: years, filterType: 'year', selected: selectedYear },
-        { title: 'Sizes', values: ['s', 'm', 'l'], filterType: 'size', selected: selectedSize },
-        { title: 'Creators', values: creators, filterType: 'creator', selected: selectedCreator },
-    ];
-
     const fetchMediaObjects = useCallback(async () => {
         const queryParams = new URLSearchParams();
         if (selectedUser) queryParams.set('username', selectedUser);
@@ -47,6 +38,7 @@ export default function MediaGridPage() {
     useEffect(() => {
         fetchMediaObjects();
     }, [fetchMediaObjects]);
+
     useEffect(() => {
         const segments = (params.slug as string[] | undefined) || [];
         let userSet = false, behaviorSet = false, typeSet = false, yearSet = false, sizeSet = false;
@@ -129,7 +121,6 @@ export default function MediaGridPage() {
 
         router.push(url);
     };
-   
 
     const filteredMedia = mediaObjects.filter(obj =>
         (!selectedUser || obj.user.name === selectedUser) &&
@@ -148,11 +139,19 @@ export default function MediaGridPage() {
             return obj[key]?.toString();
         }))).filter((value): value is string => value !== undefined && value !== null);
 
-
     const users = getUniqueValues('user');
     const types = getUniqueValues('type');
     const years = getUniqueValues('year');
     const creators = getUniqueValues('creator');
+
+    const filterCategories = useMemo(() => [
+        { title: 'Users', values: users, filterType: 'user', selected: selectedUser },
+        { title: 'Behaviors', values: ['read', 'look', 'listen'], filterType: 'behavior', selected: selectedBehavior },
+        { title: 'Types', values: types, filterType: 'type', selected: selectedType },
+        { title: 'Years', values: years, filterType: 'year', selected: selectedYear },
+        { title: 'Sizes', values: ['s', 'm', 'l'], filterType: 'size', selected: selectedSize },
+        { title: 'Creators', values: creators, filterType: 'creator', selected: selectedCreator },
+    ], [users, types, years, creators, selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
 
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
