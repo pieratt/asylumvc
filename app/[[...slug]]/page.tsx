@@ -118,13 +118,13 @@ const MediaGridPage: React.FC = () => {
 
     const updateAllPossibleValues = useCallback((data: MediaObjectWithUser[]) => {
         console.log('Updating all possible values');
-        const newAllPossibleValues = {
+        const newAllPossibleValues: Record<FilterType, string[]> = {
             user: Array.from(new Set(data.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
             type: Array.from(new Set(data.map(obj => obj.type))),
-            year: Array.from(new Set(data.map(obj => obj.year?.toString()).filter(Boolean))),
+            year: Array.from(new Set(data.map(obj => obj.year?.toString()).filter((year): year is string => year !== undefined && year !== null))),
             size: ['s', 'm', 'l'],
-            creator: Array.from(new Set(data.map(obj => obj.creator).filter(Boolean)))
+            creator: Array.from(new Set(data.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
         };
         console.log('New all possible values:', newAllPossibleValues);
         dispatch({ type: 'SET_ALL_POSSIBLE_VALUES', payload: newAllPossibleValues });
