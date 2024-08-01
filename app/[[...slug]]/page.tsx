@@ -80,25 +80,27 @@ export default function MediaGridPage() {
         router.push(url);
     };
 
-    const handleFilter = (filterType: string, value: string | null) => {
+    const handleFilter = (filterType: string, value: string | null | undefined) => {
+        if (value === undefined) return;  // Do nothing if value is undefined
+
         switch (filterType) {
             case 'user':
-                setSelectedUser(value);
+                setSelectedUser(value === selectedUser ? null : value);
                 break;
             case 'behavior':
-                setSelectedBehavior(value as BehaviorType | null);
+                setSelectedBehavior(value === selectedBehavior ? null : value as BehaviorType | null);
                 break;
             case 'type':
-                setSelectedType(value);
+                setSelectedType(value === selectedType ? null : value);
                 break;
             case 'year':
-                setSelectedYear(value);
+                setSelectedYear(value === selectedYear ? null : value);
                 break;
             case 'size':
-                setSelectedSize(value as SizeType | null);
+                setSelectedSize(value === selectedSize ? null : value as SizeType | null);
                 break;
             case 'creator':
-                setSelectedCreator(value);
+                setSelectedCreator(value === selectedCreator ? null : value);
                 break;
         }
 
