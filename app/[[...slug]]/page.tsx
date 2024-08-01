@@ -59,27 +59,30 @@ function reducer(state: State, action: Action): State {
     }
 }
 
-function ErrorBoundary({ children }: { children: React.ReactNode }) {
-    const [hasError, setHasError] = React.useState(false);
-
-    React.useEffect(() => {
-        if (hasError) {
-            console.error('Error boundary caught an error');
-        }
-    }, [hasError]);
-
-    if (hasError) {
-        return <h1>Something went wrong. Please refresh the page.</h1>;
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+    constructor(props: { children: React.ReactNode }) {
+        super(props);
+        this.state = { hasError: false };
     }
 
-    return (
-        <React.ErrorBoundary fallback={<h1>Something went wrong</h1>} onError={() => setHasError(true)}>
-            {children}
-        </React.ErrorBoundary>
-    );
+    static getDerivedStateFromError(_: Error) {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+        console.error('Error caught by ErrorBoundary:', error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <h1>Something went wrong. Please refresh the page.</h1>;
+        }
+
+        return this.props.children;
+    }
 }
 
-const FilterButton = React.memo(({ value, isSelected, onClick }: { value: string; isSelected: boolean; onClick: () => void }) => (
+const FilterButton: React.FC<{ value: string; isSelected: boolean; onClick: () => void }> = React.memo(({ value, isSelected, onClick }) => (
     <button
         onClick={onClick}
         className={`text-sm ${isSelected ? 'text-blue-400 font-bold' : 'text-gray-300'}`}
