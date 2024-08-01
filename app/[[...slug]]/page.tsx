@@ -89,7 +89,9 @@ export default function MediaGridPage() {
         router.push(url);
     };
 
-    const handleFilter = (filterType: string, value: string | null) => {
+    const handleFilter = (filterType: string, value: string | null | undefined) => {
+        if (value === undefined) return;  // Do nothing if value is undefined
+
         switch (filterType) {
             case 'user':
                 setSelectedUser(value === selectedUser ? null : value);
@@ -125,10 +127,10 @@ export default function MediaGridPage() {
     const getUniqueValues = (key: keyof MediaObjectWithUser) =>
         Array.from(new Set(mediaObjects.map(obj => {
             if (key === 'user') {
-                return obj.user.name;
+                return obj.user?.name;
             }
             return obj[key]?.toString();
-        }))).filter(Boolean);
+        }))).filter((value): value is string => value !== undefined && value !== null);
 
     const users = getUniqueValues('user');
     const types = getUniqueValues('type');
