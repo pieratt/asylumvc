@@ -52,9 +52,9 @@ export default function MediaGridPage() {
             user: Array.from(new Set(mediaObjects.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
             type: Array.from(new Set(mediaObjects.map(obj => obj.type))),
-            year: Array.from(new Set(mediaObjects.map(obj => obj.year?.toString()).filter((year): year is string => year !== undefined && year !== null))),
+            year: Array.from(new Set(mediaObjects.map(obj => obj.year?.toString()).filter(Boolean))),
             size: ['s', 'm', 'l'],
-            creator: Array.from(new Set(mediaObjects.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
+            creator: Array.from(new Set(mediaObjects.map(obj => obj.creator).filter(Boolean)))
         };
         setAllPossibleValues(newAllPossibleValues);
     }, [mediaObjects]);
@@ -138,15 +138,14 @@ export default function MediaGridPage() {
     const years = getUniqueValues('year');
     const creators = getUniqueValues('creator');
 
-    const filterCategories = useMemo(() => [
+    const filterCategories = [
         { title: 'Users', values: allPossibleValues.user, filterType: 'user', selected: selectedUser },
         { title: 'Behaviors', values: allPossibleValues.behavior, filterType: 'behavior', selected: selectedBehavior },
         { title: 'Types', values: allPossibleValues.type, filterType: 'type', selected: selectedType },
         { title: 'Years', values: allPossibleValues.year, filterType: 'year', selected: selectedYear },
         { title: 'Sizes', values: allPossibleValues.size, filterType: 'size', selected: selectedSize },
         { title: 'Creators', values: allPossibleValues.creator, filterType: 'creator', selected: selectedCreator },
-    ], [allPossibleValues, selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
-
+    ];
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
             <div className="w-64 p-4 border-r border-gray-700">
@@ -171,12 +170,11 @@ export default function MediaGridPage() {
                                         <button
                                             onClick={() => handleFilter(filterType, value)}
                                             className={`text-sm ${selected === value
-                                                    ? 'text-blue-400'
+                                                    ? 'text-blue-400 font-bold'
                                                     : isApplicable
-                                                        ? 'text-gray-400'
-                                                        : 'text-gray-600 opacity-50 cursor-not-allowed'
+                                                        ? 'text-gray-300'
+                                                        : 'text-gray-600'
                                                 }`}
-                                            disabled={!isApplicable}
                                         >
                                             {value}
                                         </button>
