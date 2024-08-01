@@ -8,7 +8,58 @@ import MediaGrid from '../../components/MediaGrid';
 type MediaObjectWithUser = MediaObject & { user: User };
 type FilterType = 'username' | 'behavior' | 'type' | 'year' | 'size' | 'creator';
 
-// ... (keep the existing types, initial state, and reducer)
+type State = {
+    mediaObjects: MediaObjectWithUser[];
+    filters: Record<FilterType, string | null>;
+    allPossibleValues: Record<FilterType, string[]>;
+};
+
+type Action =
+    | { type: 'SET_MEDIA_OBJECTS'; payload: MediaObjectWithUser[] }
+    | { type: 'SET_FILTER'; payload: { filterType: FilterType; value: string | null } }
+    | { type: 'SET_ALL_POSSIBLE_VALUES'; payload: Record<FilterType, string[]> }
+    | { type: 'SET_FILTERS'; payload: Record<FilterType, string | null> };
+
+const initialState: State = {
+    mediaObjects: [],
+    filters: {
+        username: null,
+        behavior: null,
+        type: null,
+        year: null,
+        size: null,
+        creator: null
+    },
+    allPossibleValues: {
+        username: [],
+        behavior: ['read', 'look', 'listen'],
+        type: [],
+        year: [],
+        size: ['s', 'm', 'l'],
+        creator: []
+    }
+};
+
+function reducer(state: State, action: Action): State {
+    switch (action.type) {
+        case 'SET_MEDIA_OBJECTS':
+            return { ...state, mediaObjects: action.payload };
+        case 'SET_FILTER':
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    [action.payload.filterType]: action.payload.value
+                }
+            };
+        case 'SET_ALL_POSSIBLE_VALUES':
+            return { ...state, allPossibleValues: action.payload };
+        case 'SET_FILTERS':
+            return { ...state, filters: action.payload };
+        default:
+            return state;
+    }
+}
 
 const behaviorEmojis: Record<string, string> = {
     'read': '📖',
