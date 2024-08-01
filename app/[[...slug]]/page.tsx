@@ -20,7 +20,7 @@ export default function MediaGridPage() {
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [selectedYear, setSelectedYear] = useState<string | null>(null);
     const [selectedCreator, setSelectedCreator] = useState<string | null>(null);
-    const [allFilterValues, setAllFilterValues] = useState<Record<string, string[]>>({
+    const [allPossibleValues, setAllPossibleValues] = useState<Record<string, string[]>>({
         user: [],
         behavior: ['read', 'look', 'listen'],
         type: [],
@@ -48,7 +48,7 @@ export default function MediaGridPage() {
     }, [fetchMediaObjects]);
 
     useEffect(() => {
-        const newAllFilterValues = {
+        const newAllPossibleValues = {
             user: Array.from(new Set(mediaObjects.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
             type: Array.from(new Set(mediaObjects.map(obj => obj.type))),
@@ -56,7 +56,7 @@ export default function MediaGridPage() {
             size: ['s', 'm', 'l'],
             creator: Array.from(new Set(mediaObjects.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
         };
-        setAllFilterValues(newAllFilterValues);
+        setAllPossibleValues(newAllPossibleValues);
     }, [mediaObjects]);
 
     const getBehavior = (type: string): BehaviorType => {
@@ -139,13 +139,13 @@ export default function MediaGridPage() {
     const creators = getUniqueValues('creator');
 
     const filterCategories = useMemo(() => [
-        { title: 'Users', values: allFilterValues.user, filterType: 'user', selected: selectedUser },
-        { title: 'Behaviors', values: allFilterValues.behavior, filterType: 'behavior', selected: selectedBehavior },
-        { title: 'Types', values: allFilterValues.type, filterType: 'type', selected: selectedType },
-        { title: 'Years', values: allFilterValues.year, filterType: 'year', selected: selectedYear },
-        { title: 'Sizes', values: allFilterValues.size, filterType: 'size', selected: selectedSize },
-        { title: 'Creators', values: allFilterValues.creator, filterType: 'creator', selected: selectedCreator },
-    ], [allFilterValues, selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
+        { title: 'Users', values: allPossibleValues.user, filterType: 'user', selected: selectedUser },
+        { title: 'Behaviors', values: allPossibleValues.behavior, filterType: 'behavior', selected: selectedBehavior },
+        { title: 'Types', values: allPossibleValues.type, filterType: 'type', selected: selectedType },
+        { title: 'Years', values: allPossibleValues.year, filterType: 'year', selected: selectedYear },
+        { title: 'Sizes', values: allPossibleValues.size, filterType: 'size', selected: selectedSize },
+        { title: 'Creators', values: allPossibleValues.creator, filterType: 'creator', selected: selectedCreator },
+    ], [allPossibleValues, selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
 
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
