@@ -40,30 +40,16 @@ export default function MediaGridPage() {
     }, [fetchMediaObjects]);
 
     useEffect(() => {
-        const segments = (params.slug as string[] | undefined) || [];
-        let userSet = false, behaviorSet = false, typeSet = false, yearSet = false, sizeSet = false;
-
-        segments.forEach((segment, index) => {
-            if (!userSet && index === 0) {
-                setSelectedUser(segment);
-                userSet = true;
-            } else if (!behaviorSet && ['read', 'look', 'listen'].includes(segment)) {
-                setSelectedBehavior(segment as BehaviorType);
-                behaviorSet = true;
-            } else if (!typeSet && !['s', 'm', 'l'].includes(segment) && isNaN(Number(segment))) {
-                setSelectedType(segment);
-                typeSet = true;
-            } else if (!yearSet && !isNaN(Number(segment))) {
-                setSelectedYear(segment);
-                yearSet = true;
-            } else if (!sizeSet && ['s', 'm', 'l'].includes(segment)) {
-                setSelectedSize(segment as SizeType);
-                sizeSet = true;
-            }
+        const [allFilterValues, setAllFilterValues] = useState<Record<string, string[]>>({
+            user: [],
+            behavior: ['read', 'look', 'listen'],
+            type: [],
+            year: [],
+            size: ['s', 'm', 'l'],
+            creator: []
         });
-
-        setSelectedCreator(searchParams.get('creator'));
-    }, [params, searchParams]);
+        setAllFilterValues(newAllFilterValues);
+    }, [mediaObjects]);
 
     const getBehavior = (type: string): BehaviorType => {
         if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
@@ -145,13 +131,13 @@ export default function MediaGridPage() {
     const creators = getUniqueValues('creator');
 
     const filterCategories = useMemo(() => [
-        { title: 'Users', values: getUniqueValues('user'), filterType: 'user', selected: selectedUser },
-        { title: 'Behaviors', values: ['read', 'look', 'listen'], filterType: 'behavior', selected: selectedBehavior },
-        { title: 'Types', values: getUniqueValues('type'), filterType: 'type', selected: selectedType },
-        { title: 'Years', values: getUniqueValues('year'), filterType: 'year', selected: selectedYear },
-        { title: 'Sizes', values: ['s', 'm', 'l'], filterType: 'size', selected: selectedSize },
-        { title: 'Creators', values: getUniqueValues('creator'), filterType: 'creator', selected: selectedCreator },
-    ], [mediaObjects, selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
+        { title: 'Users', values: allFilterValues.user, filterType: 'user', selected: selectedUser },
+        { title: 'Behaviors', values: allFilterValues.behavior, filterType: 'behavior', selected: selectedBehavior },
+        { title: 'Types', values: allFilterValues.type, filterType: 'type', selected: selectedType },
+        { title: 'Years', values: allFilterValues.year, filterType: 'year', selected: selectedYear },
+        { title: 'Sizes', values: allFilterValues.size, filterType: 'size', selected: selectedSize },
+        { title: 'Creators', values: allFilterValues.creator, filterType: 'creator', selected: selectedCreator },
+    ], [allFilterValues, selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
 
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
@@ -161,7 +147,7 @@ export default function MediaGridPage() {
                         <h3 className="text-lg font-semibold mb-2">{title}</h3>
                         <ul>
                             {values.map(value => {
-                                const isApplicable = mediaObjects.some(obj => {
+                                const isApplicable = filteredMedia.some(obj => {
                                     switch (filterType) {
                                         case 'user': return obj.user.name === value;
                                         case 'behavior': return getBehavior(obj.type) === value;
@@ -177,10 +163,10 @@ export default function MediaGridPage() {
                                         <button
                                             onClick={() => handleFilter(filterType, value)}
                                             className={`text-sm ${selected === value
-                                                ? 'text-blue-400'
-                                                : isApplicable
-                                                    ? 'text-gray-400'
-                                                    : 'text-gray-600 opacity-50 cursor-not-allowed'
+                                                    ? 'text-blue-400'
+                                                    : isApplicable
+                                                        ? 'text-gray-400'
+                                                        : 'text-gray-600 opacity-50 cursor-not-allowed'
                                                 }`}
                                             disabled={!isApplicable}
                                         >
