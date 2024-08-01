@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
+import React, { useReducer, useEffect, useCallback, useMemo, useState } from 'react';
 import { MediaObject, User } from '@prisma/client';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import MediaGrid from '../../components/MediaGrid';
@@ -69,11 +69,13 @@ const behaviorEmojis: Record<string, string> = {
 
 const MediaGridPage: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const params = useParams();
     const searchParams = useSearchParams();
 
     const fetchMediaObjects = useCallback(async (filters: Record<FilterType, string | null>) => {
+        setIsLoading(true);
         const queryParams = new URLSearchParams();
         Object.entries(filters).forEach(([key, value]) => {
             if (value) queryParams.append(key, value);
@@ -86,6 +88,8 @@ const MediaGridPage: React.FC = () => {
             updateAllPossibleValues(data);
         } catch (error) {
             console.error('Error fetching media objects:', error);
+        } finally {
+            setIsLoading(false);
         }
     }, []);
 
@@ -130,6 +134,14 @@ const MediaGridPage: React.FC = () => {
 
     const handleFilter = useCallback((filterType: FilterType, value: string | null) => {
         const newFilters = { ...state.filters, [filterType]: value };
+
+        // Clear behavior if username is set, and vice versa
+        if (filterType === 'username' && value) {
+            newFilters.behavior = null;
+        } else if (filterType === 'behavior' && value) {
+            newFilters.username = null;
+        }
+
         dispatch({ type: 'SET_FILTERS', payload: newFilters });
 
         let path = '/';
@@ -146,6 +158,21 @@ const MediaGridPage: React.FC = () => {
         router.push(path + (query.toString() ? '?' + query.toString() : ''), { scroll: false });
         fetchMediaObjects(newFilters);
     }, [state.filters, router, fetchMediaObjects]);
+
+    const filteredMediaObjects = useMemo(() => {
+        return state.mediaObjects.filter(obj =>
+            Object.entries(state.filters).every(([key, value]) =>
+                !value || obj[key as keyof MediaObjectWithUser] === value ||
+                (key === 'behavior' && getBehavior(obj.type) === value)
+            )
+        );
+    }, [state.mediaObjects, state.filters]);
+
+    const getBehavior = useCallback((type: string): string => {
+        if (['Book', 'Post', 'Quote', 'Tweet'].includes(type)) return 'read';
+        if (['Art', 'Film', 'Tiktok', 'Youtube'].includes(type)) return 'look';
+        return 'listen';
+    }, []);
 
     return (
         <div className="flex bg-gray-900 text-white min-h-screen">
@@ -170,7 +197,11 @@ const MediaGridPage: React.FC = () => {
             </div>
             <div className="flex-1 p-4">
                 <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
-                <MediaGrid mediaObjects={state.mediaObjects} />
+                {isLoading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <MediaGrid mediaObjects={filteredMediaObjects} />
+                )}
             </div>
         </div>
     );
