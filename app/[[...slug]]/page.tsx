@@ -177,10 +177,10 @@ export default function MediaGridPage() {
                                         <button
                                             onClick={() => handleFilter(filterType, value)}
                                             className={`text-sm ${selected === value
-                                                    ? 'text-blue-400'
-                                                    : isApplicable
-                                                        ? 'text-gray-400'
-                                                        : 'text-gray-600 opacity-50 cursor-not-allowed'
+                                                ? 'text-blue-400'
+                                                : isApplicable
+                                                    ? 'text-gray-400'
+                                                    : 'text-gray-600 opacity-50 cursor-not-allowed'
                                                 }`}
                                             disabled={!isApplicable}
                                         >
@@ -199,3 +199,4 @@ export default function MediaGridPage() {
             </div>
         </div>
     );
+}
