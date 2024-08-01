@@ -22,15 +22,22 @@ export default function MediaGridPage() {
     const [selectedCreator, setSelectedCreator] = useState<string | null>(null);
 
     const fetchMediaObjects = useCallback(async () => {
-        const response = await fetch('/api/media');
+        const queryParams = new URLSearchParams();
+        if (selectedUser) queryParams.set('username', selectedUser);
+        if (selectedBehavior) queryParams.set('behavior', selectedBehavior);
+        if (selectedType) queryParams.set('type', selectedType);
+        if (selectedYear) queryParams.set('year', selectedYear);
+        if (selectedSize) queryParams.set('size', selectedSize);
+        if (selectedCreator) queryParams.set('creator', selectedCreator);
+
+        const response = await fetch(`/api/media?${queryParams.toString()}`);
         const data: MediaObjectWithUser[] = await response.json();
         setMediaObjects(data);
-    }, []);
+    }, [selectedUser, selectedBehavior, selectedType, selectedYear, selectedSize, selectedCreator]);
 
     useEffect(() => {
         fetchMediaObjects();
     }, [fetchMediaObjects]);
-
     useEffect(() => {
         const segments = (params.slug as string[] | undefined) || [];
         let userSet = false, behaviorSet = false, typeSet = false, yearSet = false, sizeSet = false;
@@ -64,12 +71,14 @@ export default function MediaGridPage() {
     };
 
     const updateURL = () => {
-        let url = '/';
-        if (selectedUser) url += `${selectedUser}/`;
-        if (selectedBehavior) url += `${selectedBehavior}/`;
-        if (selectedType) url += `${selectedType}/`;
-        if (selectedYear) url += `${selectedYear}/`;
-        if (selectedSize) url += `${selectedSize}/`;
+        const segments = [];
+        if (selectedUser) segments.push(selectedUser);
+        if (selectedBehavior) segments.push(selectedBehavior);
+        if (selectedType) segments.push(selectedType);
+        if (selectedYear) segments.push(selectedYear);
+        if (selectedSize) segments.push(selectedSize);
+
+        let url = '/' + segments.join('/');
 
         const queryParams = new URLSearchParams();
         if (selectedCreator) queryParams.set('creator', selectedCreator);
@@ -80,9 +89,7 @@ export default function MediaGridPage() {
         router.push(url);
     };
 
-    const handleFilter = (filterType: string, value: string | null | undefined) => {
-        if (value === undefined) return;  // Do nothing if value is undefined
-
+    const handleFilter = (filterType: string, value: string | null) => {
         switch (filterType) {
             case 'user':
                 setSelectedUser(value === selectedUser ? null : value);
@@ -103,8 +110,7 @@ export default function MediaGridPage() {
                 setSelectedCreator(value === selectedCreator ? null : value);
                 break;
         }
-
-        setTimeout(updateURL, 0);
+        updateURL();
     };
 
     const filteredMedia = mediaObjects.filter(obj =>
@@ -117,7 +123,12 @@ export default function MediaGridPage() {
     );
 
     const getUniqueValues = (key: keyof MediaObjectWithUser) =>
-        Array.from(new Set(mediaObjects.map(obj => obj[key]?.toString()))).filter(Boolean);
+        Array.from(new Set(mediaObjects.map(obj => {
+            if (key === 'user') {
+                return obj.user.name;
+            }
+            return obj[key]?.toString();
+        }))).filter(Boolean);
 
     const users = getUniqueValues('user');
     const types = getUniqueValues('type');

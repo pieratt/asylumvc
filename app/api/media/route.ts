@@ -1,12 +1,11 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const behavior = searchParams.get('behavior') as 'read' | 'look' | 'listen' | null;
     const size = searchParams.get('size') as 's' | 'm' | 'l' | null;
     const username = searchParams.get('username');
     const type = searchParams.get('type');
+    const year = searchParams.get('year');
+    const creator = searchParams.get('creator');
 
     const whereClause: any = {};
 
@@ -30,7 +29,13 @@ export async function GET(request: Request) {
         whereClause.type = type;
     }
 
-    console.log('GET request with where clause:', whereClause); // For debugging
+    if (year) {
+        whereClause.year = parseInt(year);
+    }
+
+    if (creator) {
+        whereClause.creator = creator;
+    }
 
     try {
         const mediaObjects = await prisma.mediaObject.findMany({
@@ -38,8 +43,6 @@ export async function GET(request: Request) {
             include: { user: true },
             orderBy: { createdAt: 'desc' },
         });
-
-        console.log(`Retrieved ${mediaObjects.length} media objects`); // For debugging
 
         return NextResponse.json(mediaObjects);
     } catch (error) {
