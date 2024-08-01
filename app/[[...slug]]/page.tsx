@@ -57,9 +57,12 @@ const MediaGridPage: React.FC = () => {
             username: Array.from(new Set(data.map(obj => obj.user.name))),
             behavior: ['read', 'look', 'listen'],
             type: Array.from(new Set(data.map(obj => obj.type))),
-            year: Array.from(new Set(data.map(obj => obj.year?.toString()).filter(Boolean))),
+            year: Array.from(new Set(data.map(obj => obj.year)
+                .filter((year): year is number => year !== null && year !== undefined)
+                .map(year => year.toString())
+            )),
             size: ['s', 'm', 'l'],
-            creator: Array.from(new Set(data.map(obj => obj.creator).filter(Boolean)))
+            creator: Array.from(new Set(data.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
         });
     };
 
