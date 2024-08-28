@@ -8,7 +8,7 @@ type MediaObjectWithUser = MediaObject & { user: User };
 type FilterType = 'username' | 'behavior' | 'type' | 'year' | 'size' | 'creator';
 
 const behaviorEmojis: Record<string, string> = {
-    'read': '📖',
+    'read': '📖📖📖',
     'look': '👀',
     'listen': '🎧'
 };
