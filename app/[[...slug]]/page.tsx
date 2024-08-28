@@ -1,131 +1,88 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { MediaObject, User } from '@prisma/client';
-import MediaGrid from '../../components/MediaGrid';
+import React, { useState, useEffect, Suspense } from 'react';
+import Head from 'next/head';
+import dynamic from 'next/dynamic';
+import { motion, AnimatePresence } from 'framer-motion';
 
-type MediaObjectWithUser = MediaObject & { user: User };
-type FilterType = 'username' | 'behavior' | 'type' | 'year' | 'size' | 'creator';
+const Header = dynamic(() => import('../../components/Header'), { ssr: false });
+const MainContent = dynamic(() => import('../../components/MainContent'), { ssr: false });
+const ContactForm = dynamic(() => import('../../components/ContactForm'), { ssr: false });
 
-const behaviorEmojis: Record<string, string> = {
-    'read': '📖📖📖',
-    'look': '👀',
-    'listen': '🎧'
+const LoadingPlaceholder = () => (
+  <div className="w-full h-[800px] flex items-center justify-center">
+    <p className="text-2xl font-montserrat">Loading...</p>
+  </div>
+);
+
+const PageTransition: React.FC<{ children: React.ReactNode; currentPage: string }> = ({ children, currentPage }) => {
+    return (
+        <AnimatePresence mode="wait">
+            <motion.div
+                key={currentPage}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="w-full min-h-[800px]" // Adjust this height as needed
+            >
+                <Suspense fallback={<LoadingPlaceholder />}>
+                    {children}
+                </Suspense>
+            </motion.div>
+        </AnimatePresence>
+    );
 };
 
-const MediaGridPage: React.FC = () => {
-    const [mediaObjects, setMediaObjects] = useState<MediaObjectWithUser[]>([]);
-    const [filters, setFilters] = useState<Record<FilterType, string | null>>({
-        username: null,
-        behavior: null,
-        type: null,
-        year: null,
-        size: null,
-        creator: null
-    });
-    const [allPossibleValues, setAllPossibleValues] = useState<Record<FilterType, string[]>>({
-        username: [],
-        behavior: ['read', 'look', 'listen'],
-        type: [],
-        year: [],
-        size: ['s', 'm', 'l'],
-        creator: []
-    });
-    const [isLoading, setIsLoading] = useState(false);
+const AsylumLandingPage: React.FC = () => {
+    const [currentPage, setCurrentPage] = useState('main');
 
-    const fetchMediaObjects = useCallback(async () => {
-        setIsLoading(true);
-        const queryParams = new URLSearchParams();
-        Object.entries(filters).forEach(([key, value]) => {
-            if (value) queryParams.append(key, value);
-        });
+    const togglePage = (page: string) => {
+        setCurrentPage(currentPage === page ? 'main' : page);
+    };
 
-        try {
-            const response = await fetch(`/api/media?${queryParams.toString()}`);
-            const data: MediaObjectWithUser[] = await response.json();
-            setMediaObjects(data);
-            updateAllPossibleValues(data);
-        } catch (error) {
-            console.error('Error fetching media objects:', error);
-        } finally {
-            setIsLoading(false);
+    const renderContent = () => {
+        switch (currentPage) {
+            case 'contact':
+                return <ContactForm />;
+            default:
+                return <MainContent />;
         }
-    }, [filters]);
-
-    const updateAllPossibleValues = (data: MediaObjectWithUser[]) => {
-        setAllPossibleValues({
-            username: Array.from(new Set(data.map(obj => obj.user.name))),
-            behavior: ['read', 'look', 'listen'],
-            type: Array.from(new Set(data.map(obj => obj.type))),
-            year: Array.from(new Set(data.map(obj => obj.year)
-                .filter((year): year is number => year !== null && year !== undefined)
-                .map(year => year.toString())
-            )),
-            size: ['s', 'm', 'l'],
-            creator: Array.from(new Set(data.map(obj => obj.creator).filter((creator): creator is string => creator !== null && creator !== undefined)))
-        });
     };
-
-    useEffect(() => {
-        fetchMediaObjects();
-    }, [fetchMediaObjects]);
-
-    const handleFilter = (filterType: FilterType, value: string) => {
-        setFilters(prevFilters => {
-            const newFilters = { ...prevFilters };
-            if (newFilters[filterType] === value) {
-                newFilters[filterType] = null;
-            } else {
-                newFilters[filterType] = value;
-                if (filterType === 'username') {
-                    newFilters.behavior = null;
-                } else if (filterType === 'behavior') {
-                    newFilters.username = null;
-                }
-            }
-            return newFilters;
-        });
-    };
-
-    const FilterButton: React.FC<{ filterType: FilterType; value: string; isSelected: boolean }> = ({ filterType, value, isSelected }) => (
-        <button
-            onClick={() => handleFilter(filterType, value)}
-            className={`text-sm ${isSelected ? 'text-blue-400 font-bold' : 'text-gray-300'}`}
-        >
-            {filterType === 'behavior' ? behaviorEmojis[value] : value}
-        </button>
-    );
 
     return (
-        <div className="flex bg-gray-900 text-white min-h-screen">
-            <div className="w-64 p-4 border-r border-gray-700">
-                {(Object.keys(allPossibleValues) as FilterType[]).map(filterType => (
-                    <div key={filterType} className="mb-4">
-                        <h3 className="text-lg font-semibold mb-2">{filterType.charAt(0).toUpperCase() + filterType.slice(1)}</h3>
-                        <ul>
-                            {allPossibleValues[filterType].map(value => (
-                                <li key={value} className="mb-1">
-                                    <FilterButton
-                                        filterType={filterType}
-                                        value={value}
-                                        isSelected={filters[filterType] === value}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
+        <>
+            <div className="fixed inset-0 bg-gradient-to-b from-[#DBEFDA] via-[#DEE8E7] to-[#F5F4E6] -z-10"></div>
+            <div className="min-h-screen p-4 md:p-8 lg:p-12 flex justify-center">
+                <div className="max-w-[1900px] w-full">
+                    <Head>
+                        <title>Asylum Ventures</title>
+                        <link rel="icon" href="/favicon.ico" />
+                    </Head>
+
+                    <main className="flex flex-col items-center">
+                        <Header setCurrentPage={togglePage} />
+
+                        <PageTransition currentPage={currentPage}>
+                            {renderContent()}
+                        </PageTransition>
+
+                        <footer className="py-20 mt-12 w-full font-monsterrat">
+                            <div className="flex justify-between">
+                                <div className="w-full text-s space-y-1 text-center">
+                                    <p>ASYLUM VENTURES</p>
+                                    <p>WEIRD INSIDE™</p>
+                                    <p>EST. 2024</p>
+                                    <p>BROOKLYN, NY</p>
+                                    <p onClick={() => togglePage('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
+                                </div>
+                            </div>
+                        </footer>
+                    </main>
+                </div>
             </div>
-            <div className="flex-1 p-4">
-                <h1 className="text-2xl font-bold mb-4">Media Grid</h1>
-                {isLoading ? (
-                    <div>Loading...</div>
-                ) : (
-                    <MediaGrid mediaObjects={mediaObjects} />
-                )}
-            </div>
-        </div>
+        </>
     );
 };
 
-export default MediaGridPage;
+export default AsylumLandingPage;

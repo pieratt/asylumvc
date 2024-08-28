@@ -2,18 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+#__next {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom styles for the logo */
+.asylum-logo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+.asylum-logo > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.asylum-logo span {
+  transition: all 0.3s ease;
+  flex: 1;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .asylum-logo {
+    flex-direction: row;
+  }
+}
+
+/* Remove the following media queries as they're no longer needed */
+/* @media (min-width: 768px) { ... } */
+/* @media (min-width: 1024px) { ... } */
+/* @media (min-width: 1280px) { ... } */
+
+/* Font styles */
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+.font-montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+.font-times {
+  font-family: 'Times New Roman', Times, serif;
+}
+.font-inconsolata {
+  font-family: 'Inconsolata', monospace;
 }
