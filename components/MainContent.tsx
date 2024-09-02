@@ -4,7 +4,7 @@ const MainContent: React.FC = () => {
   return (
     <div className="w-full mx-auto">
 
-      <div className="grid max-w-2xl mx-auto grid-cols-1 gap-8 mb-24 text-sm text-justify">
+      <div className="grid max-w-3xl mx-auto grid-cols-1 gap-8 mb-24 text-sm text-justify">
         <div className="space-y-4">
           <p>
           A Love Letter          </p>
@@ -14,9 +14,7 @@ const MainContent: React.FC = () => {
           <p>
           I was in love with these weird fringe people, their underdog attitude and the fuck the man gumption - And above all else, the extraordinary craftsmanship and ambition required to build beautiful new works of art they called companies.
           </p>
-          <p>
-          I dedicated my life to these people and this community, feeling deeply fortunate to have found my calling by participating in and supporting this unusual band of misfits - first at betaworks, and then Notation.
-          </p>
+          <p className="text-sm inline-block bg-pink-300 bg-opacity-50 px-2 py-1">I dedicated my life to these people and this community, feeling deeply fortunate to have found my calling by participating in and supporting this unusual band of misfits - first at betaworks, and then Notation.</p>
           <p>
           A lot has happened to this ecosystem since the financial crisis more than 15 years ago. Startups and the venture capital business went from a cottage industry to a much larger institutional asset class. A pillar of our initial thesis for my previous firm Notation - that small seed firms would get too large - now feels quaint. Seed firms did indeed get much larger, but perhaps the even bigger change was that already large firms became truly massive - building platforms, suites of services, and staffs that rival the largest PE firms or hedge funds. We call them the “big banks.” Even some OG artisanal firms like YC went from a tiny group of scrappy misfit founders, to a credentialing factory churning 1000 startups per year.
           </p>
@@ -28,9 +26,7 @@ const MainContent: React.FC = () => {
           <p>
           It’s now 2024, and Silicon Valley pushes a narrative that everyone should start a startup. I disagree. In many cases, both in good outcomes and bad, the requirements to build something truly new and important are hellish. Early-stage founders don’t want to work with banks because banks don’t understand how weird and hard it is to build something great, they don’t recognize that behind every email and board meeting there’s a trail of broken relationships, poor health, sleepless nights and bad ramen for the fifth night in a row.
           </p>
-          <blockquote className="text-sm italic mb-8 w-full">
-          What if instead of treating founders like assets on a balance sheet, we treated them like obsessed artists going through the hardest journey of their lives?
-          </blockquote>
+          <p className="text-sm inline-block bg-pink-300 bg-opacity-50 px-2 py-1">What if instead of treating founders like assets on a balance sheet, we treated them like obsessed artists going through the hardest journey of their lives?</p>
           <p>
           Today with my colleagues Jon and Mackenzie, I’m launching Asylum Ventures to answer that question. Asylum aims to be a source of calm, trust and support for founders who are manifesting beauty through one of the hardest things you can do: starting a company. VCs are never the difference between success and failure, but we can make it suck just a little less, both for the founder and their life, as well as their company and their work.
           </p>
@@ -45,13 +41,13 @@ const MainContent: React.FC = () => {
         </div>
         <div className="space-y-4">
             <p>Jon calls Asylum Ventures my final act of a multi-decade revenge arc against bankers. I think he’s partly right. Even more so, Asylum Ventures is a love letter to founders…</p>
-                  <blockquote className="text-sm italic mb-8 w-full">
-            <p>More beauty and craft, less factory line</p>
-            <p>More weird and rebellious, less safe and derivative</p>
-            <p>More really hard inspired work, less status games</p>
-            <p>More risk and carry, less management fees and mediocre performance</p>
-            <p>More authentic expression of self, less patagonia vest</p>
-</blockquote>
+
+            <p className="text-sm inline-block bg-pink-300 bg-opacity-50 px-2 py-1">More beauty and craft, less factory line</p>
+            <p className="text-sm inline-block bg-pink-300 bg-opacity-50 px-2 py-1">More weird and rebellious, less safe and derivative</p>
+            <p className="text-sm inline-block bg-pink-300 bg-opacity-50 px-2 py-1">More really hard inspired work, less status games</p>
+            <p className="text-sm inline-block bg-pink-300 bg-opacity-50 px-2 py-1">More risk and carry, less management fees and mediocre performance</p>
+            <p className="text-sm inline-block bg-pink-300 bg-opacity-50 px-2 py-1">More authentic expression of self, less patagonia vest</p>
+"
             <p>To be clear, attention to craft and beauty does not mean small. The largest companies in the world are iconic because of their attention to craft and beauty. Today, the founder artist has access to tools and audience on a scale previously unimaginable and banks become more obsolete with each passing decade - the future belongs to the Weird - we’re here to help you claim it.</p>
         </div>
 

@@ -4,35 +4,32 @@ import React, { useState, useEffect } from 'react';
 
 // XS version of the footer (mobile)
 const XSFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col items-centerspace-y-4">
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-full cursor-pointer" onClick={() => setCurrentPage('main')}>
-            <div className="asylum-logo flex-col">
-                <div className="asylum-logo">
-                    <span>A</span>
-                    <span>S</span>
-                    <span>Y</span>
-                </div>
-                <div className="asylum-logo py-20">
-                    <span>L</span>
-                    <span>U</span>
-                    <span>M</span>
-                </div>
+
+        <h1 className="text-sm mt-4 mb-16 tracking-widest w-5/5 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
+            <div className="flex justify-center w-full">
+                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
-        {/* Top meta information */}
-        <div className="text-sm text-center space-y-0.5">
-            <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
-            <p>WEIRD INSIDE™</p>
-            <p>EST. 2024</p>
-            <p>BROOKLYN, NY</p>
-        </div>
-        {/* Bottom meta information */}
-        <div className="text-sm text-center space-y-0.5">
-            <p>NICK CHIRLS</p>
-            <p>JON WU</p>
-            <p>MACKENZIE REGENT</p>
-            <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
+        {/* Meta information */}
+        <div className="w-full text-sm">
+            <div className="flex  w-5/5 justify-between">
+                <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
+                <p>NICK CHIRLS</p>
+            </div>
+            <div className="flex justify-between">
+                <p>WEIRD INSIDE™</p>
+                <p>JON WU</p>
+            </div>
+            <div className="flex justify-between">
+                <p>EST. 2024</p>
+                <p>MACKENZIE REGENT</p>
+            </div>
+            <div className="flex justify-between">
+                <p>BROOKLYN, NY</p>
+                <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
+            </div>
         </div>
     </div>
 );
@@ -40,106 +37,37 @@ const XSFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
 // SM version of the footer
 const SMFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
     <div className="flex flex-col items-centerspace-y-4">
+        {/* Meta information */}
+        <div className="w-full text-sm">
+            <div className="flex  w-full justify-between">
+                <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
+                <p>NICK CHIRLS</p>
+            </div>
+            <div className="flex justify-between">
+                <p>WEIRD INSIDE™</p>
+                <p>JON WU</p>
+            </div>
+            <div className="flex justify-between">
+                <p>EST. 2024</p>
+                <p>MACKENZIE REGENT</p>
+            </div>
+            <div className="flex justify-between">
+                <p>BROOKLYN, NY</p>
+                <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
+            </div>
+        </div>
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-full pt-20 cursor-pointer" onClick={() => setCurrentPage('main')}>
-            <div className="asylum-logo flex-col">
-                <div className="asylum-logo">
-                    <span>A</span>
-                    <span>S</span>
-                    <span>Y</span>
-                </div>
-                <div className="asylum-logo py-20">
-                    <span>L</span>
-                    <span>U</span>
-                    <span>M</span>
-                </div>
+
+        <h1 className="text-sm mt-16 mb-16 tracking-widest w-full text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
+            <div className="flex justify-center w-full">
+                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
-        {/* Top meta information */}
-        <div className="text-sm text-center space-y-0.5">
-            <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
-            <p>WEIRD INSIDE™</p>
-            <p>EST. 2024</p>
-            <p>BROOKLYN, NY</p>
-        </div>
-        {/* Bottom meta information */}
-        <div className="text-sm text-center space-y-0.5">
-            <p>NICK CHIRLS</p>
-            <p>JON WU</p>
-            <p>MACKENZIE REGENT</p>
-            <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
-        </div>
     </div>
 );
 
 // MD version of the footer
 const MDFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
-    <div className="flex justify-between items-start">
-        {/* Left meta information */}
-        <div className="w-1/4 text-sm space-y-1 text-center">
-            <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
-            <p>WEIRD INSIDE™</p>
-            <p>EST. 2024</p>
-            <p>BROOKLYN, NY</p>
-        </div>
-        {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-1/2 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
-            <div className="asylum-logo pt-5 pb-1">
-                <span>A</span>
-                <span>S</span>
-                <span>Y</span>
-            </div>
-            <div className="asylum-logo py-20">
-                <span>L</span>
-                <span>U</span>
-                <span>M</span>
-            </div>
-        </h1>
-        {/* Right meta information */}
-        <div className="w-1/4 text-sm space-y-1 text-center">
-            <p>NICK CHIRLS</p>
-            <p>JON WU</p>
-            <p>MACKENZIE REGENT</p>
-            <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
-        </div>
-    </div>
-);
-
-// LG version of the footer
-const LGFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
-    <div className="flex justify-between items-start">
-        {/* Left meta information */}
-        <div className="text-sm text-left w-1/4">
-
-            <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
-            <p>WEIRD INSIDE™</p>
-            <p>EST. 2024</p>
-            <p>BROOKLYN, NY</p>
-        </div>
-        {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-1/2 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
-            <div className="grid grid-cols-6 grid-rows-4">
-                <span className="col-start-2 row-start-1">A</span>
-                <span className="col-start-5 row-start-1">S</span>
-                <span className="col-start-3 row-start-2">Y</span>
-                <span className="col-start-1 row-start-3">L</span>
-                <span className="col-start-4 row-start-3">U</span>
-                <span className="col-start-6 row-start-4">M</span>
-            </div>
-        </h1>
-        {/* Right meta information */}
-        <div className="text-sm text-right w-1/4">
-
-            <p>NICK CHIRLS</p>
-            <p>JON WU</p>
-            <p>MACKENZIE REGENT</p>
-            <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
-        </div>
-    </div>
-);
-
-// XL version of the header
-const XLFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
         <div className="text-sm text-left w-1/5">
@@ -151,7 +79,7 @@ const XLFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
         {/* ASYLUM logo */}
         <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_1.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
         {/* Right meta information */}
@@ -162,6 +90,60 @@ const XLFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
             <p>Mackenzie Regent</p>
             <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">Contact Us</p>
         </div>
+    </div>
+);
+
+// LG version of the footer
+const LGFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
+    <div className="flex justify-between items-start mx-auto w-full">
+        {/* Left meta information */}
+        <div className="text-sm text-left w-1/5">
+            <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>Asylum Ventures</p>
+            <p>Weird Inside™</p>
+            <p>Est. 2024</p>
+            <p>Brooklyn, NY</p>
+        </div>
+        {/* ASYLUM logo */}
+        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
+            <div className="flex justify-center w-full">
+                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+            </div>
+        </h1>
+        {/* Right meta information */}
+        <div className="text-sm text-right w-1/5">
+
+            <p>Nick Chirls</p>
+            <p>Jon Wu</p>
+            <p>Mackenzie Regent</p>
+            <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">Contact Us</p>
+        </div>
+    </div>
+);
+
+// XL version of the header
+const XLFooter: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
+    <div className="flex justify-between items-start mx-auto w-full">
+        {/* Left meta information */}
+        <div className="text-sm text-left w-2/5">
+            <p></p>
+            <p></p>
+            <p>hello@asylum.vc</p>
+            <p>@asylumventures</p>
+        </div>
+        {/* ASYLUM logo */}
+        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
+            <div className="flex justify-center w-full">
+                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+            </div>
+        </h1>
+        {/* Right meta information */}
+        <div className="text-sm text-right w-2/5">
+
+            <p>"Anybody who thinks money 
+            will make you happy 
+            hasn't got money" 
+            —David Geffen</p>
+    </div>
     </div>
 );
 

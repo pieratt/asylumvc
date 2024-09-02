@@ -34,9 +34,8 @@
 }
 :root {
   --font-size: 1.1rem;
-  --font-family: 'Relative Mono', monospace;
+  --font-family: 'Apercu Mono', monospace;
   --font-weight: 400;
-    letter-spacing: 0.025em;
       line-height: 1em;
 }
 
@@ -52,22 +51,29 @@
   
   .site-wrapper {
     position: absolute;
-    top: 0px; /* Adjust this value to control the top margin */
-    left: 0px; /* Adjust this value to control the left margin */
-    right: 0px; /* Adjust this value to control the right margin */
-    bottom: 20px; /* Adjust this value to control the bottom margin */
-    padding: 0px; /* Inset the border by 10px */
-    box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 20px;
+    padding: 0px;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
   }
 
   .content {
     width: 100%;
-    border-radius: 10px; /* Add border radius */
+    border-radius: 10px;
+    padding: 0.5rem; /* Add this line for base padding */
   }
 }
 
 .text-sm {
-  line-height: 2;
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+    .content {
+        padding: .5rem;
+    }
 }
