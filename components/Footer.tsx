@@ -149,7 +149,7 @@ const XLFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
 
 // Breakpoint indicator component
 const BreakpointIndicator: React.FC<{ breakpoint: string }> = ({ breakpoint }) => (
-    <div className="fixed top-0 left-0 bg-black bg-opacity-50 text-white text-sm p-1 z-50">
+    <div className="fixed bottom-0 right-0 bg-black bg-opacity-50 text-white text-sm p-1 z-50">
         {breakpoint}
     </div>
 );
