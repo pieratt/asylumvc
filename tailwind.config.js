@@ -7,21 +7,18 @@ module.exports = {
   ],
   theme: {
     extend: {
-      gradientColorStops: theme => ({
-        'gray-100': theme('colors.gray.100'),
-        'gray-300': theme('colors.gray.300'),
-      }),
-      screens: {
-        'xs': '480px',
-        'sm': '640px',
-        'md': '768px',
-        'lg': '1024px',
-        'xl': '1280px',
-      },
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
-        'times': ['Times New Roman', 'Times', 'serif'],
+        'montserrat': ['Montserrat', 'sans-serif'],
+        'inconsolata': ['Inconsolata', 'monospace'],
+        'playfair': ['Playfair Display', 'serif'],
+        'vt323': ['VT323', 'monospace'],
+        'xanh': ['Xanh Mono', 'monospace'],
+        sans: ['Inconsolata', 'monospace'],
       },
+      screens: {
+        'custom': '768px', // or whatever pixel value you prefer
+      }
     },
   },
   plugins: [],

@@ -2,63 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
-
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: 'Inter', sans-serif;
+@font-face {
+  font-family: 'Apercu Mono';
+  src: url('/fonts/apercu-mono.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Apercu';
+  src: url('/fonts/apercu.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Apercu Bold';
+  src: url('/fonts/apercu-bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Relative';
+  src: url('/fonts/relative-book.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Relative Mono';
+  src: url('/fonts/relative-mono10pitch.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+:root {
+  --font-size: 1.1rem;
+  --font-family: 'Relative Mono', monospace;
+  --font-weight: 400;
+    letter-spacing: 0.025em;
+      line-height: 1em;
 }
 
-#__next {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+@layer base {
+  html, body {
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+    font-weight: var(--font-weight);
+    letter-spacing: var(--letter-spacing);
+    line-height: var(--line-height);
+    background-color: #e7e7e7; /* Added for testing purposes */
+  }
+  
+  .site-wrapper {
+    position: absolute;
+    top: 0px; /* Adjust this value to control the top margin */
+    left: 0px; /* Adjust this value to control the left margin */
+    right: 0px; /* Adjust this value to control the right margin */
+    bottom: 20px; /* Adjust this value to control the bottom margin */
+    padding: 0px; /* Inset the border by 10px */
+    box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+    display: flex;
+    justify-content: center;
+  }
 
-/* Custom styles for the logo */
-.asylum-logo {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  font-family: 'Inter', sans-serif;
-}
-
-.asylum-logo > div {
-  display: flex;
-  justify-content: space-between;
-}
-
-.asylum-logo span {
-  transition: all 0.3s ease;
-  flex: 1;
-  text-align: center;
-}
-
-@media (min-width: 768px) {
-  .asylum-logo {
-    flex-direction: row;
+  .content {
+    width: 100%;
+    border-radius: 10px; /* Add border radius */
   }
 }
 
-/* Remove the following media queries as they're no longer needed */
-/* @media (min-width: 768px) { ... } */
-/* @media (min-width: 1024px) { ... } */
-/* @media (min-width: 1280px) { ... } */
-
-/* Font styles */
-.font-inter {
-  font-family: 'Inter', sans-serif;
-}
-.font-montserrat {
-  font-family: "Montserrat", sans-serif;
-}
-.font-times {
-  font-family: 'Times New Roman', Times, serif;
-}
-.font-inconsolata {
-  font-family: 'Inconsolata', monospace;
+.text-sm {
+  line-height: 2;
 }

@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 const XSHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
     <div className="flex flex-col items-center space-y-4">
         {/* ASYLUM logo */}
-        <h1 className="text-3xl font-bold tracking-widest w-full font-montserrat cursor-pointer" onClick={() => setCurrentPage('main')}>
+        <h1 className="text-sm tracking-widest w-full cursor-pointer" onClick={() => setCurrentPage('main')}>
             <div className="asylum-logo flex-col">
                 <div className="asylum-logo">
                     <span>A</span>
@@ -21,14 +21,14 @@ const XSHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
             </div>
         </h1>
         {/* Top meta information */}
-        <div className="text-xs text-center space-y-0.5 font-montserrat leading-tight">
+        <div className="text-sm text-center space-y-0.5">
             <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
             <p>WEIRD INSIDE™</p>
             <p>EST. 2024</p>
             <p>BROOKLYN, NY</p>
         </div>
         {/* Bottom meta information */}
-        <div className="text-xs text-center space-y-0.5 font-montserrat leading-tight">
+        <div className="text-sm text-center space-y-0.5">
             <p>NICK CHIRLS</p>
             <p>JON WU</p>
             <p>MACKENZIE REGENT</p>
@@ -41,7 +41,7 @@ const XSHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
 const SMHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
     <div className="flex flex-col items-centerspace-y-4">
         {/* ASYLUM logo */}
-        <h1 className="text-3xl font-bold tracking-widest w-full pt-20 font-montserrat cursor-pointer" onClick={() => setCurrentPage('main')}>
+        <h1 className="text-sm tracking-widest w-full pt-20 cursor-pointer" onClick={() => setCurrentPage('main')}>
             <div className="asylum-logo flex-col">
                 <div className="asylum-logo">
                     <span>A</span>
@@ -56,14 +56,14 @@ const SMHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
             </div>
         </h1>
         {/* Top meta information */}
-        <div className="text-xs text-center space-y-0.5 font-montserrat leading-tight">
+        <div className="text-sm text-center space-y-0.5">
             <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
             <p>WEIRD INSIDE™</p>
             <p>EST. 2024</p>
             <p>BROOKLYN, NY</p>
         </div>
         {/* Bottom meta information */}
-        <div className="text-xs text-center space-y-0.5 font-montserrat leading-tight">
+        <div className="text-sm text-center space-y-0.5">
             <p>NICK CHIRLS</p>
             <p>JON WU</p>
             <p>MACKENZIE REGENT</p>
@@ -76,14 +76,14 @@ const SMHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
 const MDHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
     <div className="flex justify-between items-start">
         {/* Left meta information */}
-        <div className="w-1/4 text-xs space-y-1 text-center font-montserrat">
+        <div className="w-1/4 text-sm space-y-1 text-center">
             <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
             <p>WEIRD INSIDE™</p>
             <p>EST. 2024</p>
             <p>BROOKLYN, NY</p>
         </div>
         {/* ASYLUM logo */}
-        <h1 className="text-3xl font-bold tracking-widest w-1/2 text-center font-montserrat cursor-pointer" onClick={() => setCurrentPage('main')}>
+        <h1 className="text-sm tracking-widest w-1/2 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
             <div className="asylum-logo pt-5 pb-1">
                 <span>A</span>
                 <span>S</span>
@@ -96,7 +96,7 @@ const MDHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
             </div>
         </h1>
         {/* Right meta information */}
-        <div className="w-1/4 text-xs space-y-1 text-center font-montserrat">
+        <div className="w-1/4 text-sm space-y-1 text-center">
             <p>NICK CHIRLS</p>
             <p>JON WU</p>
             <p>MACKENZIE REGENT</p>
@@ -109,26 +109,27 @@ const MDHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
 const LGHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
   <div className="flex justify-between items-start">
     {/* Left meta information */}
-        <div className="w-1/4 text-xs space-y-1 text-center font-montserrat">
+    <div className="text-sm text-left w-1/4">
+
       <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
       <p>WEIRD INSIDE™</p>
       <p>EST. 2024</p>
       <p>BROOKLYN, NY</p>
     </div>
     {/* ASYLUM logo */}
-        <h1 className="text-3xl font-bold tracking-widest w-1/2 text-center font-montserrat cursor-pointer" onClick={() => setCurrentPage('main')}>
-      <div className="asylum-logo">
-        <span>A</span>
-        <span>S</span>
-        <span>Y</span>
-
-        <span>L</span>
-        <span>U</span>
-        <span>M</span>
+    <h1 className="text-sm tracking-widest w-3/4 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
+      <div className="grid grid-cols-6 grid-rows-4">
+        <span className="col-start-2 row-start-1">A</span>
+        <span className="col-start-5 row-start-1">S</span>
+        <span className="col-start-3 row-start-2">Y</span>
+        <span className="col-start-1 row-start-3">L</span>
+        <span className="col-start-4 row-start-3">U</span>
+        <span className="col-start-6 row-start-4">M</span>
       </div>
     </h1>
     {/* Right meta information */}
-        <div className="w-1/4 text-xs space-y-1 text-center font-montserrat">
+    <div className="text-sm text-right w-1/4">
+
       <p>NICK CHIRLS</p>
       <p>JON WU</p>
       <p>MACKENZIE REGENT</p>
@@ -139,39 +140,39 @@ const LGHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCur
 
 // XL version of the header
 const XLHeader: React.FC<{ setCurrentPage: (page: string) => void }> = ({ setCurrentPage }) => (
-  <div className="flex justify-between items-start">
+  <div className="flex justify-between items-start mx-auto w-full">
     {/* Left meta information */}
-        <div className="w-1/6 text-sm space-y-2 text-center font-montserrat">
-      <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>ASYLUM VENTURES</p>
-      <p>WEIRD INSIDE™</p>
-      <p>EST. 2024</p>
-      <p>BROOKLYN, NY</p>
+    <div className="text-sm text-left w-1/5">
+      <p className="cursor-pointer hover:underline" onClick={() => setCurrentPage('main')}>Asylum Ventures</p>
+      <p>Weird Inside™</p>
+      <p>Est. 2024</p>
+      <p>Brooklyn, NY</p>
     </div>
     {/* ASYLUM logo */}
-        <h1 className="text-3xl font-bold tracking-widest w-2/3 text-center font-montserrat cursor-pointer" onClick={() => setCurrentPage('main')}>
-      <div className="asylum-logo pt-8">
-        <span>A</span>
-        <span>S</span>
-        <span>Y</span>
-
-        <span>L</span>
-        <span>U</span>
-        <span>M</span>
+    <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => setCurrentPage('main')}>
+      <div className="grid grid-cols-6 grid-rows-4">
+        <span className="col-start-1 row-start-1">A</span>
+        <span className="col-start-3 row-start-2">Y</span>
+        <span className="col-start-2 row-start-4">S</span>
+        <span className="col-start-5 row-start-3">U</span>
+        <span className="col-start-5 row-start-2">L</span>
+        <span className="col-start-6 row-start-4">M</span>
       </div>
     </h1>
     {/* Right meta information */}
-        <div className="w-1/6 text-sm space-y-2 text-center font-montserrat">
-      <p>NICK CHIRLS</p>
-      <p>JON WU</p>
-      <p>MACKENZIE REGENT</p>
-      <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
+    <div className="text-sm text-right w-1/5">
+
+      <p>Nick Chirls</p>
+      <p>Jon Wu</p>
+      <p>Mackenzie Regent</p>
+      <p onClick={() => setCurrentPage('contact')} className="cursor-pointer hover:underline">Contact Us</p>
     </div>
   </div>
 );
 
 // Breakpoint indicator component
 const BreakpointIndicator: React.FC<{ breakpoint: string }> = ({ breakpoint }) => (
-  <div className="fixed top-0 left-0 bg-black bg-opacity-50 text-white text-xs p-1 z-50">
+  <div className="fixed top-0 left-0 bg-black bg-opacity-50 text-white text-sm p-1 z-50">
     {breakpoint}
   </div>
 );
