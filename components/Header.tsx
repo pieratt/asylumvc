@@ -9,7 +9,7 @@ const XSHeader: React.FC<{ handlePageChange: (page: string, founder: string | nu
 
     <h1 className="text-sm mt-8 mb-16 tracking-widest w-5/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
       <div className="grid grid-cols-6 grid-rows-4">
-        <span className="col-start-1 row-start-2">A</span>
+        <span className="col-start-3 row-start-1">A</span>
         <span className="col-start-3 row-start-2">S</span>
         <span className="col-start-1 row-start-4">L</span>
         <span className="col-start-5 row-start-3">U</span>
