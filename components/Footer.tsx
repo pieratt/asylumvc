@@ -9,7 +9,7 @@ const XSFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
 
         <h1 className="text-sm mt-4 mb-16 tracking-widest w-5/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
         {/* Meta information */}
@@ -60,7 +60,7 @@ const SMFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
 
         <h1 className="text-sm mt-16 mb-16 tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
     </div>
@@ -79,7 +79,7 @@ const MDFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
         {/* ASYLUM logo */}
         <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
         {/* Right meta information */}
@@ -106,7 +106,7 @@ const LGFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
         {/* ASYLUM logo */}
         <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
         {/* Right meta information */}
@@ -133,17 +133,17 @@ const XLFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
         {/* ASYLUM logo */}
         <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_5_boxed.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
         {/* Right meta information */}
         <div className="text-sm text-right w-2/5">
 
-            <p>"Anybody who thinks money 
-            will make you happy 
-            hasn't got money" 
-            —David Geffen</p>
-    </div>
+            <p>"Anybody who thinks money
+                will make you happy
+                hasn't got money"
+                —David Geffen</p>
+        </div>
     </div>
 );
 
