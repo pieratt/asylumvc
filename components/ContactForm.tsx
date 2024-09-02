@@ -1,7 +1,32 @@
 import React, { useState, useEffect } from 'react';
 
-// Founder data
-const founderData = {
+// Define the type for a founder's data
+type FounderData = {
+  name: string;
+  handle: string;
+  email: string;
+  project: string;
+  artists: string;
+  belief: string;
+  checkboxes: {
+    chronic: boolean;
+    uncomfortable: boolean;
+    optimism: boolean;
+    impossible: boolean;
+    corporateSpeak: boolean;
+    businessAttire: boolean;
+    rejection: boolean;
+    dissatisfied: boolean;
+  };
+};
+
+// Define the type for the founderData object
+type FounderDataMap = {
+  [key: string]: FounderData;
+};
+
+// Update the founderData object with the new type
+const founderData: FounderDataMap = {
   nick: {
     name: "Nick Chirls",
     handle: "@nchirls",
@@ -83,7 +108,7 @@ const ContactForm: React.FC<{ activeFounder: string | null }> = ({ activeFounder
   const isFounderSelected = activeFounder !== null;
 
   useEffect(() => {
-    if (activeFounder) {
+    if (activeFounder && activeFounder in founderData) {
       const data = founderData[activeFounder];
       setName(data.name);
       setHandle(data.handle);
