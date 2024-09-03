@@ -6,9 +6,14 @@ import React, { useState, useEffect } from 'react';
 const XSFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex flex-col items-centerspace-y-4">
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main')}>
-            <div className="flex justify-center w-full">
-                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto mb-12" />
+        <h1 className="text-sm px-24 pb-12 tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main')}>
+            <div className="grid grid-cols-6 grid-rows-4">
+                <span className="col-start-1 row-start-1">A</span>
+                <span className="col-start-3 row-start-2">Y</span>
+                <span className="col-start-2 row-start-4">S</span>
+                <span className="col-start-5 row-start-3">U</span>
+                <span className="col-start-5 row-start-2">L</span>
+                <span className="col-start-6 row-start-4">M</span>
             </div>
         </h1>
         {/* Meta information */}
@@ -24,11 +29,18 @@ const XSFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
 const SMFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex flex-col items-centerspace-y-4">
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main')}>
-            <div className="flex justify-center w-full">
-                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto mb-12" />
+
+        <h1 className="text-sm px-24 pb-12 tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main')}>
+            <div className="grid grid-cols-6 grid-rows-4">
+                <span className="col-start-2 row-start-1">A</span>
+                <span className="col-start-5 row-start-2">Y</span>
+                <span className="col-start-3 row-start-2">S</span>
+                <span className="col-start-1 row-start-3">L</span>
+                <span className="col-start-4 row-start-4">U</span>
+                <span className="col-start-6 row-start-5">M</span>
             </div>
         </h1>
+
 {/* Meta information */}
         <div className="text-sm text-center w-3/5 mx-auto">
             <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
@@ -42,19 +54,25 @@ const SMFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
 const MDFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
-        <div className="text-sm text-left w-2/5">
+        <div className="text-sm text-left w-1/4">
             <p></p>
             <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
             <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p></p>
         </div>
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
-            <div className="flex justify-center w-full">
-                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+        <h1 className="text-sm tracking-widest w-1/4 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
+            <div className="grid grid-cols-6 grid-rows-4">
+                <span className="col-start-1 row-start-1">A</span>
+                <span className="col-start-3 row-start-2">Y</span>
+                <span className="col-start-2 row-start-4">S</span>
+                <span className="col-start-5 row-start-3">U</span>
+                <span className="col-start-5 row-start-2">L</span>
+                <span className="col-start-6 row-start-4">M</span>
             </div>
         </h1>
         {/* Right meta information */}
-        <div className="text-sm text-right w-2/5">
+        <div className="text-sm text-right w-1/4">
             <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
@@ -64,20 +82,25 @@ const MDFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
 const LGFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
-        <div className="text-sm text-left w-2/5">
+        <div className="text-sm text-left w-1/4">
             <p></p>
             <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
             <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
             <p></p>
         </div>
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
-            <div className="flex justify-center w-full">
-                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+        <h1 className="text-sm tracking-widest w-1/4 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
+            <div className="grid grid-cols-6 grid-rows-4">
+                <span className="col-start-2 row-start-1">A</span>
+                <span className="col-start-5 row-start-1">S</span>
+                <span className="col-start-3 row-start-2">Y</span>
+                <span className="col-start-1 row-start-3">L</span>
+                <span className="col-start-4 row-start-3">U</span>
+                <span className="col-start-6 row-start-4">M</span>
             </div>
         </h1>
         {/* Right meta information */}
-        <div className="text-sm text-right w-2/5">
+        <div className="text-sm text-right w-1/4">
             <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
@@ -87,20 +110,25 @@ const LGFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
 const XLFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
-        <div className="text-sm text-left w-2/5">
+        <div className="text-sm text-left w-1/5">
             <p></p>
             <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
             <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
            <p></p>
         </div>
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
-            <div className="flex justify-center w-full">
-                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+        <h1 className="text-sm tracking-widest w-1/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
+            <div className="grid grid-cols-6 grid-rows-4">
+                <span className="col-start-1 row-start-1">A</span>
+                <span className="col-start-6 row-start-1">S</span>
+                <span className="col-start-6 row-start-2">Y</span>
+                <span className="col-start-1 row-start-4">L</span>
+                <span className="col-start-2 row-start-3">U</span>
+                <span className="col-start-4 row-start-2">M</span>
             </div>
         </h1>
         {/* Right meta information */}
-        <div className="text-sm text-right w-2/5">
+        <div className="text-sm text-right w-1/5">
             <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>

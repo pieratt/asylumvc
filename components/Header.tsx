@@ -24,16 +24,12 @@ const XSHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
         <p><a href="https://x.com/nchirls" target="_blank" rel="noopener noreferrer">NICK CHIRLS</a></p>
       </div>
       <div className="flex justify-between">
-        <p>WEIRD INSIDE™</p>
+        <p>BROOKLYN, NY</p>
         <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer">JON WU</a></p>
       </div>
       <div className="flex justify-between">
-        <p>EST. 2024</p>
-        <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer">MACKENZIE REGENT</a></p>
-      </div>
-      <div className="flex justify-between">
-        <p>BROOKLYN, NY</p>
         <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
+        <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer">MACKENZIE REGENT</a></p>
       </div>
     </div>
   </div>
@@ -54,24 +50,20 @@ const SMHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
             </div>
         </h1>
         {/* Meta information */}
-        <div className="w-full text-sm">
-            <div className="flex  w-5/5 justify-between">
-                <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
-                <p><a href="https://x.com/nchirls" target="_blank" rel="noopener noreferrer">NICK CHIRLS</a></p>
-            </div>
-            <div className="flex justify-between">
-                <p>WEIRD INSIDE™</p>
-                <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer">JON WU</a></p>
-            </div>
-            <div className="flex justify-between">
-                <p>EST. 2024</p>
-                <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer">MACKENZIE REGENT</a></p>
-            </div>
-            <div className="flex justify-between">
-                <p>BROOKLYN, NY</p>
-                <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
-            </div>
-        </div>
+    <div className="w-full text-sm">
+      <div className="flex  w-5/5 justify-between">
+        <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
+        <p><a href="https://x.com/nchirls" target="_blank" rel="noopener noreferrer">NICK CHIRLS</a></p>
+      </div>
+      <div className="flex justify-between">
+        <p>BROOKLYN, NY</p>
+        <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer">JON WU</a></p>
+      </div>
+      <div className="flex justify-between">
+        <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
+        <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer">MACKENZIE REGENT</a></p>
+      </div>
+    </div>
     </div>
 );
 
@@ -80,11 +72,9 @@ const MDHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
   <div className="flex justify-between items-start">
     {/* Left meta information */}
     <div className="text-sm text-left w-1/3">
-
       <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
-      <p>WEIRD INSIDE™</p>
-      <p>EST. 2024</p>
       <p>BROOKLYN, NY</p>
+      <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
     </div>
     {/* ASYLUM logo */}
     <h1 className="text-sm tracking-widest w-1/3 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
@@ -99,11 +89,9 @@ const MDHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
     </h1>
     {/* Right meta information */}
     <div className="text-sm text-right w-1/3">
-
       <p><a href="https://x.com/nchirls" target="_blank" rel="noopener noreferrer">NICK CHIRLS</a></p>
       <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer">JON WU</a></p>
       <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer">MACKENZIE REGENT</a></p>
-      <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
     </div>
   </div>
 );
@@ -112,12 +100,10 @@ const MDHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
 const LGHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage: string }> = ({ handlePageChange, currentPage }) => (
   <div className="flex justify-between items-start">
     {/* Left meta information */}
-    <div className="text-sm text-left w-1/4">
-
+    <div className="text-sm text-left w-1/5">
       <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
-      <p>WEIRD INSIDE™</p>
-      <p>EST. 2024</p>
       <p>BROOKLYN, NY</p>
+      <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
     </div>
     {/* ASYLUM logo */}
     <h1 className="text-sm tracking-widest w-1/4 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
@@ -131,12 +117,10 @@ const LGHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
       </div>
     </h1>
     {/* Right meta information */}
-    <div className="text-sm text-right w-1/4">
-
+    <div className="text-sm text-right w-1/5">
       <p><a href="https://x.com/nchirls" target="_blank" rel="noopener noreferrer">NICK CHIRLS</a></p>
       <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer">JON WU</a></p>
       <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer">MACKENZIE REGENT</a></p>
-      <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
     </div>
   </div>
 );
@@ -146,10 +130,9 @@ const XLHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
   <div className="flex justify-between items-start mx-auto w-full">
     {/* Left meta information */}
     <div className="text-sm text-center w-1/5">
-      <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>Asylum Ventures</p>
-      <p>Weird Inside™</p>
-      <p>Est. 2024</p>
-      <p>Brooklyn, NY</p>
+      <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
+      <p>BROOKLYN, NY</p>
+      <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
     </div>
     {/* ASYLUM logo */}
     <h1 className="text-sm tracking-widest w-1/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
@@ -164,11 +147,9 @@ const XLHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
     </h1>
     {/* Right meta information */}
     <div className="text-sm text-center w-1/5">
-
       <p><a href="https://x.com/nchirls" target="_blank" rel="noopener noreferrer">NICK CHIRLS</a></p>
       <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer">JON WU</a></p>
       <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer">MACKENZIE REGENT</a></p>
-      <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">GET IN TOUCH</p>
     </div>
   </div>
 );
