@@ -53,7 +53,7 @@ const ContactForm: React.FC = () => {
   return (
     <div className="w-full max-w-3xl mx-auto mb-12">
       <div className="mt-6">
-        <h2 className="text-sm">Contact</h2>
+
         <p className="text-sm pt-4">
           Asylum Ventures is an early-stage venture firm celebrating the creative act of making startups. We believe founders are artists, not assets.</p>
         <p className="text-sm pt-4">
@@ -99,7 +99,7 @@ const ContactForm: React.FC = () => {
           />
         </div>
         <div className="p-6 border-b border-gray-400">
-          <label htmlFor="project" className="block text-sm mb-2">WHAT'S UP? TELL US ABOUT YOUR PROJECT.</label>
+          <label htmlFor="project" className="block text-sm mb-2">What's up? Tell us about your project.</label>
           <textarea
             id="project"
             value={project}
@@ -122,7 +122,7 @@ const ContactForm: React.FC = () => {
           ></textarea>
         </div>
         <div className="p-6 border-b border-gray-400">
-          <label htmlFor="artists" className="block text-sm mb-2">ARTISTS YOU’RE INSPIRED BY?</label>
+          <label htmlFor="artists" className="block text-sm mb-2">Artists you’re inspired by?</label>
           <textarea
             id="artists"
             name="artists"
@@ -134,7 +134,7 @@ const ContactForm: React.FC = () => {
           ></textarea>
         </div>
         <div className="p-6 border-b border-gray-400">
-          <label htmlFor="website" className="block text-sm mb-2">LINK TO YOUR COMPANY WEBSITE, MEMO, OR SOMETHING ELSE</label>
+          <label htmlFor="website" className="block text-sm mb-2">Link to your company website, memo, or something else</label>
           <input
             type="text"
             id="website"
@@ -158,12 +158,12 @@ const ContactForm: React.FC = () => {
       
       {submitStatus === 'success' && (
         <div className="mt-4 p-4 bg-green-100 text-sm text-green-700">
-          Thank you, we'll be in touch soon.
+          Thank you, appreciate you taking the time.
         </div>
       )}
       {submitStatus === 'error' && (
         <div className="mt-4 p-4 bg-red-100 text-sm text-red-700">
-          Error. Please try again later.
+          Error. Please try again.
         </div>
       )}
 
