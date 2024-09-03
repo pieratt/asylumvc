@@ -128,7 +128,7 @@ const XLFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
             </div>
         </h1>
         {/* Right meta information */}
-        <div className="text-sm text-right w-1/5">
+        <div className="text-sm text-center w-1/5">
             <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
