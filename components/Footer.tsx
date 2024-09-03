@@ -6,30 +6,16 @@ import React, { useState, useEffect } from 'react';
 const XSFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex flex-col items-centerspace-y-4">
         {/* ASYLUM logo */}
-
-        <h1 className="text-sm mt-4 mb-16 tracking-widest w-5/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
+        <h1 className="text-sm tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto mb-12" />
             </div>
         </h1>
         {/* Meta information */}
-        <div className="w-full text-sm">
-            <div className="flex  w-5/5 justify-between">
-                <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
-                <p>NICK CHIRLS</p>
-            </div>
-            <div className="flex justify-between">
-                <p>WEIRD INSIDE™</p>
-                <p>JON WU</p>
-            </div>
-            <div className="flex justify-between">
-                <p>EST. 2024</p>
-                <p>MACKENZIE REGENT</p>
-            </div>
-            <div className="flex justify-between">
-                <p>BROOKLYN, NY</p>
-                <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
-            </div>
+        <div className="text-sm text-center w-3/5 mx-auto">
+            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
+            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
 );
@@ -37,32 +23,18 @@ const XSFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
 // SM version of the footer
 const SMFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex flex-col items-centerspace-y-4">
-        {/* Meta information */}
-        <div className="w-full text-sm">
-            <div className="flex  w-full justify-between">
-                <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
-                <p>NICK CHIRLS</p>
-            </div>
-            <div className="flex justify-between">
-                <p>WEIRD INSIDE™</p>
-                <p>JON WU</p>
-            </div>
-            <div className="flex justify-between">
-                <p>EST. 2024</p>
-                <p>MACKENZIE REGENT</p>
-            </div>
-            <div className="flex justify-between">
-                <p>BROOKLYN, NY</p>
-                <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
-            </div>
-        </div>
         {/* ASYLUM logo */}
-
-        <h1 className="text-sm mt-16 mb-16 tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main')}>
+        <h1 className="text-sm tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto mb-12" />
             </div>
         </h1>
+{/* Meta information */}
+        <div className="text-sm text-center w-3/5 mx-auto">
+            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
+            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
+        </div>
     </div>
 );
 
@@ -70,25 +42,20 @@ const SMFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
 const MDFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
-        <div className="text-sm text-left w-1/5">
-            <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>Asylum Ventures</p>
-            <p>Weird Inside™</p>
-            <p>Est. 2024</p>
-            <p>Brooklyn, NY</p>
+        <div className="text-sm text-left w-2/5">
+            <p></p>
+            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
+            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
         </div>
         {/* ASYLUM logo */}
         <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
         {/* Right meta information */}
-        <div className="text-sm text-right w-1/5">
-
-            <p>Nick Chirls</p>
-            <p>Jon Wu</p>
-            <p>Mackenzie Regent</p>
-            <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">Contact Us</p>
+        <div className="text-sm text-right w-2/5">
+            <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
 );
@@ -97,25 +64,21 @@ const MDFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
 const LGFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
-        <div className="text-sm text-left w-1/5">
-            <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>Asylum Ventures</p>
-            <p>Weird Inside™</p>
-            <p>Est. 2024</p>
-            <p>Brooklyn, NY</p>
+        <div className="text-sm text-left w-2/5">
+            <p></p>
+            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
+            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p></p>
         </div>
         {/* ASYLUM logo */}
         <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
         {/* Right meta information */}
-        <div className="text-sm text-right w-1/5">
-
-            <p>Nick Chirls</p>
-            <p>Jon Wu</p>
-            <p>Mackenzie Regent</p>
-            <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">Contact Us</p>
+        <div className="text-sm text-right w-2/5">
+            <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
 );
@@ -126,19 +89,18 @@ const XLFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         {/* Left meta information */}
         <div className="text-sm text-left w-2/5">
             <p></p>
-            <p></p>
-            <p>hello@asylum.vc</p>
-            <p>@asylumventures</p>
+            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
+            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+           <p></p>
         </div>
         {/* ASYLUM logo */}
         <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
-                <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
+                <img src="/asylum_logo_7_black.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
         </h1>
         {/* Right meta information */}
         <div className="text-sm text-right w-2/5">
-
             <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
