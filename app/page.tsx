@@ -9,39 +9,25 @@ import Footer from '../components/Footer';
 
 const AsylumLandingPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState('main');
-    const [activeFounder, setActiveFounder] = useState<string | null>(null);
 
-    const handlePageChange = (page: string, founder: string | null = null) => {
-        if (currentPage === 'contact' && page === 'contact') {
-            if (founder === activeFounder) {
-                // If clicking the same founder or general contact, return to main page
-                setCurrentPage('main');
-                setActiveFounder(null);
-            } else {
-                // If clicking a different founder, update the active founder
-                setActiveFounder(founder);
-            }
-        } else {
-            // For any other case, update the page and founder as before
-            setCurrentPage(page);
-            setActiveFounder(founder);
-        }
+    const handlePageChange = (page: string) => {
+        setCurrentPage(prev => prev === page ? 'main' : page);
     };
 
     const renderContent = () => {
         switch (currentPage) {
             case 'contact':
-                return <ContactForm activeFounder={activeFounder} />;
+                return <ContactForm />;
             default:
-                return <MainContent />;
+                return <MainContent handlePageChange={handlePageChange} />;
         }
     };
 
     return (
         <div className="min-h-screen relative overflow-hidden">
             <div className="sm:p-4 md:p-8 lg:p-12 pb-36 flex justify-center relative z-10">
-                <div className="max-w-[1440px] p-2 sm:p-4 md:p-8 lg:p-12 w-full rounded-lg mt-5" style={{
-                    background: 'radial-gradient(circle at 50% 100%, #EBFFCC 2%, #BAECFF 20%, #E2DCEF 85%)',
+                <div className="max-w-[1440px] min-w-[440px] p-2 sm:p-4 md:p-8 lg:p-12 w-full rounded-lg mt-5" style={{
+                    background: 'radial-gradient(circle at 50% 100%, #F2F2F0 2%, #F2F2F0 20%, #F2F2F0 85%)',
                 }}>
                     <Head>
                         <title>Asylum Ventures</title>

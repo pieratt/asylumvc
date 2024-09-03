@@ -34,7 +34,7 @@
 }
 :root {
   --font-size: 1.1rem;
-  --font-family: 'Apercu Mono', monospace;
+  --font-family: 'Relative Mono', monospace;
   --font-weight: 400;
       line-height: 1em;
 }
@@ -46,7 +46,7 @@
     font-weight: var(--font-weight);
     letter-spacing: var(--letter-spacing);
     line-height: var(--line-height);
-    background-color: #e7e7e7; /* Added for testing purposes */
+    background-color: #F2F2F0; /* Added for testing purposes */
   }
   
   .site-wrapper {

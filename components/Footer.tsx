@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from 'react';
 
 // XS version of the footer (mobile)
-const XSFooter: React.FC<{ handlePageChange: (page: string, founder: string | null) => void }> = ({ handlePageChange }) => (
+const XSFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex flex-col items-centerspace-y-4">
         {/* ASYLUM logo */}
 
-        <h1 className="text-sm mt-4 mb-16 tracking-widest w-5/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
+        <h1 className="text-sm mt-4 mb-16 tracking-widest w-5/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
                 <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
@@ -15,7 +15,7 @@ const XSFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
         {/* Meta information */}
         <div className="w-full text-sm">
             <div className="flex  w-5/5 justify-between">
-                <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main', null)}>ASYLUM VENTURES</p>
+                <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
                 <p>NICK CHIRLS</p>
             </div>
             <div className="flex justify-between">
@@ -28,19 +28,19 @@ const XSFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
             </div>
             <div className="flex justify-between">
                 <p>BROOKLYN, NY</p>
-                <p onClick={() => handlePageChange('contact', null)} className="cursor-pointer hover:underline">CONTACT US</p>
+                <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
             </div>
         </div>
     </div>
 );
 
 // SM version of the footer
-const SMFooter: React.FC<{ handlePageChange: (page: string, founder: string | null) => void }> = ({ handlePageChange }) => (
+const SMFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex flex-col items-centerspace-y-4">
         {/* Meta information */}
         <div className="w-full text-sm">
             <div className="flex  w-full justify-between">
-                <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main', null)}>ASYLUM VENTURES</p>
+                <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
                 <p>NICK CHIRLS</p>
             </div>
             <div className="flex justify-between">
@@ -53,12 +53,12 @@ const SMFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
             </div>
             <div className="flex justify-between">
                 <p>BROOKLYN, NY</p>
-                <p onClick={() => handlePageChange('contact', null)} className="cursor-pointer hover:underline">CONTACT US</p>
+                <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">CONTACT US</p>
             </div>
         </div>
         {/* ASYLUM logo */}
 
-        <h1 className="text-sm mt-16 mb-16 tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
+        <h1 className="text-sm mt-16 mb-16 tracking-widest w-full text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
                 <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
@@ -67,17 +67,17 @@ const SMFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
 );
 
 // MD version of the footer
-const MDFooter: React.FC<{ handlePageChange: (page: string, founder: string | null) => void }> = ({ handlePageChange }) => (
+const MDFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
         <div className="text-sm text-left w-1/5">
-            <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main', null)}>Asylum Ventures</p>
+            <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>Asylum Ventures</p>
             <p>Weird Inside™</p>
             <p>Est. 2024</p>
             <p>Brooklyn, NY</p>
         </div>
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
+        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
                 <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
@@ -88,23 +88,23 @@ const MDFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
             <p>Nick Chirls</p>
             <p>Jon Wu</p>
             <p>Mackenzie Regent</p>
-            <p onClick={() => handlePageChange('contact', null)} className="cursor-pointer hover:underline">Contact Us</p>
+            <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">Contact Us</p>
         </div>
     </div>
 );
 
 // LG version of the footer
-const LGFooter: React.FC<{ handlePageChange: (page: string, founder: string | null) => void }> = ({ handlePageChange }) => (
+const LGFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
         <div className="text-sm text-left w-1/5">
-            <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main', null)}>Asylum Ventures</p>
+            <p className="cursor-pointer hover:underline" onClick={() => handlePageChange('main')}>Asylum Ventures</p>
             <p>Weird Inside™</p>
             <p>Est. 2024</p>
             <p>Brooklyn, NY</p>
         </div>
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
+        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
                 <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
@@ -115,13 +115,13 @@ const LGFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
             <p>Nick Chirls</p>
             <p>Jon Wu</p>
             <p>Mackenzie Regent</p>
-            <p onClick={() => handlePageChange('contact', null)} className="cursor-pointer hover:underline">Contact Us</p>
+            <p onClick={() => handlePageChange('contact')} className="cursor-pointer hover:underline">Contact Us</p>
         </div>
     </div>
 );
 
 // XL version of the header
-const XLFooter: React.FC<{ handlePageChange: (page: string, founder: string | null) => void }> = ({ handlePageChange }) => (
+const XLFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => (
     <div className="flex justify-between items-start mx-auto w-full">
         {/* Left meta information */}
         <div className="text-sm text-left w-2/5">
@@ -131,7 +131,7 @@ const XLFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
             <p>@asylumventures</p>
         </div>
         {/* ASYLUM logo */}
-        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main', null)}>
+        <h1 className="text-sm tracking-widest w-4/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
             <div className="flex justify-center w-full">
                 <img src="/asylum_logo_6.png" alt="Asylum Logo" className="mx-auto max-h-[128px] w-auto" />
             </div>
@@ -139,10 +139,7 @@ const XLFooter: React.FC<{ handlePageChange: (page: string, founder: string | nu
         {/* Right meta information */}
         <div className="text-sm text-right w-2/5">
 
-            <p>"Anybody who thinks money
-                will make you happy
-                hasn't got money"
-                —David Geffen</p>
+            <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
 );
@@ -155,7 +152,7 @@ const BreakpointIndicator: React.FC<{ breakpoint: string }> = ({ breakpoint }) =
 );
 
 // Main Footer component
-const Footer: React.FC<{ handlePageChange: (page: string, founder: string | null) => void }> = ({ handlePageChange }) => {
+const Footer: React.FC<{ handlePageChange: (page: string) => void }> = ({ handlePageChange }) => {
     const [windowWidth, setWindowWidth] = useState(0);
     const [currentBreakpoint, setCurrentBreakpoint] = useState('');
 
