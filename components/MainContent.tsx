@@ -26,7 +26,7 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
           <p>Building companies or any new work of art is insanely difficult. Founders are like Dante and Virgil on their stroll through Hell–artists on a grueling journey. Asylum is a source of calm, trust, and support for founders who are manifesting beauty through one of the hardest things you can do. A place where true craftspeople can tune out the noise and focus on their own greatness. A refuge. A haven. An asylum.</p>
           <p>Specifically, we:</p>
           
-          <ul className="list-disc pl-8 space-y-4 mb-8">
+          <ul className="list-disc pl-8 space-y-4 mb-2">
           <li>Do not get in the way of a founder making something great. Let the artist make their art goddamnit!</li>
           <li>Do not take board seats or play an administrative role ie. hire/fire founders</li>
           <li>Hope to create lifelong partnerships with founders, across multiple companies, funds, personal family growth, and all the ups and downs we collectively face.</li>
@@ -37,9 +37,9 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
           <li>Respect founders as the heroic figures they are.</li>
 </ul>
           
-          <p className="pt-4">In other words, we’re not a big bank and never will be.</p>
-          <ul className="list-disc pl-8 space-y-4 mb-8">
-          <li>Asylum Ventures is ultimately a love letter to founders…</li>
+          <p className="text-sm inline-block bg-gray-700 bg-opacity-80 text-white px-2 py-1">In other words, we’re not a big bank and never will be.</p>
+          <p>Asylum Ventures is ultimately a love letter to founders…</p>
+<ul className="list-disc pl-8 space-y-4 mb-8">
           <li>More beauty and craft, less factory line</li>
           <li>More weird and rebellious, less safe and derivative</li>
           <li>More really hard inspired work, less status games</li>
