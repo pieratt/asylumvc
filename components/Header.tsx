@@ -28,7 +28,7 @@ const XSHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
         <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">JON WU</a></p>
       </div>
       <div className="flex justify-between">
-        <p onClick={() => handlePageChange('contact')} className="cursor-pointer no-underline hover:underline">GET IN TOUCH</p>
+        <p onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link get-in-touch">GET IN TOUCH</p>
         <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">MACKENZIE REGENT</a></p>
       </div>
     </div>
@@ -60,7 +60,7 @@ const SMHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
         <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">JON WU</a></p>
       </div>
       <div className="flex justify-between">
-        <p onClick={() => handlePageChange('contact')} className="cursor-pointer no-underline hover:underline">GET IN TOUCH</p>
+        <p onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">GET IN TOUCH</p>
         <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">MACKENZIE REGENT</a></p>
       </div>
     </div>
@@ -74,7 +74,7 @@ const MDHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
     <div className="text-sm text-left w-1/3">
       <p className="cursor-pointer no-underline hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
       <p>BROOKLYN, NY</p>
-      <p onClick={() => handlePageChange('contact')} className="cursor-pointer no-underline hover:underline">GET IN TOUCH</p>
+      <p onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">GET IN TOUCH</p>
     </div>
     {/* ASYLUM logo */}
     <h1 className="text-sm tracking-widest w-1/3 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
@@ -103,7 +103,7 @@ const LGHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
     <div className="text-sm text-left w-1/5">
       <p className="cursor-pointer no-underline hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
       <p>BROOKLYN, NY</p>
-      <p onClick={() => handlePageChange('contact')} className="cursor-pointer no-underline hover:underline">GET IN TOUCH</p>
+      <p onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">GET IN TOUCH</p>
     </div>
     {/* ASYLUM logo */}
     <h1 className="text-sm tracking-widest w-1/4 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
@@ -132,7 +132,7 @@ const XLHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
     <div className="text-sm text-center w-1/5">
       <p className="cursor-pointer no-underline hover:underline" onClick={() => handlePageChange('main')}>ASYLUM VENTURES</p>
       <p>BROOKLYN, NY</p>
-      <p onClick={() => handlePageChange('contact')} className="cursor-pointer no-underline hover:underline">GET IN TOUCH</p>
+      <p onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">GET IN TOUCH</p>
     </div>
     {/* ASYLUM logo */}
     <h1 className="text-sm tracking-widest w-1/5 text-center cursor-pointer" onClick={() => handlePageChange('main')}>
@@ -151,13 +151,6 @@ const XLHeader: React.FC<{ handlePageChange: (page: string) => void, currentPage
       <p><a href="https://x.com/jonwu_" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">JON WU</a></p>
       <p><a href="https://x.com/kenzieregent" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">MACKENZIE REGENT</a></p>
     </div>
-  </div>
-);
-
-// Breakpoint indicator component
-const BreakpointIndicator: React.FC<{ breakpoint: string }> = ({ breakpoint }) => (
-  <div className="fixed bottom-0 right-0 bg-black bg-opacity-50 text-white text-sm p-1 z-50">
-    {breakpoint}
   </div>
 );
 
@@ -196,12 +189,9 @@ const Header: React.FC<{ handlePageChange: (page: string) => void, currentPage: 
   };
 
   return (
-    <>
-      <BreakpointIndicator breakpoint={currentBreakpoint} />
-      <header className="mb-12 w-full">
-        {renderHeader()}
-      </header>
-    </>
+    <header className="mb-12 w-full">
+      {renderHeader()}
+    </header>
   );
 };
 

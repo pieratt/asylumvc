@@ -57,7 +57,7 @@ const ContactForm: React.FC = () => {
         <p className="text-sm pt-4">
           Asylum Ventures is an early-stage venture firm celebrating the creative act of making startups. We believe founders are artists, not assets.</p>
         <p className="text-sm pt-4">
-          If you’re practicing the art of making startups, send us a message:
+          Send us a message:
         </p>
       </div>
 
@@ -151,7 +151,7 @@ const ContactForm: React.FC = () => {
             className="w-full flex justify-center py-4 border border-gray-400 text-sm text-gray-800 hover:bg-gray-50 hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500 bg-transparent"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+            {isSubmitting ? 'Sending...' : 'Send'}
           </button>
         </div>
       </form>
@@ -167,10 +167,10 @@ const ContactForm: React.FC = () => {
         </div>
       )}
 
-      <div className="border border-gray-400 mt-6 mb-24 p-2 sm:p-2 md:py-4lg:py-4cursor-pointer transition-all duration-300 hover:bg-white hover:bg-opacity-20" onClick={() => window.location.href = 'mailto:hello@asylum.vc'}>
+      <div className="border border-gray-400 mt-6 mb-24 p-2 sm:p-2 md:py-4 lg:py-4 cursor-pointer transition-all duration-300 hover:bg-white hover:bg-opacity-20" onClick={() => window.location.href = 'mailto:hello@asylum.vc'}>
         <div className="flex justify-center">
           <p className="text-sm">
-            Or just email us direct: <span className="underline">hello@asylum.vc</span>
+            Or just email us directly: <span className="custom-link">hello@asylum.vc</span>
           </p>
         </div>
       </div>

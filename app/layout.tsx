@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     siteName: 'Asylum Ventures',
     images: [
       {
-        url: 'https://www.asylumventures.com/asylum_vc_social.png', // Replace with your actual image URL
+        url: 'https://www.asylum.vc/asylum_vc_social.png', // Replace with your actual image URL
         width: 1200,
         height: 630,
         alt: 'Asylum Ventures',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Asylum Ventures',
     description: 'Asylum Ventures is a new venture firm dedicated to the creative act of building companies.',
-    images: ['https://www.asylumventures.com/asylum_vc_social.png'], // Replace with your actual image URL
+    images: ['https://www.asylum.vc/asylum_vc_social.png'], // Replace with your actual image URL
   },
 }
 

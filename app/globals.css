@@ -118,3 +118,28 @@
   outline: none;
   border-color: #666;
 }
+
+/* Custom link styles */
+a, .custom-link {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(181, 181, 181, 0.5);
+  display: inline-block; /* Add this line */
+  line-height: 1; /* Add this line */
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+a:hover, a:focus, .custom-link:hover, .custom-link:focus {
+  border-bottom-color: rgb(111, 111, 111);
+}
+
+/* Remove any existing underline styles */
+a, .custom-link {
+  text-decoration: none !important;
+}
+
+a:hover, a:focus, .custom-link:hover, .custom-link:focus {
+  text-decoration: none !important;
+}
+
+/* ... rest of the existing styles ... */
