@@ -24,8 +24,8 @@ const AsylumTestPage: React.FC = () => {
 
     return (
         <div className="min-h-screen relative overflow-hidden">
-            <div className="sm:p-4 md:p-8 lg:p-12 pb-36 flex justify-center relative z-10">
-                <div className="max-w-[1440px] p-2 sm:p-4 md:p-8 lg:p-12 w-full rounded-lg mt-5" style={{
+            <div className="sm:p-0 md:p-8 lg:p-12 pb-36 flex justify-center relative z-10">
+                <div className="max-w-[1440px] p-0 sm:p-0 md:p-8 lg:p-12 w-full rounded-lg mt-5" style={{
                     background: 'radial-gradient(circle at 50% 100%, #F2F2F0 2%, #F2F2F0 20%, #F2F2F0 85%)',
                 }}>
                     <main className="flex flex-col items-center">

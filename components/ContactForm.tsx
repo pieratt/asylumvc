@@ -61,8 +61,8 @@ const ContactForm: React.FC = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="border border-gray-400 mt-6" action="https://formspree.io/f/xyzgvkvp" method="POST">
-        <div className="p-6 border-b border-gray-400">
+      <form onSubmit={handleSubmit} className="mt-6" action="https://formspree.io/f/xyzgvkvp" method="POST">
+        <div className="py-4">
           <label htmlFor="name" className="block text-sm mb-2">Name</label>
           <input
             type="text"
@@ -70,46 +70,46 @@ const ContactForm: React.FC = () => {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-4 text-sm focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm focus:border-gray-400 border border-gray-400 focus:ring-0"
             placeholder="Your Name"
             required
           />
         </div>
-        <div className="p-6 border-b border-gray-400">
+        <div className="py-4">
           <label htmlFor="handle" className="block text-sm mb-2">Twitter or github handle</label>
           <input
             type="text"
             id="handle"
             value={handle}
             onChange={(e) => setHandle(e.target.value)}
-            className="w-full p-4 text-sm focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm focus:border-gray-400 border border-gray-400 focus:ring-0"
             placeholder="@username"
           />
         </div>
-        <div className="p-6 border-b border-gray-400">
+        <div className="py-4">
           <label htmlFor="email" className="block text-sm mb-2">Email Address</label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-4 text-sm focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm focus:border-gray-400 border border-gray-400 focus:ring-0"
             placeholder="you@example.com"
             required
           />
         </div>
-        <div className="p-6 border-b border-gray-400">
+        <div className="py-4">
           <label htmlFor="project" className="block text-sm mb-2">What's up? Tell us about your project.</label>
           <textarea
             id="project"
             value={project}
             onChange={(e) => setProject(e.target.value)}
             rows={8}
-            className="w-full p-4 text-sm border-gray-400 focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-400 focus:ring-0"
             placeholder=""
           ></textarea>
         </div>
-        <div className="p-6 border-b border-gray-400">
+        <div className="py-4">
           <label htmlFor="believe" className="block text-sm mb-2">What do you believe that no one else believes?</label>
           <textarea
             id="believe"
@@ -117,11 +117,11 @@ const ContactForm: React.FC = () => {
             value={believe}
             onChange={(e) => setBelieve(e.target.value)}
             rows={8}
-            className="w-full p-4 text-sm border-gray-400 focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-400 focus:ring-0"
             placeholder=""
           ></textarea>
         </div>
-        <div className="p-6 border-b border-gray-400">
+        <div className="py-4">
           <label htmlFor="artists" className="block text-sm mb-2">Artists you’re inspired by?</label>
           <textarea
             id="artists"
@@ -129,11 +129,11 @@ const ContactForm: React.FC = () => {
             value={artists}
             onChange={(e) => setArtists(e.target.value)}
             rows={8}
-            className="w-full p-4 text-sm border-gray-400 focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-400 focus:ring-0"
             placeholder=""
           ></textarea>
         </div>
-        <div className="p-6 border-b border-gray-400">
+        <div className="py-4">
           <label htmlFor="website" className="block text-sm mb-2">Link to your company website, memo, or something else</label>
           <input
             type="text"
@@ -141,14 +141,14 @@ const ContactForm: React.FC = () => {
             name="website"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
-            className="w-full p-4 text-sm focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-400 focus:ring-0"
             placeholder="http://..."
           />
         </div>
-        <div className="p-6">
+        <div className="py-4">
           <button
             type="submit"
-            className="w-full flex justify-center py-4 px-6 border border-gray-400 text-sm text-gray-800 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500"
+            className="w-full flex justify-center py-4 border border-gray-400 text-sm text-gray-800 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500"
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -167,7 +167,7 @@ const ContactForm: React.FC = () => {
         </div>
       )}
 
-      <div className="border border-gray-400 mt-6 p-2 sm:p-2 md:p-6 lg:p-6 cursor-pointer transition-all duration-300 hover:bg-white hover:bg-opacity-20" onClick={() => window.location.href = 'mailto:hello@asylum.vc'}>
+      <div className="border border-gray-400 mt-6 mb-24 p-2 sm:p-2 md:py-4lg:py-4cursor-pointer transition-all duration-300 hover:bg-white hover:bg-opacity-20" onClick={() => window.location.href = 'mailto:hello@asylum.vc'}>
         <div className="flex justify-center">
           <p className="text-sm">
             Or just email us direct: <span className="underline">hello@asylum.vc</span>
