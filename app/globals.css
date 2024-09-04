@@ -78,3 +78,16 @@
         padding: .5rem;
     }
 }
+
+@layer utilities {
+
+  .soft-break {
+    display: block;
+    margin-bottom: 0.5em;
+  }
+  
+  .hard-break {
+    display: block;
+    margin-bottom: 2em;
+  }
+}

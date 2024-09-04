@@ -148,7 +148,7 @@ const ContactForm: React.FC = () => {
         <div className="p-6">
           <button
             type="submit"
-            className="w-full flex justify-center py-4 px-6 border border-gray-400 text-sm text-gray-400 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex justify-center py-4 px-6 border border-gray-400 text-sm text-gray-800 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500"
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}

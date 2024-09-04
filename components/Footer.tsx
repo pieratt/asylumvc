@@ -18,8 +18,8 @@ const XSFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         </h1>
         {/* Meta information */}
         <div className="text-sm text-center w-3/5 mx-auto">
-            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
-            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">@asylumventures</a></p>
+            <p className="mb-10"><a href="mailto:hello@asylum.vc" className="no-underline hover:underline">hello@asylum.vc</a></p>
             <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
@@ -43,8 +43,8 @@ const SMFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
 
 {/* Meta information */}
         <div className="text-sm text-center w-3/5 mx-auto">
-            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
-            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">@asylumventures</a></p>
+            <p className="mb-10"><a href="mailto:hello@asylum.vc" className="no-underline hover:underline">hello@asylum.vc</a></p>
             <p>"Being good in business is the most fascinating kind of art.” - Andy Warhol</p>
         </div>
     </div>
@@ -56,8 +56,8 @@ const MDFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         {/* Left meta information */}
         <div className="text-sm text-left w-1/4">
             <p></p>
-            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
-            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">@asylumventures</a></p>
+            <p className="mb-10"><a href="mailto:hello@asylum.vc" className="no-underline hover:underline">hello@asylum.vc</a></p>
             <p></p>
         </div>
         {/* ASYLUM logo */}
@@ -84,8 +84,8 @@ const LGFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         {/* Left meta information */}
         <div className="text-sm text-left w-1/4">
             <p></p>
-            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
-            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">@asylumventures</a></p>
+            <p className="mb-10"><a href="mailto:hello@asylum.vc" className="no-underline hover:underline">hello@asylum.vc</a></p>
             <p></p>
         </div>
         {/* ASYLUM logo */}
@@ -112,8 +112,8 @@ const XLFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         {/* Left meta information */}
         <div className="text-sm text-left w-1/5">
             <p></p>
-            <p className="underline"><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" >@asylumventures</a></p>
-            <p className="underline mb-10"><a href="mailto:hello@asylum.vc" >hello@asylum.vc</a></p>
+            <p><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">@asylumventures</a></p>
+            <p className="mb-10"><a href="mailto:hello@asylum.vc" className="no-underline hover:underline">hello@asylum.vc</a></p>
            <p></p>
         </div>
         {/* ASYLUM logo */}
