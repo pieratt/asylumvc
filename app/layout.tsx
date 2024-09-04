@@ -1,16 +1,31 @@
 import './globals.css'
-import { Inter, Montserrat, Inconsolata, Playfair_Display, VT323, Xanh_Mono } from 'next/font/google'
+import { Metadata } from 'next'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' })
-const inconsolata = Inconsolata({ subsets: ['latin'], variable: '--font-inconsolata' })
-const playfairDisplay = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
-const vt323 = VT323({ weight: '400', subsets: ['latin'], variable: '--font-vt323' })
-const xanh = Xanh_Mono({ weight: ['400'], subsets: ['latin'], variable: '--font-xanh' })
-
-export const metadata = {
-  description: 'Weird Inside',
+export const metadata: Metadata = {
   title: 'Asylum Ventures',
+  description: 'Asylum Ventures is a new venture firm dedicated to the creative act of building companies.',
+  openGraph: {
+    title: 'Asylum Ventures',
+    description: 'Asylum Ventures is a new venture firm dedicated to the creative act of building companies.',
+    url: 'https://www.asylum.vc', // Replace with your actual URL
+    siteName: 'Asylum Ventures',
+    images: [
+      {
+        url: 'https://www.asylumventures.com/asylum_vc_social.png', // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: 'Asylum Ventures',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Asylum Ventures',
+    description: 'Asylum Ventures is a new venture firm dedicated to the creative act of building companies.',
+    images: ['https://www.asylumventures.com/asylum_vc_social.png'], // Replace with your actual image URL
+  },
 }
 
 export default function RootLayout({
@@ -19,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${montserrat.variable} ${inconsolata.variable} ${playfairDisplay.variable} ${vt323.variable} ${xanh.variable}`}>
+    <html lang="en">
       <body>
         <div className="site-wrapper">
           <div className="content">
