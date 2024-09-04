@@ -33,7 +33,7 @@
   font-style: normal;
 }
 :root {
-  --font-size: 1.1rem;
+  --font-size: .95rem;
   --font-family: 'Relative Mono', monospace;
   --font-weight: 400;
       line-height: 1em;

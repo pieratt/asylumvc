@@ -8,7 +8,7 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
     return (
         <div className="w-full mx-auto">
 
-            <div className="grid max-w-3xl mx-auto grid-cols-1 gap-8 mb-24 text-sm text-justify">
+            <div className="grid max-w-3xl mx-auto grid-cols-1 gap-8 mb-24 text-sm text-justify sm:px-1">
                 <div className="space-y-4">
                     <p>To the artists -</p>
                     <p>Asylum Ventures is a new venture firm dedicated to the creative act of building companies. We raised $55 million for our first fund and make a handful of $1-2m investments per year in founders and startups that embody our belief that founders are artists, not assets. </p>
