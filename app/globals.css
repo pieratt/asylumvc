@@ -91,3 +91,30 @@
     margin-bottom: 2em;
   }
 }
+
+/* Contact form styles */
+.contact-form {
+  background: transparent;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+  background: transparent;
+  border: 1px solid #787878;
+  color: inherit;
+}
+
+/* Add some hover effects for better UX */
+.contact-form input:hover,
+.contact-form textarea:hover,
+.contact-form button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  border-color: #666;
+}

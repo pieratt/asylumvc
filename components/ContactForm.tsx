@@ -61,7 +61,7 @@ const ContactForm: React.FC = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6" action="https://formspree.io/f/xyzgvkvp" method="POST">
+      <form onSubmit={handleSubmit} className="mt-6 contact-form" action="https://formspree.io/f/xyzgvkvp" method="POST">
         <div className="py-4">
           <label htmlFor="name" className="block text-sm mb-2">Name</label>
           <input
@@ -70,7 +70,7 @@ const ContactForm: React.FC = () => {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-4 text-sm focus:border-gray-400 border border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-600 focus:ring-0 bg-transparent"
             placeholder="Your Name"
             required
           />
@@ -105,7 +105,7 @@ const ContactForm: React.FC = () => {
             value={project}
             onChange={(e) => setProject(e.target.value)}
             rows={8}
-            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-600 focus:ring-0 bg-transparent"
             placeholder=""
           ></textarea>
         </div>
@@ -117,7 +117,7 @@ const ContactForm: React.FC = () => {
             value={believe}
             onChange={(e) => setBelieve(e.target.value)}
             rows={8}
-            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-600 focus:ring-0 bg-transparent"
             placeholder=""
           ></textarea>
         </div>
@@ -129,7 +129,7 @@ const ContactForm: React.FC = () => {
             value={artists}
             onChange={(e) => setArtists(e.target.value)}
             rows={8}
-            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-600 focus:ring-0 bg-transparent"
             placeholder=""
           ></textarea>
         </div>
@@ -141,14 +141,14 @@ const ContactForm: React.FC = () => {
             name="website"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
-            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-400 focus:ring-0"
+            className="w-full p-4 text-sm border border-gray-400 focus:border-gray-600 focus:ring-0 bg-transparent"
             placeholder="http://..."
           />
         </div>
         <div className="py-4">
           <button
             type="submit"
-            className="w-full flex justify-center py-4 border border-gray-400 text-sm text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500"
+            className="w-full flex justify-center py-4 border border-gray-400 text-sm text-gray-800 hover:bg-gray-50 hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500 bg-transparent"
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
