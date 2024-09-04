@@ -21,7 +21,7 @@ const ContactForm: React.FC = () => {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch('https://formspree.io/f/xyzgvkvp', {
+      const response = await fetch('https://formspree.io/f/xpwanryn', {
         method: 'POST',
         body: formData,
         headers: {
@@ -61,7 +61,7 @@ const ContactForm: React.FC = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 contact-form" action="https://formspree.io/f/xyzgvkvp" method="POST">
+      <form onSubmit={handleSubmit} className="mt-6 contact-form" action="https://formspree.io/f/xpwanryn" method="POST">
         <div className="py-4">
           <label htmlFor="name" className="block text-sm mb-2">Name</label>
           <input

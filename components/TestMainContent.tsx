@@ -95,8 +95,8 @@ const TestMainContent: React.FC<TestMainContentProps> = ({ handlePageChange }) =
             </div>
           </div>
           <p>The largest companies in the world are iconic because of their devotion to these ideas. We believe the best founders of this next cycle will look more like artists than buttoned up business execs, and the VCs that serve them will feel more like a peer, patron or fan than a transactional banker.</p>
-          <p>If this sounds appealing to you, please <span className="cursor-pointer underline" onClick={() => handlePageChange('contact')}>reach out</span>. We welcome founders we partner with or folks in between things to come work out of our studio in Brooklyn.</p>
-          <p>And if you would like to join a small team dedicated to the art of venture rather than the business of banking, <span className="cursor-pointer underline" onClick={() => handlePageChange('contact')}>contact us here</span>.</p>
+                  <p>If this sounds appealing to you, please <span onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">reach out</span>. We welcome founders we partner with or folks in between things to come work out of our studio in Brooklyn.</p>
+                  <p>And if you would like to join a small team dedicated to the art of venture rather than the business of banking, <span onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">contact us here</span>.</p>
           <p></p>        </div>
       </div>
     </div>
