@@ -64,7 +64,7 @@
   .content {
     width: 100%;
     border-radius: 10px;
-    padding: 0.3rem; /* Add this line for base padding */
+    padding: 0.5rem; /* Add this line for base padding */
   }
 }
 
