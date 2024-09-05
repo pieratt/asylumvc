@@ -48,7 +48,7 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
                 <span className="col-start-2 row-start-1"></span>
                 <span className="col-start-5 row-start-2">A</span>
                 <span className="col-start-6 row-start-3">s</span>
-                <span className="col-start-7 row-start-4">y lum</span>
+                <span className="col-start-7 row-start-4">ylum</span>
               </div>
             </div>
           </div>
