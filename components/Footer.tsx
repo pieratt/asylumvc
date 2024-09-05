@@ -20,7 +20,7 @@ const XSFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         <div className="text-sm text-center w-3/5 mx-auto">
             <p><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">@asylumventures</a></p>
             <p className="mb-10"><a href="mailto:hello@asylum.vc" className="no-underline hover:underline">hello@asylum.vc</a></p>
-            <p>"Being good in business is the most fascinating kind of art." - Andy Warhol</p>
+            <p>Being good in business is the most fascinating kind of art -  Warhol</p>
         </div>
     </div>
 );
@@ -45,7 +45,7 @@ const SMFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         <div className="text-sm text-center w-3/5 mx-auto">
             <p><a href="https://x.com/asylumventures" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">@asylumventures</a></p>
             <p className="mb-10"><a href="mailto:hello@asylum.vc" className="no-underline hover:underline">hello@asylum.vc</a></p>
-            <p>"Being good in business is the most fascinating kind of art." - Andy Warhol</p>
+            <p>Being good in business is the most fascinating kind of art -  Warhol</p>
         </div>
     </div>
 );
@@ -73,7 +73,7 @@ const MDFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         </h1>
         {/* Right meta information */}
         <div className="text-sm text-right w-1/4">
-            <p>"Being good in business is the most fascinating kind of art." - Andy Warhol</p>
+            <p>Being good in business is the most fascinating kind of art -  Warhol</p>
         </div>
     </div>
 );
@@ -101,7 +101,7 @@ const LGFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         </h1>
         {/* Right meta information */}
         <div className="text-sm text-right w-1/4">
-            <p>"Being good in business is the most fascinating kind of art." - Andy Warhol</p>
+            <p>Being good in business is the most fascinating kind of art -  Warhol</p>
         </div>
     </div>
 );
@@ -129,7 +129,7 @@ const XLFooter: React.FC<{ handlePageChange: (page: string) => void }> = ({ hand
         </h1>
         {/* Right meta information */}
         <div className="text-sm text-center w-1/5">
-            <p>"Being good in business is the most fascinating kind of art." - Andy Warhol</p>
+            <p>Being good in business is the most fascinating kind of art -  Warhol</p>
         </div>
     </div>
 );

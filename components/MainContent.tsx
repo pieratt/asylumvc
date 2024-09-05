@@ -47,8 +47,8 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
                 <span className="col-start-3 row-start-1">the </span>
                 <span className="col-start-2 row-start-1"></span>
                 <span className="col-start-5 row-start-2">A</span>
-                <span className="col-start-6 row-start-3">S</span>
-                <span className="col-start-7 row-start-4">ylum</span>
+                <span className="col-start-6 row-start-3">s</span>
+                <span className="col-start-7 row-start-4">y lum</span>
               </div>
             </div>
           </div>
@@ -93,16 +93,16 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
 
           </div>
           <div className="space-y-8 mb-8 pb-16 text-center">
-            <div>
+            <div className="opacity-100">
               <p>More beauty and craft,<br /> less factory line</p>
             </div>
-            <div>
+            <div className="opacity-70">
               <p>More weird and rebellious,<br /> less safe and derivative</p>
             </div>
-            <div>
+            <div className="opacity-50">
               <p>More really hard inspired work,<br /> less status games</p>
             </div>
-            <div>
+            <div className="opacity-40">
               <p>More authentic expression of self,<br /> less patagonia vest</p>
             </div>
           </div>
