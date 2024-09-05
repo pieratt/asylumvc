@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
 import MainContent from '../components/MainContent';
@@ -12,6 +12,8 @@ const AsylumLandingPage: React.FC = () => {
 
     const handlePageChange = (page: string) => {
         setCurrentPage(prev => prev === page ? 'main' : page);
+        // Scroll to top when page changes
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const renderContent = () => {
@@ -26,12 +28,12 @@ const AsylumLandingPage: React.FC = () => {
     return (
         <div className="min-h-screen relative overflow-hidden">
             <div className="sm:p-2 md:p-8 lg:p-12 pb-36 flex justify-center relative z-10">
-                <div className="max-w-[1440px] p-2 sm:p-2 md:p-8 lg:p-12 w-full rounded-lg mt-5" style={{
-                    background: 'radial-gradient(circle at 50% 100%, #F2F2F0 2%, #F2F2F0 20%, #F2F2F0 85%)',
+                <div className="max-w-[1440px] p-2 sm:p-1 md:p-8 lg:p-12 w-full rounded-lg mt-5" style={{
+                    background: '#F2F2F0',
                 }}>
                     <Head>
                         <title>Asylum Ventures</title>
-                        <link rel="icon" href="/favicon.ico" />
+                        <link rel="icon" href="/icon.ico" />
                     </Head>
                     <main className="flex flex-col items-center">
                         <div className="content">

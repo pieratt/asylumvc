@@ -12,7 +12,7 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
           <p>To the </p>
           <p>&nbsp;&nbsp;&nbsp; artists -</p>
           <p>Asylum Ventures is a new venture firm dedicated to the creative act of building companies. We raised $55 million to invest $1-2 million in early-stage founders practicing the art of making startups.</p>
-          <div className="flex justify-center pt-3 mb-4">
+          <div className="flex justify-center pt-3">
             <div className="w-2/5">
               <div className="grid grid-cols-7 grid-rows-6 h-28 text-sm text-center">
                 <span className="col-start-1 row-start-3">O</span>
@@ -29,7 +29,7 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
 
           <p>I spent a few years meandering - writing, working odd jobs, grad school in Hong Kong - ultimately ending up back in NYC in 2009, having stumbled upon a young, passionate group of misfits that folks were calling “founders.” These founders felt more like artists than assets, more obsessives than executives. They were avant garde, they were building the things they wanted to see in the world, and to my surprise, people called venture capitalists gave them money to pursue their dreams.</p>
 
-          <p>I was in love with their fringe eccentricity, extraordinary craftsmanship, and wild ambition. I was in love with the beautiful new works of art they called startups. For the next 15 years, I dedicated my life to working with founders – first at betaworks, and then over three funds at Notation with my partner Alex Lines.</p>
+          <p>I was in love with their fringe eccentricity, extraordinary craftsmanship, and wild ambition. I was in love with the beautiful new works of art they called startups. For the next 15 years, I dedicated my life to working with founders – first at betaworks, and then over three funds at <a href="https://notation.vc/" target="_blank" rel="noopener noreferrer" className="no-underline hover:underline">Notation</a> with my partner Alex Lines.</p>
 
           <p>A lot has changed.</p>
 
@@ -57,11 +57,9 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
 
           <div className="flex justify-center pt-10 pb-14">
             <div className="w-4/5">
-              <div className="grid grid-cols-3 grid-rows-5 h-28 text-sm text-center">
+              <div className="grid grid-cols-[4fr_1fr_4fr] grid-rows-5 h-28 text-sm text-center">
                 <span className="col-start-1 row-start-1">What if we treated founders like artists, </span>
-
                 <span className="col-start-3 row-start-5">instead of like assets?</span>
-
               </div>
             </div>
           </div>

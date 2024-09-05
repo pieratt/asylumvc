@@ -64,7 +64,7 @@
   .content {
     width: 100%;
     border-radius: 10px;
-    padding: 0.5rem; /* Add this line for base padding */
+    padding: 0.3rem; /* Add this line for base padding */
   }
 }
 
@@ -75,7 +75,7 @@
 
 @media (min-width: 640px) {
     .content {
-        padding: .5rem;
+        padding: .3rem;
     }
 }
 
@@ -122,15 +122,18 @@
 /* Custom link styles */
 a, .custom-link {
   text-decoration: none;
-  border-bottom: 1px solid rgba(181, 181, 181, 0.5);
-  display: inline-block; /* Add this line */
-  line-height: 1; /* Add this line */
-  padding-bottom: 2px;
-  transition: border-color 0.3s ease;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)); /* Default color */
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-image 0.3s, background-size 0.3s;
+  padding-bottom: 1px;
+  display: inline;
 }
 
 a:hover, a:focus, .custom-link:hover, .custom-link:focus {
-  border-bottom-color: rgb(111, 111, 111);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)); /* Hover color */
+  background-size: 100% 1px;
 }
 
 /* Remove any existing underline styles */
