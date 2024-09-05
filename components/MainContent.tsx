@@ -10,7 +10,7 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
       <div className="max-w-3xl mx-auto mb-12 text-sm text-justify">
         <div className="space-y-4">
           <p>To the </p>
-          <p>&nbsp;&nbsp;&nbsp; artists -</p>
+          <p className="pl-12"> artists -</p>
           <p>Asylum Ventures is a new venture firm dedicated to the creative act of building companies. We raised $55 million to invest $1-2 million in early-stage founders practicing the art of making startups.</p>
           <div className="flex justify-center pt-3">
             <div className="w-2/5">
@@ -25,7 +25,7 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
               </div>
             </div>
           </div>
-          <p>In 2007, I was working as a junior trader at Lehman Brothers. I hated it - the dehumanizing culture, lack of creativity, and singular focus on transactions and money left me feeling uninspired and lost. It didn’t feel like it in the moment, but Lehman’s bankruptcy in ‘08 was a gift, and I left in search of a calling.</p>
+          <p>In 2007, I was working as a junior trader at Lehman Brothers. I hated it - the dehumanizing culture, lack of creativity, and singular focus on transactions and money left me feeling uninspired and lost. I didn’t know it then, but Lehman’s bankruptcy in ‘08 was a gift, and I left in search of a calling.</p>
 
           <p>I spent a few years meandering - writing, working odd jobs, grad school in Hong Kong - ultimately ending up back in NYC in 2009, having stumbled upon a young, passionate group of misfits that folks were calling “founders.” These founders felt more like artists than assets, more obsessives than executives. They were avant garde, they were building the things they wanted to see in the world, and to my surprise, people called venture capitalists gave them money to pursue their dreams.</p>
 
@@ -81,7 +81,6 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
 
           <p className="text-center pt-16 pb-4">The path forward</p>
 
-          <p>We believe there are exceptional founders who, like us, want to win their own way, who want to work with VCs who care more about them and their companies than assets under management.</p>
           <p>If this sounds appealing to you, please <span onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">get in touch</span>. Whether you're a founder or in between things, we’d love for you to come visit us at our studio in Brooklyn. </p>
           <p>And if you would like to join a small team dedicated to the art of venture rather than the business of banking, contact us at <a href="mailto:hiring@asylum.vc" className="no-underline hover:underline">hiring@asylum.vc</a>.</p>
           <div className="grid grid-cols-4 gap-4 pb-12">
@@ -93,23 +92,22 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
 
           </div>
           <div className="space-y-8 mb-8 pb-16 text-center">
-            <div className="opacity-100">
+            <div>
               <p>More beauty and craft,<br /> less factory line</p>
             </div>
-            <div className="opacity-70">
+            <div>
               <p>More weird and rebellious,<br /> less safe and derivative</p>
             </div>
-            <div className="opacity-50">
+            <div>
               <p>More really hard inspired work,<br /> less status games</p>
             </div>
-            <div className="opacity-40">
+            <div>
               <p>More authentic expression of self,<br /> less patagonia vest</p>
             </div>
           </div>
         </div>
       </div>
-      </div>
-
+    </div>
   );
 };
 

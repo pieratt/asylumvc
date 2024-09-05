@@ -46,25 +46,28 @@
     font-weight: var(--font-weight);
     letter-spacing: var(--letter-spacing);
     line-height: var(--line-height);
-    background-color: #F2F2F0; /* Added for testing purposes */
+    background-color: #F2F2F0;
+    min-height: 100vh; /* Ensure minimum height is full viewport height */
   }
   
   .site-wrapper {
     position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 20px;
-    padding: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Change to column layout */
+    min-height: 100vh; /* Ensure minimum height is full viewport height */
   }
 
   .content {
     width: 100%;
     border-radius: 10px;
-    padding: 0.3rem; /* Add this line for base padding */
+    padding: 0.3rem;
+    flex-grow: 1; /* Allow content to grow and fill available space */
   }
 }
 
@@ -146,3 +149,18 @@ a:hover, a:focus, .custom-link:hover, .custom-link:focus {
 }
 
 /* ... rest of the existing styles ... */
+
+/* Add this at the end of the file */
+@media screen and (max-width: 767px) {
+  body {
+    min-height: -webkit-fill-available;
+  }
+  .site-wrapper {
+    min-height: -webkit-fill-available;
+  }
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
