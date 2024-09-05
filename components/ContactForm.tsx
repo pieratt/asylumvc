@@ -5,8 +5,8 @@ const ContactForm: React.FC = () => {
   const [handle, setHandle] = useState('');
   const [email, setEmail] = useState('');
   const [project, setProject] = useState('');
-  const [believe, setBelieve] = useState('');  // Changed from artists
-  const [artists, setArtists] = useState('');      // Changed from belief
+  const [why, setWhy] = useState('');  // Changed from artists
+  const [inspired, setInspired] = useState('');      // Changed from belief
   const [website, setWebsite] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,8 +36,8 @@ const ContactForm: React.FC = () => {
         setHandle('');
         setEmail('');
         setProject('');
-        setBelieve('');
-        setArtists('');
+        setWhy('');
+        setInspired('');
         setWebsite('');
       } else {
         throw new Error('Form submission failed');
@@ -110,24 +110,24 @@ const ContactForm: React.FC = () => {
           ></textarea>
         </div>
         <div className="py-4">
-          <label htmlFor="believe" className="block text-sm mb-2">What do you believe that no one else believes?</label>
+          <label htmlFor="why" className="block text-sm mb-2">Why are you doing this?</label>
           <textarea
-            id="believe"
-            name="believe"
-            value={believe}
-            onChange={(e) => setBelieve(e.target.value)}
+            id="why"
+            name="why"
+            value={why}
+            onChange={(e) => setWhy(e.target.value)}
             rows={8}
             className="w-full p-4 text-sm border border-gray-400 focus:border-gray-600 focus:ring-0 bg-transparent"
             placeholder=""
           ></textarea>
         </div>
         <div className="py-4">
-          <label htmlFor="artists" className="block text-sm mb-2">Artists you’re inspired by?</label>
+          <label htmlFor="inspired" className="block text-sm mb-2">What inspires you?</label>
           <textarea
-            id="artists"
-            name="artists"
-            value={artists}
-            onChange={(e) => setArtists(e.target.value)}
+            id="inspired"
+            name="inspired"
+            value={inspired}
+            onChange={(e) => setInspired(e.target.value)}
             rows={8}
             className="w-full p-4 text-sm border border-gray-400 focus:border-gray-600 focus:ring-0 bg-transparent"
             placeholder=""

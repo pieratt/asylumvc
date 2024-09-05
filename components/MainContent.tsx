@@ -7,43 +7,106 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
   return (
     <div className="w-full mx-auto">
-
-      <div className="grid max-w-3xl mx-auto grid-cols-1 gap-8 mb-12 text-sm text-justify">
+      <div className="max-w-3xl mx-auto mb-12 text-sm text-justify">
         <div className="space-y-4">
-          <p>Lorem ipsum dolor -</p>
-          <p>Sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-          <p className="text-sm inline-block text-gray-400 py-1">Excepteur</p>
-          <p>Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-          <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-          <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-          <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-          <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-          <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-          <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-          <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis volup</p>
-          <p className="text-sm inline-block text-gray-400 py-1">Another one</p>
-          <p>Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-          <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-          <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-          <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-   <p className="text-sm inline-block bg-gray-700 bg-opacity-80 text-white px-2 py-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua:</p>
-<ul className="list-disc pl-8 space-y-4 mb-8">
-          <li>Ut enim ad minim veniam, quis nostrud exercitation</li>
-          <li>Duis aute irure dolor in reprehenderit in voluptate</li>
-          <li>Excepteur sint occaecat cupidatat non proident</li>
-          <li>Sunt in culpa qui officia deserunt mollit anim</li>
-          <li>Id est laborum et dolorum fuga et harum quidem rerum</li>
-          </ul>
-          <p>Facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-          <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-          <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui <span className="cursor-pointer underline" onClick={() => handlePageChange('contact')}>dolorem ipsum</span> quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-          <p></p>
+          <p>To the </p>
+          <p>&nbsp;&nbsp;&nbsp; artists -</p>
+          <p>Asylum Ventures is a new venture firm dedicated to the creative act of building companies. We raised $55 million to invest $1-2 million in early-stage founders practicing the art of making startups.</p>
+          <div className="flex justify-center pt-3 mb-4">
+            <div className="w-2/5">
+              <div className="grid grid-cols-7 grid-rows-6 h-28 text-sm text-center">
+                <span className="col-start-1 row-start-3">O</span>
+                <span className="col-start-2 row-start-3">r</span>
+                <span className="col-start-3 row-start-2">i</span>
+                <span className="col-start-4 row-start-3">g</span>
+                <span className="col-start-5 row-start-3">i</span>
+                <span className="col-start-6 row-start-3">n</span>
+                <span className="col-start-7 row-start-3">s</span>
+              </div>
+            </div>
+          </div>
+          <p>In 2007, I was working as a junior trader at Lehman Brothers. I hated it - the dehumanizing culture, lack of creativity, and singular focus on transactions and money left me feeling uninspired and lost. Lehman’s bankruptcy in ‘08 marked one of my only good days there, and I left in search of a calling.</p>
 
+          <p>I spent a few years meandering - writing, working odd jobs, grad school in Hong Kong - ultimately ending up back in NYC in 2009, having stumbled upon a young, passionate group of misfits that folks were calling “founders.” These founders felt more like artists than assets, more obsessives than executives. They were avant garde, they were building the things they wanted to see in the world, and to my surprise, people called venture capitalists gave them money to pursue their dreams.</p>
+
+          <p>I was in love with their fringe eccentricity, extraordinary craftsmanship, and wild ambition. I was in love with the beautiful new works of art they called startups. For the next 15 years, I dedicated my life to working with founders – first at betaworks, and then over three funds at Notation with my partner Alex Lines.</p>
+
+          <p>A lot has changed.</p>
+
+          <p>The venture ecosystem went from cottage industry outsider to institutional insider – from a nascent practice to a consensus component of institutional portfolios. The result has been the industrialization–and bankerization–of venture. Firms that make dozens or even hundreds of investments per year, relentlessly focused on assets under management, using the same copy-paste transactional language, all drowning in a sea of sameness.  </p>
+
+          <p>Similarly, what was once a risky leap of faith has become a credentialing factory: accelerators churn out 1,000s of startups per year and fundraising rounds are the new requisite bullets in Linkedin resumes.</p>
+
+          <p>The environment today feels eerily similar to the one I left on Wall Street so many years ago.</p>
+
+          <div className="flex justify-center pt-6 pb-2">
+            <div className="w-2/5">
+              <div className="grid grid-cols-7 grid-rows-6 h-28 text-sm text-center">
+                <span className="col-start-1 row-start-3">Into</span>
+                <span className="col-start-2 row-start-4"></span>
+                <span className="col-start-3 row-start-1">the </span>
+                <span className="col-start-2 row-start-1"></span>
+                <span className="col-start-5 row-start-2">A</span>
+                <span className="col-start-6 row-start-3">S</span>
+                <span className="col-start-7 row-start-4">ylum</span>
+              </div>
+            </div>
+          </div>
+          <p>I’ve always believed the best early-stage founders are artists – they're obsessive about new and unusual things, they feel compelled to bring creation into the world, and they are often misunderstood for long periods of time–even lifetimes. Building businesses is their art.</p>
+          <p>The good news is that as the new “banks” in venture continue to expand their tentacles, they also enable new alternatives.</p>
+
+          <div className="flex justify-center pt-10 pb-14">
+            <div className="w-4/5">
+              <div className="grid grid-cols-3 grid-rows-5 h-28 text-sm text-center">
+                <span className="col-start-1 row-start-1">What if we treated founders like artists, </span>
+
+                <span className="col-start-3 row-start-5">instead of like assets?</span>
+
+              </div>
+            </div>
           </div>
 
+          <p>We plan to spend the next decade trying to answer this question. </p>
+
+          <p>We think it means:</p>
+
+          <div className="sm:block md:grid md:grid-cols-2 md:gap-8 mb-2 mr-4 -ml-3">
+            <ul className="list-disc pl-8 space-y-4 sm:-ml-4 md:ml-0">
+              <li>A firm that’s small by design, that makes a handful of investments per year, and that eschews board seats and administrative control.</li>
+              <li className="pb-4">A small team of partners moving mountains to help when asked and otherwise getting out of the way. </li>
+            </ul>
+            <ul className="list-disc pl-8 space-y-4 sm:mt-4 md:mt-0 sm:-ml-4 md:ml-0">
+              <li>A place for founders to tune out the noise and focus on making something truly great.</li>
+              <li>A source of calm, trust, and support for founders who are manifesting beauty through one of the hardest things you can do: starting a company.</li>
+            </ul>
+          </div>
+
+          <p className="text-center pt-16 pb-4">The path forward</p>
+
+          <p>We believe there are exceptional founders who, like us, want to win their own way, who want to work with VCs who care more about them and their companies than assets under management.</p>
+          <p>If this sounds appealing to you, please <span onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">get in touch</span>. Whether you're a founder or in between things, we’d love for you to come visit us at our studio in Brooklyn. </p>
+          <p>And if you would like to join a small team dedicated to the art of venture rather than the business of banking, contact us at <a href="mailto:hiring@asylum.vc" className="no-underline hover:underline">hiring@asylum.vc</a>.</p>
+
+          <p className="text-center pt-16 pb-4">- Fin -</p>
+
+            <div className="space-y-8 mb-8 pb-16 text-center">
+            <div>
+            <p>More beauty and craft,<br /> less factory line</p>
+            </div>
+            <div>
+            <p>More weird and rebellious,<br /> less safe and derivative</p>
+            </div>
+            <div>
+            <p>More really hard inspired work,<br /> less status games</p>
+            </div>
+            <div>
+            <p>More authentic expression of self,<br /> less patagonia vest</p>
+            </div>
+            </div>
+        </div>
       </div>
-    </div>
+      </div>
+
   );
 };
 
