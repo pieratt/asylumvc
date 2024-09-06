@@ -81,7 +81,8 @@ const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
 
           <p className="text-center pt-16 pb-4">The path forward</p>
 
-          <p>If this sounds appealing to you, please <span onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">get in touch</span>. Whether you're a founder or in between things, we’d love for you to come visit us at our studio in Brooklyn. </p>
+          <p>We believe there are exceptional founders who, like us, want to win their own way, who want to work with VCs who care more about them and their companies than assets under management.</p>
+<p>If this sounds appealing to you, please <span onClick={() => handlePageChange('contact')} className="cursor-pointer custom-link inline-block">get in touch</span>. Whether you're a founder or in between things, we’d love for you to come visit us at our studio in Brooklyn. </p>
           <p>And if you would like to join a small team dedicated to the art of venture rather than the business of banking, contact us at <a href="mailto:hiring@asylum.vc" className="no-underline hover:underline">hiring@asylum.vc</a>.</p>
           <div className="grid grid-cols-4 gap-4 pb-12">
             <div className="col-span-3"></div>
