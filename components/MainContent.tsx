@@ -7,7 +7,7 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ handlePageChange }) => {
   return (
     <div className="w-full mx-auto">
-      <div className="max-w-3xl mx-auto mb-12 text-sm text-justify">
+      <div className="max-w-3xl mx-auto mb-12 text-sm text-justify font-mono">
         <div className="space-y-4">
           <p>To the </p>
           <p className="pl-12"> artists -</p>

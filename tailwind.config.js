@@ -8,13 +8,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'inter': ['Inter', 'sans-serif'],
-        'montserrat': ['Montserrat', 'sans-serif'],
-        'inconsolata': ['Inconsolata', 'monospace'],
-        'playfair': ['Playfair Display', 'serif'],
-        'vt323': ['VT323', 'monospace'],
-        'xanh': ['Xanh Mono', 'monospace'],
         sans: ['Inconsolata', 'monospace'],
+        mono: ['Relative Mono', 'monospace'],
+        'Relative Mono': ['Relative Mono', 'monospace'],
       },
       screens: {
         'custom': '768px', // or whatever pixel value you prefer
